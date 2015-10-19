@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: gitflow | It's SOAP's Fault...]]></title>
+  <link href="http://blog.poznachowski.pl/categories/gitflow/atom.xml" rel="self"/>
+  <link href="http://blog.poznachowski.pl/"/>
+  <updated>2015-10-19T21:00:29+02:00</updated>
+  <id>http://blog.poznachowski.pl/</id>
+  <author>
+    <name><![CDATA[Grzegorz Poznachowski]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[How to make Jenkins speak Git Flow?]]></title>
+    <link href="http://blog.poznachowski.pl/2015/02/14/how-to-make-jenkins-speak-git-flow/"/>
+    <updated>2015-02-14T00:00:00+01:00</updated>
+    <id>http://blog.poznachowski.pl/2015/02/14/how-to-make-jenkins-speak-git-flow</id>
+    <content type="html"><![CDATA[<p>It’s been a while and quite a lot has changed since then. I moved to a different company, which means I won’t be playing around with Mule for now. 
+On the other hand, I have several new things to play with. <br />
+My current company lacked of proper versioning capability of their products. Hence, my first task was to help with that matter. 
+The plan was to be able to utilize Jenkins for modules releases (via Maven) with keeping all powers of a Git Flow branching convention. 
+What’s more, I extended existing functionality of building Debian packages and used Nexus as a native .deb repository.</p>
+
+<p>As of the technical background: We use Git as our version control system, Maven as a build tool and Jenkins as an 
+integration platform. So far, we mainly had one master branch where most of the development took place. Feature branches
+ were spawned occasionally. All artifacts were using the same 1.0.0 version, which obviously introduced a lot of hassle 
+ and pain. We wanted to put an end to that and start doing things like they should be done.</p>
+
+<p>We were attracted to the <a href="http://nvie.com/posts/a-successful-git-branching-model/">Git Flow branching model</a>. Some of us 
+already used it, to some extent, in front-end development. Hence, it felt natural to adopt it on the back-end side as well.
+ The aim was to make use of this branching model as pleasant as possible to us and leave coping with modules versioning to 
+ Jenkins.</p>
+
+<p>I started to play around with Jenkins and Git and what I didn’t like about their cooperation in the first place (one job per
+ Git repository) was lack of clear feedback. I couldn’t tell which exact branch has just been built. What’s more, It looked 
+ as it would stop me from fully utilizing Git Flow potential in terms of releasing and versioning. Hence, first step emerged:</p>
+
+<h2 id="keeping-separate-jobs-per-branch">1. Keeping separate jobs per branch</h2>
+
+<p>How can we achieve that? Of course, we can manually create and drop Jenkins jobs per each feature, hotfix and release branches. 
+Any volunteers…? I thought so :) Not without a reason it is said that the <a href="http://threevirtues.com/">programmer biggest virtue</a> is laziness. 
+I had to find a way to automate that. When I googled, I was surprised. I couldn’t find an easy solution for that 
+(or didn’t google enough). Even if found, it, very often, introduced a lot of dirty scripting and workarounds. 
+The tool, which seemed to be most elegant and closest to our needs, is <a href="http://entagen.github.io/jenkins-build-per-branch/">Jenkins Build Per Branch by Entagen</a>. 
+It is a Groovy script, which you invoke from a Jenkins job as a Gradle task. However, it looks to be more useful 
+in a different type of branching convention (GitHub Flow).</p>
+
+<p>As I really liked the idea behind I decided to work on Git Flow variation of the script: <a href="http://github.com/neoteric-eu/jenkins-build-per-gitflow-branch">Jenkins Build Per Git Flow Branch</a>. 
+Pretty much everything (genesis, installation, usage) is described at the GitHub project page, so it’s better to check it out, before further reading.</p>
+
+<p>Ok, so Jenkins provides really nice Git Flow job management now. We need to figure out how to utilize that for Maven artifacts releasing.</p>
+
+<h2 id="maven-releasing">2. Maven releasing</h2>
+
+<p>Back in the days, when working with SVN, there was a Maven Release Plugin (and M2 Release Jenkins plugin) to accomplish 
+the releasing part. It wasn’t great, but when configured properly, it did the job pretty well. I started to dig in how to 
+make releasing work with Git Flow. It appears that it is still possible using Maven Release Plugin, but it can be tedious 
+and troublesome work. It seems that much better solution exists. It is a plugin created by 
+Jonatan Doklovic – <a href="https://bitbucket.org/atlassian/jgit-flow/wiki/Home">Maven JGit Flow Plugin</a>. 
+He has already done a good job explaining it in his <a href="http://blogs.atlassian.com/2013/05/maven-git-flow-plugin-for-better-releases/">blog post</a> and describing the 
+advantages over old approach.</p>
+
+<h2 id="combining-the-ingredients">3. Combining the ingredients</h2>
+
+<p>It looks like we have all the necessary ingredients, so let’s start cooking.</p>
+
+<h3 id="pomxml">pom.xml</h3>
+
+<p>Two things are required in our pom.xml build file. Firstly, we need to set up the artifact repository as usual:</p>
+
+<div class="highlighter-coderay"><div class="CodeRay">
+  <div class="code"><pre><span class="line-numbers"> <a href="#n1" name="n1">1</a></span>    <span class="tag">&lt;distributionManagement&gt;</span>
+<span class="line-numbers"> <a href="#n2" name="n2">2</a></span>        <span class="tag">&lt;repository&gt;</span>
+<span class="line-numbers"> <a href="#n3" name="n3">3</a></span>            <span class="tag">&lt;id&gt;</span>releases<span class="tag">&lt;/id&gt;</span>
+<span class="line-numbers"> <a href="#n4" name="n4">4</a></span>            <span class="tag">&lt;name&gt;</span>Releases<span class="tag">&lt;/name&gt;</span>
+<span class="line-numbers"> <a href="#n5" name="n5">5</a></span>            <span class="tag">&lt;url&gt;</span>http://your.release.artifacts.repository.url<span class="tag">&lt;/url&gt;</span>
+<span class="line-numbers"> <a href="#n6" name="n6">6</a></span>        <span class="tag">&lt;/repository&gt;</span>
+<span class="line-numbers"> <a href="#n7" name="n7">7</a></span>        <span class="tag">&lt;snapshotRepository&gt;</span>
+<span class="line-numbers"> <a href="#n8" name="n8">8</a></span>            <span class="tag">&lt;id&gt;</span>snapshots<span class="tag">&lt;/id&gt;</span>
+<span class="line-numbers"> <a href="#n9" name="n9">9</a></span>            <span class="tag">&lt;name&gt;</span>Snapshots<span class="tag">&lt;/name&gt;</span>
+<span class="line-numbers"><strong><a href="#n10" name="n10">10</a></strong></span>            <span class="tag">&lt;url&gt;</span>http://your.snapshot.artifacts.repository.url<span class="tag">&lt;/url&gt;</span>
+<span class="line-numbers"><a href="#n11" name="n11">11</a></span>        <span class="tag">&lt;/snapshotRepository&gt;</span>
+<span class="line-numbers"><a href="#n12" name="n12">12</a></span>    <span class="tag">&lt;/distributionManagement&gt;</span>
+</pre></div>
+</div>
+</div>
+<p><em>Note: Snapshot repository address won’t be used in our example, we decided to store only final releases.</em></p>
+
+<p>Secondly, we need to configure the JGitFlow Plugin:</p>
+
+<div class="highlighter-coderay"><div class="CodeRay">
+  <div class="code"><pre><span class="line-numbers"> <a href="#n1" name="n1">1</a></span>
+<span class="line-numbers"> <a href="#n2" name="n2">2</a></span><span class="tag">&lt;plugin&gt;</span>
+<span class="line-numbers"> <a href="#n3" name="n3">3</a></span>    <span class="tag">&lt;groupId&gt;</span>external.atlassian.jgitflow<span class="tag">&lt;/groupId&gt;</span>
+<span class="line-numbers"> <a href="#n4" name="n4">4</a></span>    <span class="tag">&lt;artifactId&gt;</span>jgitflow-maven-plugin<span class="tag">&lt;/artifactId&gt;</span>
+<span class="line-numbers"> <a href="#n5" name="n5">5</a></span>    <span class="tag">&lt;configuration&gt;</span>
+<span class="line-numbers"> <a href="#n6" name="n6">6</a></span>        <span class="tag">&lt;pushFeatures&gt;</span>true<span class="tag">&lt;/pushFeatures&gt;</span>
+<span class="line-numbers"> <a href="#n7" name="n7">7</a></span>        <span class="tag">&lt;pushHotfixes&gt;</span>true<span class="tag">&lt;/pushHotfixes&gt;</span>
+<span class="line-numbers"> <a href="#n8" name="n8">8</a></span>        <span class="tag">&lt;pushReleases&gt;</span>true<span class="tag">&lt;/pushReleases&gt;</span>
+<span class="line-numbers"> <a href="#n9" name="n9">9</a></span>        <span class="tag">&lt;enableSshAgent&gt;</span>true<span class="tag">&lt;/enableSshAgent&gt;</span>
+<span class="line-numbers"><strong><a href="#n10" name="n10">10</a></strong></span>        <span class="tag">&lt;flowInitContext&gt;</span>
+<span class="line-numbers"><a href="#n11" name="n11">11</a></span>            <span class="tag">&lt;masterBranchName&gt;</span>master<span class="tag">&lt;/masterBranchName&gt;</span>
+<span class="line-numbers"><a href="#n12" name="n12">12</a></span>            <span class="tag">&lt;developBranchName&gt;</span>development<span class="tag">&lt;/developBranchName&gt;</span>
+<span class="line-numbers"><a href="#n13" name="n13">13</a></span>            <span class="tag">&lt;featureBranchPrefix&gt;</span>feature-<span class="tag">&lt;/featureBranchPrefix&gt;</span>
+<span class="line-numbers"><a href="#n14" name="n14">14</a></span>            <span class="tag">&lt;releaseBranchPrefix&gt;</span>release-<span class="tag">&lt;/releaseBranchPrefix&gt;</span>
+<span class="line-numbers"><a href="#n15" name="n15">15</a></span>            <span class="tag">&lt;hotfixBranchPrefix&gt;</span>hotfix-<span class="tag">&lt;/hotfixBranchPrefix&gt;</span>
+<span class="line-numbers"><a href="#n16" name="n16">16</a></span>            <span class="tag">&lt;versionTagPrefix&gt;</span>${project.artifactId}-<span class="tag">&lt;/versionTagPrefix&gt;</span>
+<span class="line-numbers"><a href="#n17" name="n17">17</a></span>        <span class="tag">&lt;/flowInitContext&gt;</span>
+<span class="line-numbers"><a href="#n18" name="n18">18</a></span>    <span class="tag">&lt;/configuration&gt;</span>
+<span class="line-numbers"><a href="#n19" name="n19">19</a></span><span class="tag">&lt;/plugin&gt;</span>
+</pre></div>
+</div>
+</div>
+
+<p>We want to make the plugin doing the pushes for us and we need to make sure that we follow the ‘-‘ suffix 
+(i.e. release-) branch naming convention (as explained in the Jenkins tool readme). EnableSshAgent value 
+is set for connectivity purposes.</p>
+
+<p>As stated previously, ground point is that Jenkins handles modules building and releasing. One benefit is a 
+guarantee of same compilator version among the builds. What’s more, some of our developers are working on 
+Windows OS, hence they are not able to build .deb packages out of the box (and we use them to distribute our services). 
+Again, Jenkins to the rescue!</p>
+
+<p>I think that most sensible way of explaining the concept is going throught the whole flow step by step. And I will 
+try to accomplish that:</p>
+
+<h3 id="feature-branches">feature branches</h3>
+
+<p>So, let’s assume that master and development jobs are already set up (we will cover them in a while) and I want to start 
+working on a new feature. After I make sure that my project has clear Git status (nothing left to be commited etc.), I 
+can execute JGitFlow Maven goal:<br />
+<strong>mvn jgitflow:feature-start</strong></p>
+
+<p>Shortly, after providing the feature branch name in the Maven interactive console, two things will happen: created 
+feature branch will be pushed to the remote repository by JGitFlow plugin and during Jenkins Git Flow per Branch (I’ll 
+abbreviate it to JGFPB) sync job execution, it will create an actual job based on the feature job template. How the 
+template should look like? In our case it’s the simplest scenario you can imagine. We only want to execute maven clean 
+install. Let’s look at the example:</p>
+
+<p><img src="/images/makejenkinsspeak/feature-template-1.jpg"></p>
+
+<p>Currently, we are using two sets of templates: one for ordinary jars and the other for debian packages. 
+As you can see, I’m goint to focus on the first one. The latter is a topic for a next blog post. Remaining part 
+of this screenshot is the fact, that I added the startOnCreate parameter as I want to build the project as soon as 
+it shows up. That will probably be the case in most situations.</p>
+
+<p><img src="/images/makejenkinsspeak/feature-template-2.jpg"></p>
+
+<p>Nothing fancy here as well. At this point, ‚Repository URL‚ value is irrelevant. It will be substituted for the Git 
+URL by the Jenkins Sync Job. The same applies to ‘Branches to build’. And yes, we are using GitLab :)</p>
+
+<p><img src="/images/makejenkinsspeak/feature-template-3.jpg"></p>
+
+<p>Maven clean install. Nothing more, nothing less.</p>
+
+<p>If you’d like to perform Sonar builds out of your feature jobs, you just need to add Sonar post-build-step and 
+provide any value in ‚branch’ field. JGFPB tool will do it’s job and replace the branch accordingly (as it does 
+with Git URL and branch to build)</p>
+
+<p>Are you ready to deliver your feature? Just finish it by JGitFlow: <em>*mvn jgitflow:feature-finish</em> and pick the 
+feature you want to finish in the Maven interactive console. That’s it. The plugin will merge it into development, 
+delete the branch and the Sync Job will remove the Jenkins feature job when executed. As you see, working with features 
+is pretty simple.</p>
+
+<h3 id="development">development</h3>
+
+<p>Now it’s time for the key player – the development job. One of the two ‚fixed’ jobs (along with master). As Git Flow 
+branching model suggest it should always contain production-ready like codebase. Hence, it should be responsible for 
+initiating the release process. To do that we can incorporate <a href="https://wiki.jenkins-ci.org/display/JENKINS/Release+Plugin">Release Jenkins plugin</a>. It will enable us to start a 
+customizable job with different execution than the usual build. Here are most important bits of development job 
+configuration:</p>
+
+<p><img src="/images/makejenkinsspeak/development-1.jpg"></p>
+
+<ul>
+  <li>We obviously want to check out development branch.</li>
+  <li>We should prune stale remote branches. Otherwise, Jenkins (JGitFlow plugin to be precise) wouldn’t allow us to do more 
+that one release.</li>
+  <li>We also need to make Jenkins Git plugin checkout the project to a specific local branch.</li>
+  <li>Now the release configuration. We are happy with the defaults of Release Plugin. When we perform the release, we are 
+asked for releaseVersion and developmentVersion. The convention is that for normal releases we should increment MINOR 
+version (you can read more here). When provided, GitFlow will automatically pick those values up and use them.</li>
+</ul>
+
+<p><img src="/images/makejenkinsspeak/development-3.jpg"></p>
+
+<ul>
+  <li>Here we specify the behaviour of the release itself. What we want to do, is to perform the <strong>jgitflow:release-start</strong> goal 
+of JGitFlow Plugin. -X is a debug flag. With debug enabled we can thoroughly trace the steps of the Maven goal execution.</li>
+  <li>By checking out to a specific location (instead of a default – temporary one) we are able to clean up after the release 
+initialization. We are checking out again to a development branch (Plugin left Jenkins in a newly created release branch) 
+and deleting the release branch locally. We won’t need it, because the release job will be created from a remote branch.</li>
+  <li>Last thing to do here is to trigger the synchronization job after the release initalization is complete, so we 
+wouldn’t have to wait for a cron trigger execution.</li>
+</ul>
+
+<p><img src="/images/makejenkinsspeak/development-4.jpg"></p>
+
+<ul>
+  <li>For a normal build, everything is pretty ordinary. We run clean install goals. Don’t mind the profile at the 
+moment, it is just for building Debian package out of the generated jar.</li>
+  <li>We like to have Sonar feedback on the development branch. In Sonar advanced options we provide development as
+ a branch to build.</li>
+</ul>
+
+<h3 id="releases">releases</h3>
+
+<p>Few words of explanation before we dive into release job configuration:</p>
+
+<p>Git-Flow recommends using release branching for so called ‚release hardening’, where you can fix all bugs found in 
+UAT and prepare release metadata. We found it to be an excessive effort (at least for now) and decided to skip the 
+release phase, in a way, that it starts and immediately finish the release branch. This way we still stay 
+flexible, if we’d like to extend the release cycle.</p>
+
+<p>That said, let’s analyze Release branch Jenkins template:</p>
+
+<p><img src="/images/makejenkinsspeak/release-1.jpg"></p>
+
+<ul>
+  <li>We definitely want to start the release job as soon as it appears.</li>
+</ul>
+
+<p><img src="/images/makejenkinsspeak/release-2.jpg"></p>
+
+<ul>
+  <li>Again, same things apply to Git configuration, the URL and branch will be replaced by the script.</li>
+</ul>
+
+<p><img src="/images/makejenkinsspeak/release-3.jpg"></p>
+
+<ul>
+  <li>Last thing is to run <strong>jgitflow:release-finish</strong> goal. We set the debug mode on, to have better understanding 
+of what is going on. And yet again, don’t mind the profile.</li>
+</ul>
+
+<p>When build is completed, we should have:</p>
+
+<ul>
+  <li>our artefact release version done and deployed to the Nexus repository</li>
+  <li>development branch updated with latest snapshot version.</li>
+  <li>Release branch deleted by the JGitFlow plugin</li>
+  <li>Release Jenkins job deleted by the JGFPB</li>
+</ul>
+
+<p>That covers almost every aspect of the releasing cycle. Last outstanding part are hotfixes. To perform such, we 
+should run <strong>jgitflow:hotfix-start</strong> Maven goal. It will create and push new hotfix branch (after specifying it’s 
+version in the interactive console). For most of the cases you just should increment PATCH version. Hotfix branch 
+will be build against its template:</p>
+
+<p><img src="/images/makejenkinsspeak/hotfix-1.jpg">
+<img src="/images/makejenkinsspeak/hotfix-2.jpg">
+<img src="/images/makejenkinsspeak/hotfix-3.jpg">
+<img src="/images/makejenkinsspeak/hotfix-4.jpg"></p>
+
+<p>There is nothing here you haven’t seen already. Most notable difference is the fact, that hotfix template has 
+releasing capability enabled (but still, it’s exactly the same as you saw in development branch config). Maven goal 
+for releasing hotfix branch is jgitflow:hotfix-finish. Usage of hotfix branch is easy. When you’re done pushing your 
+fixes, you execute release build, specifying release and development versions. When hotfix is done, artefact should 
+have been deployed to Nexus, branch and job should have been removed, and all hotfix changes merged to development and 
+master branches. Reminder: do not forget to delete the hotfix branch locally and to git fetch prune, as the hotfix 
+remote branch is no longer available.</p>
+
+<p>That concludes all parts of making Jenkins speak Git Flow. The solution is not without flaws, but works for 
+us quite well. We have a clear vision of a project status and progress without the burden of managing Jenkins 
+jobs manually. Few things to consider would be: make Jenkins automatically pick version numbers from pom.xml 
+itself and how to avoid unnecessary waiting for sync job to create project jobs.</p>
+]]></content>
+  </entry>
+  
+</feed>

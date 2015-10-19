@@ -1,0 +1,373 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Befriend your changelog - It's SOAP's Fault...</title>
+  <meta name="author" content="Grzegorz Poznachowski">
+
+   
+  <meta name="description" content="Blog about Java related technologies, software development and code quality">
+  
+  <meta name="keywords" content="">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://blog.poznachowski.pl/2015/08/04/befriend-your-changelog">
+  <link href="/favicon.png" rel="icon">
+  <link href='http://fonts.googleapis.com/css?family=Quicksand:300,400' rel='stylesheet' type='text/css'>
+  <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300' rel='stylesheet' type='text/css'>
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="It's SOAP's Fault..." type="application/atom+xml">
+  <script src="/js/jquery.js"></script>
+  <script src="/js/bootstrap-collapse.js"></script>
+  <script src="/js/modernizr-2.0.js"></script>
+  <script src="/js/octopress.js" type="text/javascript"></script>
+  <script src="/js/application.js"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-63324529-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <div class="navbar navbar-inverse navbar-static-top">
+  	<div class="navbar-inner">
+  	  <div class="container">
+        <a class="btn btn-navbar" data-toggle="collapse" data-target=".navbar-responsive-collapse">
+          <span class="fui-menu-24"></span>
+        </a>
+  	  	<div class="nav-collapse collapse navbar-responsive-collapse" style="height:0;">
+  	      <ul class="nav">
+    
+        <li ><a href="/index.html">Blog</a></li>
+    
+        <li ><a href="/about.html">About</a></li>
+    
+</ul>
+
+<ul class="nav pull-right">
+    
+    <li><a href="/atom.xml" title="Rss feed"><i class="icon-rss social-navbar"></i></a></li>
+    
+    
+    <li><a href="http://github.com/poznachowski" title="Github Profile"><i class="icon-github-sign social-navbar"></i></a></li>
+    
+    
+    
+    <li><a href="http://linkedin.com/in/gpoznachowski" title="Linkedin Profile"><i class="icon-linkedin-sign social-navbar"></i></a></li>
+    
+    
+    <li><a href="http://twitter.com/dziesiek" title="Twitter Profile"><i class="icon-twitter-sign social-navbar"></i></a></li>
+    
+    
+    
+    
+    
+</ul>
+
+  	    </div>
+  	  </div>
+  	</div>
+  </div>
+  <div class="container" id="main">
+      <div class="row-fluid">
+        <div id="content">
+          <div>
+<article class="hentry" role="article">
+  
+
+  <header>
+  <div class="jumbotron">
+    Befriend Your Changelog
+	<h5 style="padding-top: 5px;">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-08-04T00:00:00+02:00" pubdate data-updated="true">Aug 04, 2015</time> </h5>
+  </div>
+</header>
+  <div class="row-fluid">
+    <div class="span12">
+      <p>If you are tired of maintaining your changelog files manually, following solution may help you as it helped me.</p>
+
+<p>At my current company we have quite a lot of services to maintain. Some time ago we introduced proper versioning and releasing.
+That was a great step forward, but we were still missing an important piece. We wanted to have an easy way to know what was
+introduced (features &amp; bug fixes) in each version. Appending information to a changelog file manually quickly became 
+tedious job, as our release cycles can be very short.</p>
+
+<p>To overcome this, I came up with a solution of having the changelog file generated automatically out of git commit messages.
+It consists of two parts. First is about adding a generated html file to a released Maven artifact, so it can be easily accessible
+in Maven artifacts repository (such as Nexus). Second part is about keeping up-to-date changelog.md file in the project root folder.</p>
+
+<p>This fit our git-flow releasing cycle flawlessly (whole process occurs in a release branch). I already described our cycle <a href="http://neoteric.eu/2015/04/make-jenkins-speak-git-flow/">here</a>. 
+However, it shouldn’t be much of a hassle to adapt the solution to your preffered flow.</p>
+
+<p>Core part of the solution is the <a href="http://danielflower.github.io/maven-gitlog-plugin/">maven-gitlog-plugin</a> created by Daniel Flower.
+It’s a simple tool, that gets most of the job done. It generates changelog out of the git commits. It can output to a text, markdown, HTML or even JSON file.
+It supports GitHub and JIRA issue trackers and its configuration is really easy.</p>
+
+<p>All of the below xml snippets are a part of our ‘release’ Maven profile.</p>
+
+<p><strong>Baseline is to have the gitlog plugin set up and configured in pom.xml:</strong></p>
+
+<div class="highlighter-coderay"><div class="CodeRay">
+  <div class="code"><pre><span class="line-numbers"> <a href="#n1" name="n1">1</a></span>    <span class="tag">&lt;plugin&gt;</span>
+<span class="line-numbers"> <a href="#n2" name="n2">2</a></span>        <span class="tag">&lt;groupId&gt;</span>com.github.danielflower.mavenplugins<span class="tag">&lt;/groupId&gt;</span>
+<span class="line-numbers"> <a href="#n3" name="n3">3</a></span>        <span class="tag">&lt;artifactId&gt;</span>gitlog-maven-plugin<span class="tag">&lt;/artifactId&gt;</span>
+<span class="line-numbers"> <a href="#n4" name="n4">4</a></span>        <span class="tag">&lt;configuration&gt;</span>
+<span class="line-numbers"> <a href="#n5" name="n5">5</a></span>            <span class="tag">&lt;fullGitMessage&gt;</span>true<span class="tag">&lt;/fullGitMessage&gt;</span>
+<span class="line-numbers"> <a href="#n6" name="n6">6</a></span>            <span class="tag">&lt;excludeCommiters&gt;</span>
+<span class="line-numbers"> <a href="#n7" name="n7">7</a></span>                <span class="tag">&lt;commiter&gt;</span>jenkins<span class="tag">&lt;/commiter&gt;</span>
+<span class="line-numbers"> <a href="#n8" name="n8">8</a></span>            <span class="tag">&lt;/excludeCommiters&gt;</span>
+<span class="line-numbers"> <a href="#n9" name="n9">9</a></span>            <span class="tag">&lt;dateFormat&gt;</span>yyyy-MM-dd<span class="tag">&lt;/dateFormat&gt;</span>
+<span class="line-numbers"><strong><a href="#n10" name="n10">10</a></strong></span>            <span class="tag">&lt;markdownChangeLogFilename&gt;</span>CHANGELOG.md<span class="tag">&lt;/markdownChangeLogFilename&gt;</span>
+<span class="line-numbers"><a href="#n11" name="n11">11</a></span>            <span class="tag">&lt;generateMarkdownChangeLog&gt;</span>true<span class="tag">&lt;/generateMarkdownChangeLog&gt;</span>
+<span class="line-numbers"><a href="#n12" name="n12">12</a></span>            <span class="tag">&lt;generateJSONChangeLog&gt;</span>false<span class="tag">&lt;/generateJSONChangeLog&gt;</span>
+<span class="line-numbers"><a href="#n13" name="n13">13</a></span>            <span class="tag">&lt;generatePlainTextChangeLog&gt;</span>false<span class="tag">&lt;/generatePlainTextChangeLog&gt;</span>
+<span class="line-numbers"><a href="#n14" name="n14">14</a></span>            <span class="tag">&lt;outputDirectory&gt;</span>${project.basedir}<span class="tag">&lt;/outputDirectory&gt;</span>
+<span class="line-numbers"><a href="#n15" name="n15">15</a></span>        <span class="tag">&lt;/configuration&gt;</span>
+<span class="line-numbers"><a href="#n16" name="n16">16</a></span>        <span class="tag">&lt;executions&gt;</span>
+<span class="line-numbers"><a href="#n17" name="n17">17</a></span>            <span class="tag">&lt;execution&gt;</span>
+<span class="line-numbers"><a href="#n18" name="n18">18</a></span>                <span class="tag">&lt;goals&gt;</span>
+<span class="line-numbers"><a href="#n19" name="n19">19</a></span>                    <span class="tag">&lt;goal&gt;</span>generate<span class="tag">&lt;/goal&gt;</span>
+<span class="line-numbers"><strong><a href="#n20" name="n20">20</a></strong></span>                <span class="tag">&lt;/goals&gt;</span>
+<span class="line-numbers"><a href="#n21" name="n21">21</a></span>            <span class="tag">&lt;/execution&gt;</span>
+<span class="line-numbers"><a href="#n22" name="n22">22</a></span>        <span class="tag">&lt;/executions&gt;</span>
+<span class="line-numbers"><a href="#n23" name="n23">23</a></span>    <span class="tag">&lt;/plugin&gt;</span>
+</pre></div>
+</div>
+</div>
+
+<p>Important difference (in contrast to defaults) is  outputDirectory value. Instead of having changelog generated in the target folder, we want it to appear in
+ project root folder - to commit the files later on. Everything else is rather self-explanatory.</p>
+
+<p><strong>To attach changelog.html to a released Maven artifact we need to use builder-helper-maven-plugin:</strong></p>
+
+<div class="highlighter-coderay"><div class="CodeRay">
+  <div class="code"><pre><span class="line-numbers"> <a href="#n1" name="n1">1</a></span>    <span class="tag">&lt;plugin&gt;</span>
+<span class="line-numbers"> <a href="#n2" name="n2">2</a></span>        <span class="tag">&lt;groupId&gt;</span>org.codehaus.mojo<span class="tag">&lt;/groupId&gt;</span>
+<span class="line-numbers"> <a href="#n3" name="n3">3</a></span>        <span class="tag">&lt;artifactId&gt;</span>build-helper-maven-plugin<span class="tag">&lt;/artifactId&gt;</span>
+<span class="line-numbers"> <a href="#n4" name="n4">4</a></span>        <span class="tag">&lt;executions&gt;</span>
+<span class="line-numbers"> <a href="#n5" name="n5">5</a></span>            <span class="tag">&lt;execution&gt;</span>
+<span class="line-numbers"> <a href="#n6" name="n6">6</a></span>                <span class="tag">&lt;id&gt;</span>attach-artifacts<span class="tag">&lt;/id&gt;</span>
+<span class="line-numbers"> <a href="#n7" name="n7">7</a></span>                <span class="tag">&lt;phase&gt;</span>package<span class="tag">&lt;/phase&gt;</span>
+<span class="line-numbers"> <a href="#n8" name="n8">8</a></span>                <span class="tag">&lt;goals&gt;</span>
+<span class="line-numbers"> <a href="#n9" name="n9">9</a></span>                    <span class="tag">&lt;goal&gt;</span>attach-artifact<span class="tag">&lt;/goal&gt;</span>
+<span class="line-numbers"><strong><a href="#n10" name="n10">10</a></strong></span>                <span class="tag">&lt;/goals&gt;</span>
+<span class="line-numbers"><a href="#n11" name="n11">11</a></span>                <span class="tag">&lt;configuration&gt;</span>
+<span class="line-numbers"><a href="#n12" name="n12">12</a></span>                    <span class="tag">&lt;artifacts&gt;</span>
+<span class="line-numbers"><a href="#n13" name="n13">13</a></span>                        <span class="tag">&lt;artifact&gt;</span>
+<span class="line-numbers"><a href="#n14" name="n14">14</a></span>                            <span class="tag">&lt;file&gt;</span>changelog.html<span class="tag">&lt;/file&gt;</span>
+<span class="line-numbers"><a href="#n15" name="n15">15</a></span>                            <span class="tag">&lt;type&gt;</span>html<span class="tag">&lt;/type&gt;</span>
+<span class="line-numbers"><a href="#n16" name="n16">16</a></span>                            <span class="tag">&lt;classifier&gt;</span>changelog<span class="tag">&lt;/classifier&gt;</span>
+<span class="line-numbers"><a href="#n17" name="n17">17</a></span>                        <span class="tag">&lt;/artifact&gt;</span>
+<span class="line-numbers"><a href="#n18" name="n18">18</a></span>                    <span class="tag">&lt;/artifacts&gt;</span>
+<span class="line-numbers"><a href="#n19" name="n19">19</a></span>                <span class="tag">&lt;/configuration&gt;</span>
+<span class="line-numbers"><strong><a href="#n20" name="n20">20</a></strong></span>            <span class="tag">&lt;/execution&gt;</span>
+<span class="line-numbers"><a href="#n21" name="n21">21</a></span>        <span class="tag">&lt;/executions&gt;</span>
+<span class="line-numbers"><a href="#n22" name="n22">22</a></span>    <span class="tag">&lt;/plugin&gt;</span>
+</pre></div>
+</div>
+</div>
+
+<p>Then in Nexus we can easily navigate to the changelog:</p>
+
+<p><img src="/images/changelog/nexus.jpg" /></p>
+
+<p>Sample html output is available <a href="http://s000.tinyupload.com/index.php?file_id=62694510974038154928">here</a>.</p>
+
+<p><strong>Keeping up-to-date changelog in your project folder requires additional step of commiting and pushing newly generated files:</strong></p>
+
+<div class="highlighter-coderay"><div class="CodeRay">
+  <div class="code"><pre><span class="line-numbers"> <a href="#n1" name="n1">1</a></span>    <span class="tag">&lt;plugin&gt;</span>
+<span class="line-numbers"> <a href="#n2" name="n2">2</a></span>        <span class="tag">&lt;groupId&gt;</span>org.apache.maven.plugins<span class="tag">&lt;/groupId&gt;</span>
+<span class="line-numbers"> <a href="#n3" name="n3">3</a></span>        <span class="tag">&lt;artifactId&gt;</span>maven-scm-plugin<span class="tag">&lt;/artifactId&gt;</span>
+<span class="line-numbers"> <a href="#n4" name="n4">4</a></span>        <span class="tag">&lt;executions&gt;</span>
+<span class="line-numbers"> <a href="#n5" name="n5">5</a></span>            <span class="tag">&lt;execution&gt;</span>
+<span class="line-numbers"> <a href="#n6" name="n6">6</a></span>                <span class="tag">&lt;id&gt;</span>add-changelog-to-git<span class="tag">&lt;/id&gt;</span>
+<span class="line-numbers"> <a href="#n7" name="n7">7</a></span>                <span class="tag">&lt;phase&gt;</span>package<span class="tag">&lt;/phase&gt;</span>
+<span class="line-numbers"> <a href="#n8" name="n8">8</a></span>                <span class="tag">&lt;goals&gt;</span>
+<span class="line-numbers"> <a href="#n9" name="n9">9</a></span>                    <span class="tag">&lt;goal&gt;</span>add<span class="tag">&lt;/goal&gt;</span>
+<span class="line-numbers"><strong><a href="#n10" name="n10">10</a></strong></span>                    <span class="tag">&lt;goal&gt;</span>checkin<span class="tag">&lt;/goal&gt;</span>
+<span class="line-numbers"><a href="#n11" name="n11">11</a></span>                <span class="tag">&lt;/goals&gt;</span>
+<span class="line-numbers"><a href="#n12" name="n12">12</a></span>                <span class="tag">&lt;configuration&gt;</span>
+<span class="line-numbers"><a href="#n13" name="n13">13</a></span>                    <span class="tag">&lt;basedir&gt;</span>./<span class="tag">&lt;/basedir&gt;</span>
+<span class="line-numbers"><a href="#n14" name="n14">14</a></span>                    <span class="tag">&lt;includes&gt;</span>CHANGELOG.md, changelog.html<span class="tag">&lt;/includes&gt;</span>
+<span class="line-numbers"><a href="#n15" name="n15">15</a></span>                    <span class="tag">&lt;message&gt;</span>Add changelog<span class="tag">&lt;/message&gt;</span>
+<span class="line-numbers"><a href="#n16" name="n16">16</a></span>                    <span class="tag">&lt;pushChanges&gt;</span>true<span class="tag">&lt;/pushChanges&gt;</span>
+<span class="line-numbers"><a href="#n17" name="n17">17</a></span>                <span class="tag">&lt;/configuration&gt;</span>
+<span class="line-numbers"><a href="#n18" name="n18">18</a></span>            <span class="tag">&lt;/execution&gt;</span>
+<span class="line-numbers"><a href="#n19" name="n19">19</a></span>        <span class="tag">&lt;/executions&gt;</span>
+<span class="line-numbers"><strong><a href="#n20" name="n20">20</a></strong></span>    <span class="tag">&lt;/plugin&gt;</span>
+</pre></div>
+</div>
+</div>
+
+<p>Maven scm plugin needs scm element specified. I had problems with defining Git addresses properly, but <a href="http://stackoverflow.com/a/15391341/2514330">this</a> Stack Overflow
+ response did the trick:</p>
+
+<div class="highlighter-coderay"><div class="CodeRay">
+  <div class="code"><pre><span class="line-numbers"><a href="#n1" name="n1">1</a></span>    <span class="tag">&lt;scm&gt;</span>
+<span class="line-numbers"><a href="#n2" name="n2">2</a></span>        <span class="tag">&lt;url&gt;</span>https://github.com/XXX/YYY<span class="tag">&lt;/url&gt;</span>
+<span class="line-numbers"><a href="#n3" name="n3">3</a></span>        <span class="tag">&lt;connection&gt;</span>scm:git:ssh://git@github.com/XXX/YYY.git<span class="tag">&lt;/connection&gt;</span>
+<span class="line-numbers"><a href="#n4" name="n4">4</a></span>        <span class="tag">&lt;developerConnection&gt;</span>scm:git:ssh://git@github.com/XXX/YYY.git<span class="tag">&lt;/developerConnection&gt;</span>
+<span class="line-numbers"><a href="#n5" name="n5">5</a></span>    <span class="tag">&lt;/scm&gt;</span>
+</pre></div>
+</div>
+</div>
+
+<p>That’s it. Your changelog always stay fresh. However, there is one catch from now on.
+You should pay attention to quality of your commit messages (nice writing on that by Chris Beams <a href="http://chris.beams.io/posts/git-commit/">here</a>).
+But… you was already doing that, right?</p>
+
+    </div>
+  </div>
+
+
+
+  <footer>
+    <hr>
+    
+    <div class="row-fluid">
+      
+      <div class="span6">
+        <p class="meta">
+        
+
+
+
+  <a href="/categories/maven/"><span class="badge">maven</span></a>
+
+  <a href="/categories/git/"><span class="badge">git</span></a>
+
+  <a href="/categories/changelog/"><span class="badge">changelog</span></a>
+
+
+
+
+        </p>
+      </div>
+      
+      <div class="span6 social-sharing">
+        <div class="sharing">
+  <div class="addthis_toolbox addthis_default_style ">
+  
+  
+  <a class="addthis_button_tweet"></a>
+  
+  
+  <a class="addthis_counter addthis_pill_style"></a>
+  </div>
+  <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid="></script>
+</div>
+
+      </div>
+      
+      
+    </div>
+    
+    <div class="row-fluid">
+      <div class="span12">
+        <p class="meta">
+          
+            <a class="basic-alignment left" href="/2015/05/27/migrating-to-octopress/" title="Previous Post: Migrating to Octopress">&laquo; Migrating to Octopress</a>
+          
+          
+        </p>
+      </div>
+    </div>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+
+
+        </div>
+      </div>
+      <div class="row-fluid">
+        <footer class="footer-page" role="contentinfo">
+          <p style="text-align: center">
+  Copyright &copy; 2015 - Grzegorz Poznachowski -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span> - Theme by <a href="http://alexgaribay.com">Alex Garibay</a>
+</p>
+
+
+        </footer>
+      </div>
+  </div>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'itssoapsfault';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://blog.poznachowski.pl/2015/08/04/befriend-your-changelog/';
+        var disqus_url = 'http://blog.poznachowski.pl/2015/08/04/befriend-your-changelog/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

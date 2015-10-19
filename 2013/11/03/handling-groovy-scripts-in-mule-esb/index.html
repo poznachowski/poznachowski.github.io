@@ -1,0 +1,454 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Handling Groovy scripts in Mule ESB - It's SOAP's Fault...</title>
+  <meta name="author" content="Grzegorz Poznachowski">
+
+   
+  <meta name="description" content="How to handle groovy scripts in Mule ESB">
+  
+  <meta name="keywords" content="groovy, script, mule, esb">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://blog.poznachowski.pl/2013/11/03/handling-groovy-scripts-in-mule-esb">
+  <link href="/favicon.png" rel="icon">
+  <link href='http://fonts.googleapis.com/css?family=Quicksand:300,400' rel='stylesheet' type='text/css'>
+  <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300' rel='stylesheet' type='text/css'>
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="It's SOAP's Fault..." type="application/atom+xml">
+  <script src="/js/jquery.js"></script>
+  <script src="/js/bootstrap-collapse.js"></script>
+  <script src="/js/modernizr-2.0.js"></script>
+  <script src="/js/octopress.js" type="text/javascript"></script>
+  <script src="/js/application.js"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-63324529-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <div class="navbar navbar-inverse navbar-static-top">
+  	<div class="navbar-inner">
+  	  <div class="container">
+        <a class="btn btn-navbar" data-toggle="collapse" data-target=".navbar-responsive-collapse">
+          <span class="fui-menu-24"></span>
+        </a>
+  	  	<div class="nav-collapse collapse navbar-responsive-collapse" style="height:0;">
+  	      <ul class="nav">
+    
+        <li ><a href="/index.html">Blog</a></li>
+    
+        <li ><a href="/about.html">About</a></li>
+    
+</ul>
+
+<ul class="nav pull-right">
+    
+    <li><a href="/atom.xml" title="Rss feed"><i class="icon-rss social-navbar"></i></a></li>
+    
+    
+    <li><a href="http://github.com/poznachowski" title="Github Profile"><i class="icon-github-sign social-navbar"></i></a></li>
+    
+    
+    
+    <li><a href="http://linkedin.com/in/gpoznachowski" title="Linkedin Profile"><i class="icon-linkedin-sign social-navbar"></i></a></li>
+    
+    
+    <li><a href="http://twitter.com/dziesiek" title="Twitter Profile"><i class="icon-twitter-sign social-navbar"></i></a></li>
+    
+    
+    
+    
+    
+</ul>
+
+  	    </div>
+  	  </div>
+  	</div>
+  </div>
+  <div class="container" id="main">
+      <div class="row-fluid">
+        <div id="content">
+          <div>
+<article class="hentry" role="article">
+  
+
+  <header>
+  <div class="jumbotron">
+    Handling Groovy Scripts in Mule ESB
+	<h5 style="padding-top: 5px;">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-11-03T00:00:00+01:00" pubdate data-updated="true">Nov 03, 2013</time> </h5>
+  </div>
+</header>
+  <div class="row-fluid">
+    <div class="span12">
+      <p>In my work project we had to make plenty of XML manipulations on some complex structures. As Mule supports Groovy (<a href="http://groovy.codehaus.org/Scripts+and+Classes">scripts</a>) natively, we decided to make use of Groovy’s <a href="http://groovy.codehaus.org/Processing+XML">XMLSlurper</a>.
+Two things I wanted to have covered, before I begin: How to easily handle those scripts in Mule Studio and how to unit test them.</p>
+
+<p><strong>1. Groovy scripts in Mule Studio</strong></p>
+
+<p>Mule, when it comes to <a href="http://www.mulesoft.org/documentation/display/current/Groovy+Component+Reference">Groovy components</a>, can embed script code inside the Mule configuration file or use an external script file. Of course, at all times, I don’t want to clutter my Mule code with embedded scripts. The only exception I make, is when I need to do something simple and I’m unable to use Mule Expression Language to achieve that (i.e. throwing an exception directly from flow - <a href="https://www.mulesoft.org/jira/browse/MULE-6624">JIRA</a>).</p>
+
+<p>First thing I did was installation of Groovy plugin for the IDE. Latest Mule Studio version is 3.5.0, which is based on Eclipse 3.8. Update site URL for the plugin is: <a href="http://dist.springsource.org/release/GRECLIPSE/e4.2/">http://dist.springsource.org/release/GRECLIPSE/e4.2/</a>. My example project was built on Mule ESB 3.4.0. It uses Groovy 1.8.6, hence we have to add an extra Groovy compiler when installing plugin and we have to switch it on in Groovy preferences afterwards.</p>
+
+<p>Next, we need to think about where to locate our scripts. There are several possibilities, but I find most convinient to put them in <strong>src/main/scripts</strong> in a subfolder named as a Mule configuration file, which uses it. Then, we need to force IDE to be as useful as possible, especially the m2e plugin built in Mule Studio. I always work on Maven-supported Mule projects and strongly recommend to do the same.</p>
+
+<ul>
+  <li>Enable Groovy scripts folders in Groovy preferences and add <strong>src/main/scripts</strong> and <strong>src/test/scripts</strong> patterns (note that Compiler version is already set to 1.8.6):</li>
+</ul>
+
+<p><img src="/images/mulegroovy/groovy_settings.png" /></p>
+
+<ul>
+  <li>Now we need to make sure that Maven will put those scripts in proper location. Ideal for me, is to put them in <strong>classes/scripts</strong> directory. It will cause nice separation with other project resources. Achieving that appeared to be simple. In <strong>pom.xml</strong> specify resources in the <strong>&lt;build&gt;</strong> part:</li>
+</ul>
+
+<div class="highlighter-coderay"><div class="CodeRay">
+  <div class="code"><pre><span class="line-numbers"> <a href="#n1" name="n1">1</a></span><span class="tag">&lt;build&gt;</span>
+<span class="line-numbers"> <a href="#n2" name="n2">2</a></span>    <span class="tag">&lt;resources&gt;</span>
+<span class="line-numbers"> <a href="#n3" name="n3">3</a></span>        <span class="tag">&lt;resource&gt;</span>
+<span class="line-numbers"> <a href="#n4" name="n4">4</a></span>            <span class="tag">&lt;directory&gt;</span>src/main/resources<span class="tag">&lt;/directory&gt;</span>
+<span class="line-numbers"> <a href="#n5" name="n5">5</a></span>        <span class="tag">&lt;/resource&gt;</span>
+<span class="line-numbers"> <a href="#n6" name="n6">6</a></span>        <span class="tag">&lt;resource&gt;</span>
+<span class="line-numbers"> <a href="#n7" name="n7">7</a></span>            <span class="tag">&lt;directory&gt;</span>src/main/scripts<span class="tag">&lt;/directory&gt;</span>
+<span class="line-numbers"> <a href="#n8" name="n8">8</a></span>            <span class="tag">&lt;targetPath&gt;</span>scripts<span class="tag">&lt;/targetPath&gt;</span>
+<span class="line-numbers"> <a href="#n9" name="n9">9</a></span>        <span class="tag">&lt;/resource&gt;</span>
+<span class="line-numbers"><strong><a href="#n10" name="n10">10</a></strong></span>    <span class="tag">&lt;/resources&gt;</span>
+<span class="line-numbers"><a href="#n11" name="n11">11</a></span>    ...
+<span class="line-numbers"><a href="#n12" name="n12">12</a></span><span class="tag">&lt;/build&gt;</span>
+</pre></div>
+</div>
+</div>
+
+<p>Maven’s build <strong>&lt;resources/&gt;</strong> element is described <a href="http://maven.apache.org/pom.html#Resources">here</a>. When doing research about the above I found out something interesting. With the default structure of pom.xml file generated by Mule Studio, all Mule configuration files are duplicated in the built zip file. Sample Mule application structure generated by Maven would look like:</p>
+
+<div class="highlighter-coderay"><div class="CodeRay">
+  <div class="code"><pre><span class="line-numbers"><a href="#n1" name="n1">1</a></span> \- classes
+<span class="line-numbers"><a href="#n2" name="n2">2</a></span>  \- mule-config.xml
+<span class="line-numbers"><a href="#n3" name="n3">3</a></span>  |- mule-deploy.properties
+<span class="line-numbers"><a href="#n4" name="n4">4</a></span>  |- mule-app.properties
+<span class="line-numbers"><a href="#n5" name="n5">5</a></span> |- lib
+<span class="line-numbers"><a href="#n6" name="n6">6</a></span> |- mule-config.xml
+<span class="line-numbers"><a href="#n7" name="n7">7</a></span> |- mule-deploy.properties
+<span class="line-numbers"><a href="#n8" name="n8">8</a></span> |- mule-app.properties
+</pre></div>
+</div>
+</div>
+
+<p>Files (<strong>2,3,4</strong>) are redundant (per Mule’s application format <a href="http://www.mulesoft.org/documentation/display/current/Application+Format">reference</a>). Responsible for that mess is <strong>Build Helper Maven Plugin</strong>:</p>
+
+<div class="highlighter-coderay"><div class="CodeRay">
+  <div class="code"><pre><span class="line-numbers"> <a href="#n1" name="n1">1</a></span><span class="tag">&lt;plugin&gt;</span>
+<span class="line-numbers"> <a href="#n2" name="n2">2</a></span>    <span class="tag">&lt;groupId&gt;</span>org.codehaus.mojo<span class="tag">&lt;/groupId&gt;</span>
+<span class="line-numbers"> <a href="#n3" name="n3">3</a></span>    <span class="tag">&lt;artifactId&gt;</span>build-helper-maven-plugin<span class="tag">&lt;/artifactId&gt;</span>
+<span class="line-numbers"> <a href="#n4" name="n4">4</a></span>    <span class="tag">&lt;version&gt;</span>1.7<span class="tag">&lt;/version&gt;</span>
+<span class="line-numbers"> <a href="#n5" name="n5">5</a></span>    <span class="tag">&lt;executions&gt;</span>
+<span class="line-numbers"> <a href="#n6" name="n6">6</a></span>        <span class="tag">&lt;execution&gt;</span>
+<span class="line-numbers"> <a href="#n7" name="n7">7</a></span>            <span class="tag">&lt;id&gt;</span>add-resource<span class="tag">&lt;/id&gt;</span>
+<span class="line-numbers"> <a href="#n8" name="n8">8</a></span>            <span class="tag">&lt;phase&gt;</span>generate-resources<span class="tag">&lt;/phase&gt;</span>
+<span class="line-numbers"> <a href="#n9" name="n9">9</a></span>            <span class="tag">&lt;goals&gt;</span>
+<span class="line-numbers"><strong><a href="#n10" name="n10">10</a></strong></span>                <span class="tag">&lt;goal&gt;</span>add-resource<span class="tag">&lt;/goal&gt;</span>
+<span class="line-numbers"><a href="#n11" name="n11">11</a></span>            <span class="tag">&lt;/goals&gt;</span>
+<span class="line-numbers"><a href="#n12" name="n12">12</a></span>            <span class="tag">&lt;configuration&gt;</span>
+<span class="line-numbers"><a href="#n13" name="n13">13</a></span>                <span class="tag">&lt;resources&gt;</span>
+<span class="line-numbers"><a href="#n14" name="n14">14</a></span>                    <span class="tag">&lt;resource&gt;</span>
+<span class="line-numbers"><a href="#n15" name="n15">15</a></span>                        <span class="tag">&lt;directory&gt;</span>src/main/app/<span class="tag">&lt;/directory&gt;</span>
+<span class="line-numbers"><a href="#n16" name="n16">16</a></span>                    <span class="tag">&lt;/resource&gt;</span>
+<span class="line-numbers"><a href="#n17" name="n17">17</a></span>                <span class="tag">&lt;/resources&gt;</span>
+<span class="line-numbers"><a href="#n18" name="n18">18</a></span>            <span class="tag">&lt;/configuration&gt;</span>
+<span class="line-numbers"><a href="#n19" name="n19">19</a></span>        <span class="tag">&lt;/execution&gt;</span>
+<span class="line-numbers"><strong><a href="#n20" name="n20">20</a></strong></span>    <span class="tag">&lt;/executions&gt;</span>
+<span class="line-numbers"><a href="#n21" name="n21">21</a></span><span class="tag">&lt;/plugin&gt;</span>
+</pre></div>
+</div>
+</div>
+
+<p>If I remove that plugin part, everything still seems to be working perfectly fine and my project’s output structure is neat and clean:</p>
+
+<div class="highlighter-coderay"><div class="CodeRay">
+  <div class="code"><pre><span class="line-numbers"><a href="#n1" name="n1">1</a></span> \- classes
+<span class="line-numbers"><a href="#n2" name="n2">2</a></span>  \- scripts
+<span class="line-numbers"><a href="#n3" name="n3">3</a></span>   \- GroovyScriptTesting
+<span class="line-numbers"><a href="#n4" name="n4">4</a></span>    \- CalculateSquareNumber.groovy
+<span class="line-numbers"><a href="#n5" name="n5">5</a></span>  |- log4j.properties
+<span class="line-numbers"><a href="#n6" name="n6">6</a></span> |- GroovyScriptTesting.xml
+<span class="line-numbers"><a href="#n7" name="n7">7</a></span> |- mule-deploy.properties
+<span class="line-numbers"><a href="#n8" name="n8">8</a></span> |- mule-app.properties
+</pre></div>
+</div>
+</div>
+
+<p>It looks like <strong>maven-mule-plugin</strong> is doing all the necessary work for <strong>src/main/app</strong> folder. So, if you know why the build helper plugin is set up in the pom.xml in the first place or if you’re having any problem without it, please let me know.
+In the end, with everything in place, my project in Mule Studio should look like this:</p>
+
+<p><img src="/images/mulegroovy/groovy_project_setup.png" /></p>
+
+<p>and we are ready to go to the second part.</p>
+
+<p><strong>2. Unit testing Groovy scripts</strong></p>
+
+<p>Mule provide direct access to Mule context objects and variables in Groovy scripts the same way as it does for MEL. In terms of testing, it’s important to decide and be consequent about how we are accessing Mule variables:
+If I’m sure that the variable will be defined during script execution, I access them directly (as ‘number’ in the example):</p>
+
+<div class="highlighter-coderay"><div class="CodeRay">
+  <div class="code"><pre><span class="line-numbers"><a href="#n1" name="n1">1</a></span><span class="keyword">def</span> square = number.toInteger() * number.toInteger()
+</pre></div>
+</div>
+</div>
+
+<p>If it’s possible that the variable won’t be set up (can be a part of the script logic - to check for variable presence), then I would try to get it from the message context (it’s always available):</p>
+
+<div class="highlighter-coderay"><div class="CodeRay">
+  <div class="code"><pre><span class="line-numbers"><a href="#n1" name="n1">1</a></span><span class="keyword">def</span> number = message.getInvocationProperty(<span class="string"><span class="delimiter">'</span><span class="content">number</span><span class="delimiter">'</span></span>)
+</pre></div>
+</div>
+</div>
+
+<p>and then do some null checks etc. Otherwise, I would get Groovy’s <strong>MissingPropertyException</strong>.
+Setting variables via scripts always needs to happen using message.setProperty method.</p>
+
+<p>Let’s look at this simple Groovy script (<strong>CalculateSquareNumber.groovy</strong>):</p>
+
+<div class="highlighter-coderay"><div class="CodeRay">
+  <div class="code"><pre><span class="line-numbers"><a href="#n1" name="n1">1</a></span><span class="keyword">def</span> square = number.toInteger() * number.toInteger()
+<span class="line-numbers"><a href="#n2" name="n2">2</a></span>message.setInvocationProperty(<span class="string"><span class="delimiter">'</span><span class="content">squareNumber</span><span class="delimiter">'</span></span>, square)
+</pre></div>
+</div>
+</div>
+
+<p>and it’s unit test (<strong>CalculateSquareNumberTest.java</strong>):</p>
+
+<div class="highlighter-coderay"><div class="CodeRay">
+  <div class="code"><pre><span class="line-numbers"> <a href="#n1" name="n1">1</a></span><span class="annotation">@RunWith</span>(JUnitParamsRunner.class)
+<span class="line-numbers"> <a href="#n2" name="n2">2</a></span><span class="directive">public</span> <span class="type">class</span> <span class="class">CalculateSquareNumberTest</span> {
+<span class="line-numbers"> <a href="#n3" name="n3">3</a></span>
+<span class="line-numbers"> <a href="#n4" name="n4">4</a></span>    <span class="directive">private</span> <span class="directive">static</span> <span class="directive">final</span> <span class="predefined-type">String</span> PAYLOAD = <span class="string"><span class="delimiter">&quot;</span><span class="content">payload</span><span class="delimiter">&quot;</span></span>;
+<span class="line-numbers"> <a href="#n5" name="n5">5</a></span>
+<span class="line-numbers"> <a href="#n6" name="n6">6</a></span>    <span class="annotation">@Test</span>
+<span class="line-numbers"> <a href="#n7" name="n7">7</a></span>    <span class="annotation">@Parameters</span>(method = <span class="string"><span class="delimiter">&quot;</span><span class="content">numbersAndSquares</span><span class="delimiter">&quot;</span></span>)
+<span class="line-numbers"> <a href="#n8" name="n8">8</a></span>    <span class="directive">public</span> <span class="type">void</span> test(<span class="type">int</span> number, <span class="type">int</span> square) <span class="directive">throws</span> <span class="exception">Exception</span> {
+<span class="line-numbers"> <a href="#n9" name="n9">9</a></span>
+<span class="line-numbers"><strong><a href="#n10" name="n10">10</a></strong></span>        <span class="predefined-type">Binding</span> binding = <span class="keyword">new</span> <span class="predefined-type">Binding</span>();
+<span class="line-numbers"><a href="#n11" name="n11">11</a></span>        binding.setVariable(<span class="string"><span class="delimiter">&quot;</span><span class="content">number</span><span class="delimiter">&quot;</span></span>, number);
+<span class="line-numbers"><a href="#n12" name="n12">12</a></span>        binding.setVariable(<span class="string"><span class="delimiter">&quot;</span><span class="content">message</span><span class="delimiter">&quot;</span></span>, TestMuleMessage.withPayload(PAYLOAD));
+<span class="line-numbers"><a href="#n13" name="n13">13</a></span>
+<span class="line-numbers"><a href="#n14" name="n14">14</a></span>        GroovyShell shell = <span class="keyword">new</span> GroovyShell(binding);
+<span class="line-numbers"><a href="#n15" name="n15">15</a></span>        shell.evaluate(getFile(<span class="string"><span class="delimiter">&quot;</span><span class="content">/scripts/GroovyScriptTesting/CalculateSquareNumber.groovy</span><span class="delimiter">&quot;</span></span>));
+<span class="line-numbers"><a href="#n16" name="n16">16</a></span>        MuleMessage message = (MuleMessage) binding.getVariable(<span class="string"><span class="delimiter">&quot;</span><span class="content">message</span><span class="delimiter">&quot;</span></span>);
+<span class="line-numbers"><a href="#n17" name="n17">17</a></span>
+<span class="line-numbers"><a href="#n18" name="n18">18</a></span>        assertThat((<span class="predefined-type">Integer</span>)message.getInvocationProperty(<span class="string"><span class="delimiter">&quot;</span><span class="content">squareNumber</span><span class="delimiter">&quot;</span></span>), is(square));
+<span class="line-numbers"><a href="#n19" name="n19">19</a></span>    }
+<span class="line-numbers"><strong><a href="#n20" name="n20">20</a></strong></span>
+<span class="line-numbers"><a href="#n21" name="n21">21</a></span>    <span class="annotation">@SuppressWarnings</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">unused</span><span class="delimiter">&quot;</span></span>)
+<span class="line-numbers"><a href="#n22" name="n22">22</a></span>    <span class="directive">private</span> <span class="predefined-type">Object</span><span class="type">[]</span> numbersAndSquares() {
+<span class="line-numbers"><a href="#n23" name="n23">23</a></span>        <span class="keyword">return</span> <span class="error">$</span>(
+<span class="line-numbers"><a href="#n24" name="n24">24</a></span>             <span class="error">$</span>(<span class="integer">3</span>, <span class="integer">9</span>),
+<span class="line-numbers"><a href="#n25" name="n25">25</a></span>             <span class="error">$</span>(<span class="integer">5</span>, <span class="integer">25</span>),
+<span class="line-numbers"><a href="#n26" name="n26">26</a></span>             <span class="error">$</span>(<span class="integer">10</span>, <span class="integer">100</span>),
+<span class="line-numbers"><a href="#n27" name="n27">27</a></span>             <span class="error">$</span>(<span class="integer">12</span>, <span class="integer">144</span>)
+<span class="line-numbers"><a href="#n28" name="n28">28</a></span>        );
+<span class="line-numbers"><a href="#n29" name="n29">29</a></span>    }
+<span class="line-numbers"><strong><a href="#n30" name="n30">30</a></strong></span>
+<span class="line-numbers"><a href="#n31" name="n31">31</a></span>    <span class="directive">private</span> <span class="predefined-type">File</span> getFile(<span class="predefined-type">String</span> pathToFile) <span class="directive">throws</span> <span class="exception">URISyntaxException</span>, <span class="exception">FileNotFoundException</span> {
+<span class="line-numbers"><a href="#n32" name="n32">32</a></span>        <span class="predefined-type">URL</span> url = CalculateSquareNumberTest.class.getResource(pathToFile);
+<span class="line-numbers"><a href="#n33" name="n33">33</a></span>        <span class="keyword">if</span> (url == <span class="predefined-constant">null</span>) {
+<span class="line-numbers"><a href="#n34" name="n34">34</a></span>            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="exception">FileNotFoundException</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">Couldn't find: </span><span class="delimiter">&quot;</span></span> + pathToFile);
+<span class="line-numbers"><a href="#n35" name="n35">35</a></span>        }
+<span class="line-numbers"><a href="#n36" name="n36">36</a></span>        <span class="keyword">return</span> <span class="keyword">new</span> <span class="predefined-type">File</span>(url.toURI());
+<span class="line-numbers"><a href="#n37" name="n37">37</a></span>    }
+<span class="line-numbers"><a href="#n38" name="n38">38</a></span>}
+</pre></div>
+</div>
+</div>
+
+<p>To evaluate Groovy scripts in our test we need to use <a href="http://groovy.codehaus.org/api/groovy/lang/GroovyShell.html">GroovyShell</a> along with <a href="http://groovy.codehaus.org/api/groovy/lang/Binding.html">Binding</a>’s setVariable() method to make variables available. As you can see it’s pretty easy, the trickier part is how to pass proper MuleMessage instance to our test. To do that, I have prepared helper <strong>TestMuleMessage</strong> class, which is preparing message with default Mule context:</p>
+
+<div class="highlighter-coderay"><div class="CodeRay">
+  <div class="code"><pre><span class="line-numbers"> <a href="#n1" name="n1">1</a></span><span class="directive">public</span> <span class="type">class</span> <span class="class">TestMuleMessage</span> {
+<span class="line-numbers"> <a href="#n2" name="n2">2</a></span>
+<span class="line-numbers"> <a href="#n3" name="n3">3</a></span>    <span class="directive">public</span> <span class="directive">static</span> MuleMessage withPayload(<span class="predefined-type">Object</span> payload) {
+<span class="line-numbers"> <a href="#n4" name="n4">4</a></span>
+<span class="line-numbers"> <a href="#n5" name="n5">5</a></span>        MuleContextFactory contextFactory = <span class="keyword">new</span> DefaultMuleContextFactory();
+<span class="line-numbers"> <a href="#n6" name="n6">6</a></span>        MuleContext muleContext = <span class="predefined-constant">null</span>;
+<span class="line-numbers"> <a href="#n7" name="n7">7</a></span>        <span class="keyword">try</span> {
+<span class="line-numbers"> <a href="#n8" name="n8">8</a></span>            muleContext = contextFactory.createMuleContext();
+<span class="line-numbers"> <a href="#n9" name="n9">9</a></span>        } <span class="keyword">catch</span> (InitialisationException e) {
+<span class="line-numbers"><strong><a href="#n10" name="n10">10</a></strong></span>            e.printStackTrace();
+<span class="line-numbers"><a href="#n11" name="n11">11</a></span>        } <span class="keyword">catch</span> (<span class="exception">ConfigurationException</span> e) {
+<span class="line-numbers"><a href="#n12" name="n12">12</a></span>            e.printStackTrace();
+<span class="line-numbers"><a href="#n13" name="n13">13</a></span>        }
+<span class="line-numbers"><a href="#n14" name="n14">14</a></span>
+<span class="line-numbers"><a href="#n15" name="n15">15</a></span>        <span class="keyword">return</span> <span class="keyword">new</span> DefaultMuleMessage(payload, muleContext);
+<span class="line-numbers"><a href="#n16" name="n16">16</a></span>    }
+<span class="line-numbers"><a href="#n17" name="n17">17</a></span>}
+</pre></div>
+</div>
+</div>
+
+<p>Another useful thing in the test is the helper <strong>getFile()</strong> method which retrieves script file not from hardcoded full path, but from classpath instead, which is always a better idea. Usually, you would put it in some test util class.
+Your main target for assertions is <strong>MuleMessage</strong> object, which can be retrieved using Binding <strong>getVariable</strong>() method. There you can check for variables’ values or message payload itself.
+As you can see, keeping few simple rules, can make work with Groovy scripts (in Mule) a pleasant, easily testable experience. Sample project, I prepared, is using Quartz endpoint and Groovy script to count and display square number of number 5 :) It is available <a href="https://github.com/poznachowski/GroovyScriptTesting">here</a>.</p>
+
+    </div>
+  </div>
+
+
+
+  <footer>
+    <hr>
+    
+    <div class="row-fluid">
+      
+      <div class="span6">
+        <p class="meta">
+        
+
+
+
+  <a href="/categories/esb/"><span class="badge">esb</span></a>
+
+  <a href="/categories/testing/"><span class="badge">testing</span></a>
+
+  <a href="/categories/script/"><span class="badge">script</span></a>
+
+  <a href="/categories/mule/"><span class="badge">mule</span></a>
+
+  <a href="/categories/groovy/"><span class="badge">groovy</span></a>
+
+
+
+
+        </p>
+      </div>
+      
+      <div class="span6 social-sharing">
+        <div class="sharing">
+  <div class="addthis_toolbox addthis_default_style ">
+  
+  
+  <a class="addthis_button_tweet"></a>
+  
+  
+  <a class="addthis_counter addthis_pill_style"></a>
+  </div>
+  <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid="></script>
+</div>
+
+      </div>
+      
+      
+    </div>
+    
+    <div class="row-fluid">
+      <div class="span12">
+        <p class="meta">
+          
+            <a class="basic-alignment left" href="/2013/10/20/exposing-restful-interface-with-mule-pt2/" title="Previous Post: Exposing RESTful interface with Mule pt.2">&laquo; Exposing RESTful interface with Mule pt.2</a>
+          
+          
+            <a class="basic-alignment right" href="/2014/04/03/munit-testing-mule-practices-and-some/" title="Next Post: MUnit testing, Mule best practices and more...">MUnit testing, Mule best practices and more... &raquo;</a>
+          
+        </p>
+      </div>
+    </div>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+
+
+        </div>
+      </div>
+      <div class="row-fluid">
+        <footer class="footer-page" role="contentinfo">
+          <p style="text-align: center">
+  Copyright &copy; 2015 - Grzegorz Poznachowski -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span> - Theme by <a href="http://alexgaribay.com">Alex Garibay</a>
+</p>
+
+
+        </footer>
+      </div>
+  </div>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'itssoapsfault';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://blog.poznachowski.pl/2013/11/03/handling-groovy-scripts-in-mule-esb/';
+        var disqus_url = 'http://blog.poznachowski.pl/2013/11/03/handling-groovy-scripts-in-mule-esb/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

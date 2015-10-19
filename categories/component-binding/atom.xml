@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: component binding | It's SOAP's Fault...]]></title>
+  <link href="http://blog.poznachowski.pl/categories/component-binding/atom.xml" rel="self"/>
+  <link href="http://blog.poznachowski.pl/"/>
+  <updated>2015-10-19T21:00:29+02:00</updated>
+  <id>http://blog.poznachowski.pl/</id>
+  <author>
+    <name><![CDATA[Grzegorz Poznachowski]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Exposing RESTful interface with Mule pt.2]]></title>
+    <link href="http://blog.poznachowski.pl/2013/10/20/exposing-restful-interface-with-mule-pt2/"/>
+    <updated>2013-10-20T00:00:00+02:00</updated>
+    <id>http://blog.poznachowski.pl/2013/10/20/exposing-restful-interface-with-mule-pt2</id>
+    <content type="html"><![CDATA[<p>In <a href="/2013/10/11/exposing-restful-interface-with-mule-pt1/">previous part</a> of this article I’ve presented two ways of building REST API on Mule ESB: using Mule REST Module and handling HTTP properties manually.</p>
+
+<p>This time I want to present achieving the same result using Mule <a href="http://www.mulesoft.org/documentation/display/current/REST+Component+Reference">Jersey Module</a> with addition of<br />
+<a href="http://www.mulesoft.org/documentation/display/current/Component+Bindings">Component Bindings</a> - feature of Mule, which enables us to leave Java and go back to Mule flow processing.</p>
+
+<p>Presented example was tested against Mule ESB 3.4.0 EE.</p>
+
+<p><strong>3. Jersey REST</strong></p>
+
+<p>Flow overview:<br />
+<img src="/images/mulerest2/JerseyRestFlow.png">
+<img src="/images/mulerest2/ProcessPostFlow.png">
+<img src="/images/mulerest2/ProcessGetFlow.png"></p>
+
+<p>Unfortunately, not much to see in this graphical overview - devil is in the details :)</p>
+
+<p>Jersey REST Component is the official recommendation for exposing REST Services on Mule ESB. Usually, this reference implementation of JAX-RS would be everything we need to achieve the goal. However, in terms of Mule, it ties us heavily to Java code, which is not what we are especially looking for. To overcome this we can use Component Bindings.</p>
+
+<p>Let’s go back to our example. Staring with the simple Jersey service class:</p>
+
+<div class="highlighter-coderay"><div class="CodeRay">
+  <div class="code"><pre><span class="line-numbers"> <a href="#n1" name="n1">1</a></span><span class="annotation">@Path</span>(value = <span class="string"><span class="delimiter">&quot;</span><span class="content">/</span><span class="delimiter">&quot;</span></span>)  
+<span class="line-numbers"> <a href="#n2" name="n2">2</a></span><span class="directive">public</span> <span class="type">class</span> <span class="class">JerseyRestService</span> {  
+<span class="line-numbers"> <a href="#n3" name="n3">3</a></span>
+<span class="line-numbers"> <a href="#n4" name="n4">4</a></span> <span class="directive">private</span> FlowProcessing flowProcessing;  
+<span class="line-numbers"> <a href="#n5" name="n5">5</a></span>
+<span class="line-numbers"> <a href="#n6" name="n6">6</a></span> <span class="annotation">@GET</span>  
+<span class="line-numbers"> <a href="#n7" name="n7">7</a></span> <span class="annotation">@Path</span>(value = <span class="string"><span class="delimiter">&quot;</span><span class="content">/client/{accountID}/{userID}/get</span><span class="delimiter">&quot;</span></span>)  
+<span class="line-numbers"> <a href="#n8" name="n8">8</a></span> <span class="directive">public</span> Response processGET(<span class="annotation">@PathParam</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">accountID</span><span class="delimiter">&quot;</span></span>) <span class="predefined-type">String</span> accountId, <span class="annotation">@PathParam</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">userID</span><span class="delimiter">&quot;</span></span>) <span class="predefined-type">String</span> userId) {  
+<span class="line-numbers"> <a href="#n9" name="n9">9</a></span>  <span class="predefined-type">String</span> result = flowProcessing.processGET(accountId, userId);  
+<span class="line-numbers"><strong><a href="#n10" name="n10">10</a></strong></span>  <span class="keyword">return</span> Response.ok(result).build();  
+<span class="line-numbers"><a href="#n11" name="n11">11</a></span> }  
+<span class="line-numbers"><a href="#n12" name="n12">12</a></span>
+<span class="line-numbers"><a href="#n13" name="n13">13</a></span> <span class="annotation">@POST</span>  
+<span class="line-numbers"><a href="#n14" name="n14">14</a></span> <span class="annotation">@Path</span>(value = <span class="string"><span class="delimiter">&quot;</span><span class="content">/client/{accountID}/{userID}/get</span><span class="delimiter">&quot;</span></span>)  
+<span class="line-numbers"><a href="#n15" name="n15">15</a></span> <span class="directive">public</span> Response processPOST(<span class="annotation">@PathParam</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">accountID</span><span class="delimiter">&quot;</span></span>) <span class="predefined-type">String</span> accountId, <span class="annotation">@PathParam</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">userID</span><span class="delimiter">&quot;</span></span>) <span class="predefined-type">String</span> userId, <span class="predefined-type">String</span> body) {  
+<span class="line-numbers"><a href="#n16" name="n16">16</a></span>  <span class="predefined-type">String</span> result = flowProcessing.processPOST(accountId, userId, body);  
+<span class="line-numbers"><a href="#n17" name="n17">17</a></span>  <span class="keyword">return</span> Response.ok(result).build();  
+<span class="line-numbers"><a href="#n18" name="n18">18</a></span> }  
+<span class="line-numbers"><a href="#n19" name="n19">19</a></span>
+<span class="line-numbers"><strong><a href="#n20" name="n20">20</a></strong></span> <span class="directive">public</span> <span class="type">void</span> setFlowProcessing(FlowProcessing flowProcessing) {  
+<span class="line-numbers"><a href="#n21" name="n21">21</a></span>  <span class="local-variable">this</span>.flowProcessing = flowProcessing;  
+<span class="line-numbers"><a href="#n22" name="n22">22</a></span> }  
+<span class="line-numbers"><a href="#n23" name="n23">23</a></span>}  
+</pre></div>
+</div>
+</div>
+
+<p>Nothing fancy here. JAX-RS plain and simple. Interesting part is the FlowProcessing interface. It looks like it’s wrapping whole business logic processing. By using Component Bindings we can make any Mule’s outbound endpoint behave as an implementation of that interface. Hence, we can make use of VM endpoints and move the processing from Java back to Mule flows:</p>
+
+<div class="highlighter-coderay"><div class="CodeRay">
+  <div class="code"><pre><span class="line-numbers"> <a href="#n1" name="n1">1</a></span><span class="tag">&lt;jersey:resources</span> <span class="attribute-name">doc:name</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">REST</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>  
+<span class="line-numbers"> <a href="#n2" name="n2">2</a></span>  <span class="tag">&lt;component</span> <span class="attribute-name">class</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">pl.poznachowski.jerseyrest.JerseyRestService</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>  
+<span class="line-numbers"> <a href="#n3" name="n3">3</a></span>    <span class="tag">&lt;binding</span> <span class="attribute-name">interface</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">pl.poznachowski.jerseyrest.FlowProcessing</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">method</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">processGET</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>  
+<span class="line-numbers"> <a href="#n4" name="n4">4</a></span>      <span class="tag">&lt;vm:outbound-endpoint</span> <span class="attribute-name">exchange-pattern</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">request-response</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">path</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">vmProcessGET</span><span class="delimiter">&quot;</span></span> <span class="tag">/&gt;</span>  
+<span class="line-numbers"> <a href="#n5" name="n5">5</a></span>    <span class="tag">&lt;/binding&gt;</span>  
+<span class="line-numbers"> <a href="#n6" name="n6">6</a></span>    <span class="tag">&lt;binding</span> <span class="attribute-name">interface</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">pl.poznachowski.jerseyrest.FlowProcessing</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">method</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">processPOST</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>  
+<span class="line-numbers"> <a href="#n7" name="n7">7</a></span>      <span class="tag">&lt;vm:outbound-endpoint</span> <span class="attribute-name">exchange-pattern</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">request-response</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">path</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">vmProcessPOST</span><span class="delimiter">&quot;</span></span> <span class="tag">/&gt;</span>  
+<span class="line-numbers"> <a href="#n8" name="n8">8</a></span>    <span class="tag">&lt;/binding&gt;</span>  
+<span class="line-numbers"> <a href="#n9" name="n9">9</a></span>  <span class="tag">&lt;/component&gt;</span>  
+<span class="line-numbers"><strong><a href="#n10" name="n10">10</a></strong></span>  <span class="tag">&lt;jersey:exception-mapper</span> <span class="attribute-name">class</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">pl.poznachowski.jerseyrest.BadURIExceptionMapper</span><span class="delimiter">&quot;</span></span> <span class="tag">/&gt;</span>  
+<span class="line-numbers"><a href="#n11" name="n11">11</a></span><span class="tag">&lt;/jersey:resources&gt;</span>  
+</pre></div>
+</div>
+</div>
+
+<p>As seen above, everything we need to make it work is to provide binding element specifying the interface, interface’s method and outbound endpoint, which should be called. Few things to remember:</p>
+
+<ul>
+  <li>Don’t forget to write setter for the interface in the Jersey class. </li>
+  <li>Make sure that request and response of the interface and endpoint matches </li>
+  <li>It is possible to have the method return MuleMessage. It lets Java component have access to whole message, not only payload.</li>
+</ul>
+
+<p>Flows with the “business logic” for POST and GET methods processing are described below:</p>
+
+<div class="highlighter-coderay"><div class="CodeRay">
+  <div class="code"><pre><span class="line-numbers"> <a href="#n1" name="n1">1</a></span><span class="tag">&lt;flow</span> <span class="attribute-name">name</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">ProcessGetFlow</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">doc:name</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">ProcessGetFlow</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>  
+<span class="line-numbers"> <a href="#n2" name="n2">2</a></span>  <span class="tag">&lt;vm:inbound-endpoint</span> <span class="attribute-name">exchange-pattern</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">request-response</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">path</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">vmProcessGET</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">doc:name</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">VM</span><span class="delimiter">&quot;</span></span> <span class="tag">/&gt;</span>  
+<span class="line-numbers"> <a href="#n3" name="n3">3</a></span>  <span class="tag">&lt;transformer</span> <span class="attribute-name">ref</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">populateVariables</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">doc:name</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">Populate variables</span><span class="delimiter">&quot;</span></span><span class="tag">/&gt;</span>  
+<span class="line-numbers"> <a href="#n4" name="n4">4</a></span>  <span class="tag">&lt;set-payload</span> <span class="attribute-name">value</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">Processing GET with account id: #[accountID] and user id: #[userID]</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">doc:name</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">Set Payload</span><span class="delimiter">&quot;</span></span> <span class="tag">/&gt;</span>  
+<span class="line-numbers"> <a href="#n5" name="n5">5</a></span><span class="tag">&lt;/flow&gt;</span>  
+<span class="line-numbers"> <a href="#n6" name="n6">6</a></span><span class="tag">&lt;flow</span> <span class="attribute-name">name</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">ProcessPostFlow</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">doc:name</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">ProcessPostFlow</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>  
+<span class="line-numbers"> <a href="#n7" name="n7">7</a></span>  <span class="tag">&lt;vm:inbound-endpoint</span> <span class="attribute-name">exchange-pattern</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">request-response</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">path</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">vmProcessPOST</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">doc:name</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">VM</span><span class="delimiter">&quot;</span></span> <span class="tag">/&gt;</span>  
+<span class="line-numbers"> <a href="#n8" name="n8">8</a></span>  <span class="tag">&lt;transformer</span> <span class="attribute-name">ref</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">populateVariables</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">doc:name</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">Populate variables</span><span class="delimiter">&quot;</span></span><span class="tag">/&gt;</span>  
+<span class="line-numbers"> <a href="#n9" name="n9">9</a></span>  <span class="tag">&lt;set-payload</span> <span class="attribute-name">value</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">Processing POST with account id: #[accountID] and user id: #[userID] and body: #[payload]</span><span class="delimiter">&quot;</span></span>  
+<span class="line-numbers"><strong><a href="#n10" name="n10">10</a></strong></span><span class="attribute-name">doc:name</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">Set Payload</span><span class="delimiter">&quot;</span></span> <span class="tag">/&gt;</span>  
+<span class="line-numbers"><a href="#n11" name="n11">11</a></span><span class="tag">&lt;/flow&gt;</span>  
+</pre></div>
+</div>
+</div>
+
+<p>Input parameters of the FlowProcessing interface methods comes in the Mule flows as an Object array. We can map them into Mule parameters by writting and setting global transformer:</p>
+
+<div class="highlighter-coderay"><div class="CodeRay">
+  <div class="code"><pre><span class="line-numbers"><a href="#n1" name="n1">1</a></span><span class="tag">&lt;custom-transformer</span> <span class="attribute-name">class</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">pl.poznachowski.jerseyrest.PopulateVariables</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">name</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">populateVariables</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">doc:name</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">Java</span><span class="delimiter">&quot;</span></span> <span class="tag">/&gt;</span>
+</pre></div>
+</div>
+</div>
+<p>and reusing it in the flows:</p>
+
+<div class="highlighter-coderay"><div class="CodeRay">
+  <div class="code"><pre><span class="line-numbers"><a href="#n1" name="n1">1</a></span><span class="tag">&lt;transformer</span> <span class="attribute-name">ref</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">populateVariables</span><span class="delimiter">&quot;</span></span> <span class="tag">/&gt;</span>
+</pre></div>
+</div>
+</div>
+
+<p>PopulateVariables Java transformer:</p>
+
+<div class="highlighter-coderay"><div class="CodeRay">
+  <div class="code"><pre><span class="line-numbers"> <a href="#n1" name="n1">1</a></span><span class="directive">public</span> <span class="type">class</span> <span class="class">PopulateVariables</span> <span class="directive">extends</span> AbstractMessageTransformer {  
+<span class="line-numbers"> <a href="#n2" name="n2">2</a></span>
+<span class="line-numbers"> <a href="#n3" name="n3">3</a></span> <span class="annotation">@Override</span>  
+<span class="line-numbers"> <a href="#n4" name="n4">4</a></span> <span class="directive">public</span> MuleMessage transformMessage(MuleMessage message, <span class="predefined-type">String</span> outputEncoding) <span class="directive">throws</span> <span class="exception">TransformerException</span> {  
+<span class="line-numbers"> <a href="#n5" name="n5">5</a></span>
+<span class="line-numbers"> <a href="#n6" name="n6">6</a></span>  <span class="predefined-type">Object</span><span class="type">[]</span> args = message.getPayload(<span class="predefined-type">Object</span><span class="type">[]</span>.class);  
+<span class="line-numbers"> <a href="#n7" name="n7">7</a></span>  message.setInvocationProperty(<span class="string"><span class="delimiter">&quot;</span><span class="content">accountID</span><span class="delimiter">&quot;</span></span>, args[<span class="integer">0</span>]);  
+<span class="line-numbers"> <a href="#n8" name="n8">8</a></span>  message.setInvocationProperty(<span class="string"><span class="delimiter">&quot;</span><span class="content">userID</span><span class="delimiter">&quot;</span></span>, args[<span class="integer">1</span>]);  
+<span class="line-numbers"> <a href="#n9" name="n9">9</a></span>
+<span class="line-numbers"><strong><a href="#n10" name="n10">10</a></strong></span>  <span class="comment">// For POST method  </span>
+<span class="line-numbers"><a href="#n11" name="n11">11</a></span>  <span class="keyword">if</span> (args.length &gt; <span class="integer">2</span>) {  
+<span class="line-numbers"><a href="#n12" name="n12">12</a></span>   message.setPayload(args[<span class="integer">2</span>]);  
+<span class="line-numbers"><a href="#n13" name="n13">13</a></span>  }  
+<span class="line-numbers"><a href="#n14" name="n14">14</a></span>
+<span class="line-numbers"><a href="#n15" name="n15">15</a></span>  <span class="keyword">return</span> message;  
+<span class="line-numbers"><a href="#n16" name="n16">16</a></span> }  
+<span class="line-numbers"><a href="#n17" name="n17">17</a></span>}  
+</pre></div>
+</div>
+</div>
+
+<p>We have everything in place to make it work. One thing I don’t like is that Jersey for requests with URL not met is returning 404 HTTP status (Not Found). I find 400 status (Bad Request) more appropriate in such case and I’d like to keep 404 reserved for situations where URL was met, but resource was not found. Satysfying that requirement is fairly simple. We need to add a custom exception mapper in Jersey definition:</p>
+
+<div class="highlighter-coderay"><div class="CodeRay">
+  <div class="code"><pre><span class="line-numbers"><a href="#n1" name="n1">1</a></span><span class="tag">&lt;jersey:exception-mapper</span> <span class="attribute-name">class</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">pl.poznachowski.jerseyrest.BadURIExceptionMapper</span><span class="delimiter">&quot;</span></span> <span class="tag">/&gt;</span>
+</pre></div>
+</div>
+</div>
+
+<p>with implementation:</p>
+
+<div class="highlighter-coderay"><div class="CodeRay">
+  <div class="code"><pre><span class="line-numbers"><a href="#n1" name="n1">1</a></span><span class="directive">public</span> <span class="type">class</span> <span class="class">BadURIExceptionMapper</span> <span class="directive">implements</span> ExceptionMapper&lt;NotFoundException&gt; {  
+<span class="line-numbers"><a href="#n2" name="n2">2</a></span>
+<span class="line-numbers"><a href="#n3" name="n3">3</a></span>  <span class="directive">public</span> Response toResponse(NotFoundException exception){  
+<span class="line-numbers"><a href="#n4" name="n4">4</a></span>      <span class="keyword">return</span> Response.status(Response.Status.BAD_REQUEST).entity(<span class="string"><span class="delimiter">&quot;</span><span class="content">Unknown resource: </span><span class="delimiter">&quot;</span></span> + exception.getNotFoundUri().toString()).build();  
+<span class="line-numbers"><a href="#n5" name="n5">5</a></span>  }  
+<span class="line-numbers"><a href="#n6" name="n6">6</a></span>}  
+</pre></div>
+</div>
+</div>
+
+<p><strong>Note:</strong> It is possible to catch exceptions thrown in the binded outbound endpoints. To make that possible we just need to declare exception in binding interface method.</p>
+
+<p>To test described solution I used the same set of tests as in previous post. However I was having problems testing successful scenarios using MUnit:</p>
+
+<div>
+
+<div align="left" style="font-family: Tahoma; orphans: 2; widows: 2;"><span style="font-family: Consolas; font-size: xx-small;">ERROR 2013-10-17 22:30:02,434 [main] org.mule.exception.DefaultMessagingExceptionStrategy:</span></div>
+
+<div align="left" style="font-family: Tahoma; orphans: 2; widows: 2;"><span style="font-family: Consolas; font-size: xx-small;">********************************************************************************</span></div>
+
+<div align="left" style="font-family: Tahoma; orphans: 2; widows: 2;"><span style="font-family: Consolas; font-size: xx-small;">Message               : Failed to invoke JerseyResourcesComponent$EnhancerByCGLIB$8a425d6{JerseyRestFlow.component.206873183}. Component that caused exception is: JerseyResourcesComponent$EnhancerByCGLIB$8a425d6{JerseyRestFlow.component.206873183}. Message payload is of type: String</span></div>
+
+<div align="left" style="font-family: Tahoma; orphans: 2; widows: 2;"><span style="font-family: Consolas; font-size: xx-small;">Code                  : MULE_ERROR--2</span></div>
+
+<div align="left" style="font-family: Tahoma; orphans: 2; widows: 2;"><span style="font-family: Consolas; font-size: xx-small;">--------------------------------------------------------------------------------</span></div>
+
+<div align="left" style="font-family: Tahoma; orphans: 2; widows: 2;"><span style="font-family: Consolas; font-size: xx-small;">Exception stack is:</span></div>
+
+<div align="left" style="font-family: Tahoma; orphans: 2; widows: 2;"><span style="font-family: Consolas; font-size: xx-small;">1\. The required object/property "muleContext" is null (java.lang.IllegalArgumentException)</span></div>
+
+<div align="left" style="font-family: Tahoma; orphans: 2; widows: 2;"><span style="font-family: Consolas; font-size: xx-small;">  org.mule.DefaultMuleMessage:292 (null)</span></div>
+
+<div align="left" style="font-family: Tahoma; orphans: 2; widows: 2;"><span style="font-family: Consolas; font-size: xx-small;">2\. Failed to invoke JerseyResourcesComponent$EnhancerByCGLIB$8a425d6{JerseyRestFlow.component.206873183}. Component that caused exception is: JerseyResourcesComponent$EnhancerByCGLIB$8a425d6{JerseyRestFlow.component.206873183}. Message payload is of type: String (org.mule.component.ComponentException)</span></div>
+
+<div align="left" style="font-family: Tahoma; orphans: 2; widows: 2;"><span style="font-family: Consolas; font-size: xx-small;">  org.mule.component.AbstractComponent:148 (http://www.mulesoft.org/docs/site/current3/apidocs/org/mule/component/ComponentException.html)</span></div>
+
+</div>
+
+<p>It seems that muleContext is not propagated correctly with MUnit and reflective proxy classes. Switching <a href="https://github.com/poznachowski/JerseyREST/blob/master/src/test/java/pl/poznachowski/jerseyrest/JerseyRESTTest.java">test class</a> to use ‘official’ FunctionalTestCase instead of MUnit worked like a charm.</p>
+
+<p>Full example at GitHub: <a href="https://github.com/poznachowski/JerseyREST/">JerseyREST</a></p>
+
+<p>That were all the solutions for exposing REST Services I can think of.<br />
+In my work project, I’m using the REST Module and it’s doing its job well. Thus, if you want build REST API and use all of the nifty Mule features  I would suggest going with the Router Module.<br />
+If you prefer to be more Java-centric, make use of Mule for handling integration matter only or to use Mule flows to a smaller extent then Jersey approach will fit in.</p>
+
+<p>For more information about Component Bindings I encourage you to read Mule’s well-written <a href="http://blogs.mulesoft.org/mule-component-bindings/">blog post</a> explaining the feature.</p>
+]]></content>
+  </entry>
+  
+</feed>

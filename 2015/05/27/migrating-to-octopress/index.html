@@ -1,0 +1,358 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Migrating to Octopress - It's SOAP's Fault...</title>
+  <meta name="author" content="Grzegorz Poznachowski">
+
+   
+  <meta name="description" content="Blog about Java related technologies, software development and code quality">
+  
+  <meta name="keywords" content="">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://blog.poznachowski.pl/2015/05/27/migrating-to-octopress">
+  <link href="/favicon.png" rel="icon">
+  <link href='http://fonts.googleapis.com/css?family=Quicksand:300,400' rel='stylesheet' type='text/css'>
+  <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300' rel='stylesheet' type='text/css'>
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="It's SOAP's Fault..." type="application/atom+xml">
+  <script src="/js/jquery.js"></script>
+  <script src="/js/bootstrap-collapse.js"></script>
+  <script src="/js/modernizr-2.0.js"></script>
+  <script src="/js/octopress.js" type="text/javascript"></script>
+  <script src="/js/application.js"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-63324529-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <div class="navbar navbar-inverse navbar-static-top">
+  	<div class="navbar-inner">
+  	  <div class="container">
+        <a class="btn btn-navbar" data-toggle="collapse" data-target=".navbar-responsive-collapse">
+          <span class="fui-menu-24"></span>
+        </a>
+  	  	<div class="nav-collapse collapse navbar-responsive-collapse" style="height:0;">
+  	      <ul class="nav">
+    
+        <li ><a href="/index.html">Blog</a></li>
+    
+        <li ><a href="/about.html">About</a></li>
+    
+</ul>
+
+<ul class="nav pull-right">
+    
+    <li><a href="/atom.xml" title="Rss feed"><i class="icon-rss social-navbar"></i></a></li>
+    
+    
+    <li><a href="http://github.com/poznachowski" title="Github Profile"><i class="icon-github-sign social-navbar"></i></a></li>
+    
+    
+    
+    <li><a href="http://linkedin.com/in/gpoznachowski" title="Linkedin Profile"><i class="icon-linkedin-sign social-navbar"></i></a></li>
+    
+    
+    <li><a href="http://twitter.com/dziesiek" title="Twitter Profile"><i class="icon-twitter-sign social-navbar"></i></a></li>
+    
+    
+    
+    
+    
+</ul>
+
+  	    </div>
+  	  </div>
+  	</div>
+  </div>
+  <div class="container" id="main">
+      <div class="row-fluid">
+        <div id="content">
+          <div>
+<article class="hentry" role="article">
+  
+
+  <header>
+  <div class="jumbotron">
+    Migrating to Octopress
+	<h5 style="padding-top: 5px;">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-05-27T04:00:00+02:00" pubdate data-updated="true">May 27, 2015</time> </h5>
+  </div>
+</header>
+  <div class="row-fluid">
+    <div class="span12">
+      <p>I decided to move from Blogger to something, which is more close to a developer’s nature - <a href="http://http://octopress.org/">Octopress</a>.
+Now I can write my blog in my favourite IDE using language I’m used to (Markdown). However, my biggest motivation was to change the
+old layout to something up-to-date. Due to the migration I also expect one more thing to happen - me writing more often. :)</p>
+
+<p>To make this post somehow valuable, I will outline few steps I followed and share links I found useful. In general,<br />
+I consider the migration rather smooth, especially as I did not have any knowledge on Octopress, <a href="http://jekyllrb.com/">Jekyll</a>
+ and <a href="https://www.ruby-lang.org">Ruby</a> before. It took me a single weekend to set up everything (Most of the time - tweaking the theme).</p>
+
+<p><em><strong>Note</strong>: While I was writing this, I realized that I used somewhat old Octopress version (or at least an old way of using it). 
+Latest version instructions are only available on <a href="https://github.com/octopress/octopress">Octopus GitHub</a> (as for today). Nevertheless, 
+ it works as is, so I’m not bothered with it right now.</em></p>
+
+<p>Firstly, I want to point out that <a href="http://octopress.org/docs/">documentation</a> of Octopress is well written and everything is clearly explained. 
+Another place to go is <a href="http://staxmanade.com/2014/04/migrating-blogspot-to-octopress-part-1-introduction/">Jason’s series of posts</a> strictly on migrating from Blogger to Octopress.
+I will add some notes, when something was not clear for me or if it was out of scope of the Octopress.</p>
+
+<p>For reference: I use <em>Ubuntu Gnome 15.04</em>.</p>
+
+<ul>
+  <li>Installing Ruby</li>
+</ul>
+
+<p>I installed the exact version they recommend <em>(1.9.3-rc0)</em> using <a href="http://octopress.org/docs/setup/rbenv/">rbenv</a>. When cloning rbenv remember
+    to stay in your home folder :)</p>
+
+<ul>
+  <li>
+    <p>Installing ExecJS</p>
+
+    <p>I went with <em>therubyracer</em>, but I have encountered a problem of ExecJS not finding JavaScript environment. Surprisingly (at least for me)
+  <a href="http://stackoverflow.com/questions/16846088/rails-server-does-not-start-could-not-find-a-javascript-runtime">installing Node.js</a> helps.</p>
+  </li>
+  <li>
+    <p>Installing Octopress and deploying to GitHub</p>
+
+    <p>That was really straightforward, everything went just fine.</p>
+  </li>
+  <li>
+    <p>Blogger posts migration</p>
+
+    <p><a href="http://p7h.org/blog/2015/01/18/migration-blogger-to-octopress/">Posts migration</a> is an easy task, as long as you find a good version of import script.
+  I went through some and eventually found the one which worked. They are really similar and I don’t remember who was the author of that specific version (sorry!), 
+  Hence, I placed it as another Gist - available <a href="https://gist.github.com/poznachowski/7e34a454520a32f51698">here</a>.</p>
+  </li>
+  <li>
+    <p>Comments migration</p>
+
+    <p>I decided to go with Disqus. Octopress has a built-in support, so it was an obvious choice. And here is the biggest disappointment. Disqus has lost
+  support for importing comments from blogger (<a href="https://disqus.com/home/channel/discussdisqus/discussion/channel-discussdisqus/problems_syncing_comments_to_blogger/">Source</a>).
+  I did not have that much to migrate and I decided to leave my old comments behind.</p>
+  </li>
+  <li>
+    <p>Custom domain</p>
+
+    <p>Everything is well described in the Octopress docs. I want to share my experience here: for the first time I managed to switch the domain
+  within seconds!</p>
+  </li>
+  <li>
+    <p>Fixing links and handling redirects</p>
+
+    <p>As I have only few blog posts so far, I handled broken links in posts manually. You can use tools for search and replace like sed or something similar.
+  Redirects were a little bit more tricky. <a href="http://staxmanade.com/2014/04/migrating-blogspot-to-octopress-part-6-301-redirect-old-posts-to-new-location/">Solution</a>
+   suggested by Jason, does not seem to work anymore. Blogger template is now strictly XML validated and <a href="https://support.google.com/blogger/answer/42095?hl=en">these</a>
+   tags don’t work currently. The other option I found is <a href="http://salman-w.blogspot.com/2013/04/301-redirect-old-blogger-blog-to-new-address.html">here</a>.
+  The solution is really naive. I modified it a little bit - the pages are now recognized not by URL, but by title, as one can provide URL in
+  different blogspot domains:</p>
+  </li>
+</ul>
+
+<div class="highlighter-coderay"><div class="CodeRay">
+  <div class="code"><pre><span class="line-numbers"> <a href="#n1" name="n1">1</a></span><span class="tag">&lt;b:if</span> <span class="attribute-name">cond</span>=<span class="string"><span class="delimiter">'</span><span class="content">data:blog.pageTitle == </span><span class="entity">&amp;quot;</span><span class="content">It</span><span class="entity">&amp;apos;</span><span class="content">s SOAP</span><span class="entity">&amp;apos;</span><span class="content">s Fault...: Handling Groovy scripts in Mule ESB</span><span class="entity">&amp;quot;</span><span class="delimiter">'</span></span><span class="tag">&gt;</span>
+<span class="line-numbers"> <a href="#n2" name="n2">2</a></span><span class="tag">&lt;meta</span> <span class="attribute-name">content</span>=<span class="string"><span class="delimiter">'</span><span class="content">0;url=http://blog.poznachowski.pl/2013/11/03/handling-groovy-scripts-in-mule-esb/</span><span class="delimiter">'</span></span> <span class="attribute-name">http-equiv</span>=<span class="string"><span class="delimiter">'</span><span class="content">refresh</span><span class="delimiter">'</span></span><span class="tag">/&gt;</span>
+<span class="line-numbers"> <a href="#n3" name="n3">3</a></span>
+<span class="line-numbers"> <a href="#n4" name="n4">4</a></span><span class="tag">&lt;b:elseif</span> <span class="attribute-name">cond</span>=<span class="string"><span class="delimiter">'</span><span class="content">data:blog.pageTitle == </span><span class="entity">&amp;quot;</span><span class="content">It</span><span class="entity">&amp;apos;</span><span class="content">s SOAP</span><span class="entity">&amp;apos;</span><span class="content">s Fault...: MUnit testing, Mule best practices and more...</span><span class="entity">&amp;quot;</span><span class="delimiter">'</span></span><span class="tag">/&gt;</span>
+<span class="line-numbers"> <a href="#n5" name="n5">5</a></span><span class="tag">&lt;meta</span> <span class="attribute-name">content</span>=<span class="string"><span class="delimiter">'</span><span class="content">0;url=http://blog.poznachowski.pl/2014/04/03/munit-testing-mule-practices-and-some/</span><span class="delimiter">'</span></span> <span class="attribute-name">http-equiv</span>=<span class="string"><span class="delimiter">'</span><span class="content">refresh</span><span class="delimiter">'</span></span><span class="tag">/&gt;</span>
+<span class="line-numbers"> <a href="#n6" name="n6">6</a></span>
+<span class="line-numbers"> <a href="#n7" name="n7">7</a></span><span class="tag">&lt;b:elseif</span> <span class="attribute-name">cond</span>=<span class="string"><span class="delimiter">'</span><span class="content">data:blog.pageTitle == </span><span class="entity">&amp;quot;</span><span class="content">It</span><span class="entity">&amp;apos;</span><span class="content">s SOAP</span><span class="entity">&amp;apos;</span><span class="content">s Fault...: Exposing RESTful interface with Mule pt.2</span><span class="entity">&amp;quot;</span><span class="delimiter">'</span></span><span class="tag">/&gt;</span>
+<span class="line-numbers"> <a href="#n8" name="n8">8</a></span><span class="tag">&lt;meta</span> <span class="attribute-name">content</span>=<span class="string"><span class="delimiter">'</span><span class="content">0;url=http://blog.poznachowski.pl/2013/10/20/exposing-restful-interface-with-mule-pt2/</span><span class="delimiter">'</span></span> <span class="attribute-name">http-equiv</span>=<span class="string"><span class="delimiter">'</span><span class="content">refresh</span><span class="delimiter">'</span></span><span class="tag">/&gt;</span>
+<span class="line-numbers"> <a href="#n9" name="n9">9</a></span>
+<span class="line-numbers"><strong><a href="#n10" name="n10">10</a></strong></span><span class="tag">&lt;b:elseif</span> <span class="attribute-name">cond</span>=<span class="string"><span class="delimiter">'</span><span class="content">data:blog.pageTitle == </span><span class="entity">&amp;quot;</span><span class="content">It</span><span class="entity">&amp;apos;</span><span class="content">s SOAP</span><span class="entity">&amp;apos;</span><span class="content">s Fault...: Exposing RESTful interface with Mule pt.1</span><span class="entity">&amp;quot;</span><span class="delimiter">'</span></span><span class="tag">/&gt;</span>
+<span class="line-numbers"><a href="#n11" name="n11">11</a></span><span class="tag">&lt;meta</span> <span class="attribute-name">content</span>=<span class="string"><span class="delimiter">'</span><span class="content">0;url=http://blog.poznachowski.pl/2013/10/11/exposing-restful-interface-with-mule-pt1/</span><span class="delimiter">'</span></span> <span class="attribute-name">http-equiv</span>=<span class="string"><span class="delimiter">'</span><span class="content">refresh</span><span class="delimiter">'</span></span><span class="tag">/&gt;</span>
+<span class="line-numbers"><a href="#n12" name="n12">12</a></span>
+<span class="line-numbers"><a href="#n13" name="n13">13</a></span><span class="tag">&lt;b:elseif</span> <span class="attribute-name">cond</span>=<span class="string"><span class="delimiter">'</span><span class="content">data:blog.pageTitle == </span><span class="entity">&amp;quot;</span><span class="content">It</span><span class="entity">&amp;apos;</span><span class="content">s SOAP</span><span class="entity">&amp;apos;</span><span class="content">s Fault...: How to make Jenkins speak Git Flow?</span><span class="entity">&amp;quot;</span><span class="delimiter">'</span></span><span class="tag">/&gt;</span>
+<span class="line-numbers"><a href="#n14" name="n14">14</a></span><span class="tag">&lt;meta</span> <span class="attribute-name">content</span>=<span class="string"><span class="delimiter">'</span><span class="content">0;url=http://blog.poznachowski.pl/2015/02/14/how-to-make-jenkins-speak-git-flow/</span><span class="delimiter">'</span></span> <span class="attribute-name">http-equiv</span>=<span class="string"><span class="delimiter">'</span><span class="content">refresh</span><span class="delimiter">'</span></span><span class="tag">/&gt;</span>
+<span class="line-numbers"><a href="#n15" name="n15">15</a></span>
+<span class="line-numbers"><a href="#n16" name="n16">16</a></span><span class="tag">&lt;b:else</span><span class="tag">/&gt;</span>
+<span class="line-numbers"><a href="#n17" name="n17">17</a></span><span class="tag">&lt;meta</span> <span class="attribute-name">content</span>=<span class="string"><span class="delimiter">'</span><span class="content">0;url=http://blog.poznachowski.pl</span><span class="delimiter">'</span></span> <span class="attribute-name">http-equiv</span>=<span class="string"><span class="delimiter">'</span><span class="content">refresh</span><span class="delimiter">'</span></span><span class="tag">/&gt;</span>
+<span class="line-numbers"><a href="#n18" name="n18">18</a></span><span class="tag">&lt;/b:if&gt;</span>
+</pre></div>
+</div>
+</div>
+
+<ul>
+  <li>
+    <p>Making the blog look nice</p>
+
+    <p>This is the part that took me 80% of the time. My first step around Octopress was <a href="https://github.com/imathis/octopress/wiki/3rd-Party-Octopress-Themes">searching</a> 
+  for a good looking theme. I ended up using <a href="https://github.com/alexgaribay/octoflat">Octoflat</a>. It looked really nice, but I wanted to tweak
+  it a little bit. Important places to investigate are: <em>source/_layouts</em>, <em>source/_includes</em>, <em>sass/_flat-ui.scss</em>. It is important to get familiar with <a href="http://liquidmarkup.org/">Liquid</a>,
+  which is a templating language used in Jekyll. Fortunately, it’s pretty easy to grasp.</p>
+  </li>
+  <li>
+    <p>Code syntax highlight</p>
+
+    <p>Default version of code highlighter of Octopress has two color schemes, which I didn’t find attractive. Then I found <a href="http://coderay.rubychan.de/">Coderay</a> 
+  and an <a href="http://blog.alestanis.com/2013/02/04/octopress-and-the-twilight-color-scheme/">article</a>, how to integrate it into the blog.
+  The problem I had is that line number greater than 9 were not shown properly. I found a <a href="https://github.com/rubychan/coderay/issues/102">solution</a> for that.
+  This indicated me another thing. Root cause of submitted issue - line numbers of wrapped lines are out of sync. Unfortunately, it still applies
+  in my case. I need to work on that.</p>
+  </li>
+</ul>
+
+<p>That would sum up all things I was coping with last weekend. My next goal is to introduce <a href="http://asciidoctor.org/">Asciidoctor</a> to the blog and
+make sure everything works as expected :) If you have any suggestions or comments, please reach out.</p>
+
+    </div>
+  </div>
+
+
+
+  <footer>
+    <hr>
+    
+    <div class="row-fluid">
+      
+      <div class="span6">
+        <p class="meta">
+        
+
+
+
+  <a href="/categories/blogger/"><span class="badge">blogger</span></a>
+
+  <a href="/categories/octopress/"><span class="badge">octopress</span></a>
+
+  <a href="/categories/disqus/"><span class="badge">disqus</span></a>
+
+
+
+
+        </p>
+      </div>
+      
+      <div class="span6 social-sharing">
+        <div class="sharing">
+  <div class="addthis_toolbox addthis_default_style ">
+  
+  
+  <a class="addthis_button_tweet"></a>
+  
+  
+  <a class="addthis_counter addthis_pill_style"></a>
+  </div>
+  <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid="></script>
+</div>
+
+      </div>
+      
+      
+    </div>
+    
+    <div class="row-fluid">
+      <div class="span12">
+        <p class="meta">
+          
+            <a class="basic-alignment left" href="/2015/02/14/how-to-make-jenkins-speak-git-flow/" title="Previous Post: How to make Jenkins speak Git Flow?">&laquo; How to make Jenkins speak Git Flow?</a>
+          
+          
+            <a class="basic-alignment right" href="/2015/08/04/befriend-your-changelog/" title="Next Post: Befriend your changelog">Befriend your changelog &raquo;</a>
+          
+        </p>
+      </div>
+    </div>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+
+
+        </div>
+      </div>
+      <div class="row-fluid">
+        <footer class="footer-page" role="contentinfo">
+          <p style="text-align: center">
+  Copyright &copy; 2015 - Grzegorz Poznachowski -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span> - Theme by <a href="http://alexgaribay.com">Alex Garibay</a>
+</p>
+
+
+        </footer>
+      </div>
+  </div>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'itssoapsfault';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://blog.poznachowski.pl/2015/05/27/migrating-to-octopress/';
+        var disqus_url = 'http://blog.poznachowski.pl/2015/05/27/migrating-to-octopress/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>
