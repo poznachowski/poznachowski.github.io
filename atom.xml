@@ -4,7 +4,7 @@
   <title><![CDATA[It's SOAP's Fault...]]></title>
   <link href="http://blog.poznachowski.pl/atom.xml" rel="self"/>
   <link href="http://blog.poznachowski.pl/"/>
-  <updated>2016-04-01T15:51:22+02:00</updated>
+  <updated>2016-04-01T16:49:23+02:00</updated>
   <id>http://blog.poznachowski.pl/</id>
   <author>
     <name><![CDATA[Grzegorz Poznachowski]]></name>
@@ -14,10 +14,10 @@
 
   
   <entry>
-    <title type="html"><![CDATA[Getting dirty with Spring Boot Starters]]></title>
-    <link href="http://blog.poznachowski.pl/2016/02/26/getting-dirty-with-spring-boot-starters/"/>
-    <updated>2016-02-26T00:00:00+01:00</updated>
-    <id>http://blog.poznachowski.pl/2016/02/26/getting-dirty-with-spring-boot-starters</id>
+    <title type="html"><![CDATA[Get along with your Spring Boot Starter]]></title>
+    <link href="http://blog.poznachowski.pl/2016/04/01/get-along-with-your-spring-boot-starter/"/>
+    <updated>2016-04-01T00:00:00+02:00</updated>
+    <id>http://blog.poznachowski.pl/2016/04/01/get-along-with-your-spring-boot-starter</id>
     <content type="html"><![CDATA[<div class="paragraph lead">
 <p>At <a href="http://neoteric.eu">Neoteric</a> we have finally decided
 to move forward with our technology stack. From custom-tailored mix-up of Jetty, Jersey, Guava and
