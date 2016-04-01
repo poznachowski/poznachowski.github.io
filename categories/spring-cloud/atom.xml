@@ -1,0 +1,363 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: spring-cloud | It's SOAP's Fault...]]></title>
+  <link href="http://blog.poznachowski.pl/categories/spring-cloud/atom.xml" rel="self"/>
+  <link href="http://blog.poznachowski.pl/"/>
+  <updated>2016-04-01T15:51:22+02:00</updated>
+  <id>http://blog.poznachowski.pl/</id>
+  <author>
+    <name><![CDATA[Grzegorz Poznachowski]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Getting dirty with Spring Boot Starters]]></title>
+    <link href="http://blog.poznachowski.pl/2016/02/26/getting-dirty-with-spring-boot-starters/"/>
+    <updated>2016-02-26T00:00:00+01:00</updated>
+    <id>http://blog.poznachowski.pl/2016/02/26/getting-dirty-with-spring-boot-starters</id>
+    <content type="html"><![CDATA[<p>[.lead]
+At http://neoteric.eu[Neoteric] we have finally decided
+to move forward with our technology stack. From custom-tailored mix-up of Jetty, Jersey, Guava and
+Jackson (it all started before http://dropwizard.github.io[Dropwizard] came along), going through different versions of
+these (during our journey we migrated from Jersey 1.x to 2.x, Jackson 1.x to 2.x, Guava 3.0 to 4.0 etc.), we’ve reached
+to the http://spring.io[Spring] island and we are currently learning language of the autochthons.</p>
+
+<p>We have picked Spring ecosystem as its most widely known Java solution, with great community support. But, most importantly,
+because we fell in love with http://projects.spring.io/spring-boot/[Spring Boot] and
+http://projects.spring.io/spring-cloud/[Spring Cloud] capabilities.</p>
+
+<p>=== Spring Boot magic</p>
+
+<p>There is so much hype on Spring Boot lately and so many Spring Boot articles, presentations etc., that I want to focus
+only on essential parts, that are required to understand how to write your own starter.</p>
+
+<p>The whole ‘magic’, as often expressed when explaining Spring Boot, mostly boils down to scanning application classpath for particular classes
+available and providing preconfigured <code>Beans</code> for them. Treat it as a convention over configuration concept applied to the application level.
+I think that, best way to understand it is to learn by example. Hence, let’s summon and examine Spring Boot’s <code>MongoAutoConfiguration</code> class.</p>
+
+<p>[source,java]
+.https://github.com/spring-projects/spring-boot/blob/master/spring-boot-autoconfigure/src/main/java/org/springframework/boot/autoconfigure/mongo/MongoAutoConfiguration.java[MongoAutoConfiguration.java]
+—-
+@Configuration &lt;1&gt;
+@ConditionalOnClass(MongoClient.class) &lt;2&gt;
+@EnableConfigurationProperties(MongoProperties.class) &lt;3&gt;
+@ConditionalOnMissingBean(type = “org.springframework.data.mongodb.MongoDbFactory”) &lt;4&gt;
+public class MongoAutoConfiguration {</p>
+
+<pre><code>@Autowired &lt;5&gt;
+private MongoProperties properties;
+
+@Autowired(required = false)
+private MongoClientOptions options;
+
+@Autowired
+private Environment environment;
+
+private MongoClient mongo;
+
+@PreDestroy
+public void close() {
+	if (this.mongo != null) {
+		this.mongo.close();
+	}
+}
+
+@Bean
+@ConditionalOnMissingBean &lt;6&gt;
+public MongoClient mongo() throws UnknownHostException {
+	this.mongo = this.properties.createMongoClient(this.options, this.environment);
+	return this.mongo;
+}
+</code></pre>
+
+<h2 id="section">}</h2>
+<p>&lt;1&gt; Standard Spring <code>@Configuration</code> annotation. What it makes an auto-configuration class is an entry in
+ <code>&lt;&lt;META-INF/spring.factories&gt;&gt;</code> file.
+&lt;2&gt; One of the Conditional type annotations. This one means that the <code>MongoAutoConfiguration</code> class will be processed only
+if <code>MongoClient</code> class is available on classpath in runtime.
+&lt;3&gt; Registers a properties class, so it can be used in the auto-configuration. More on this here.
+&lt;4&gt; Another condition, which has to be met, to start processing the class.
+&lt;5&gt; Auto-configuration class is a standard Spring configuration class, hence ability to inject beans is quite obvious.
+&lt;6&gt; If you put <code>@ConditionalOnMissingBean</code> directly on a bean declaration, bean type will be inferred.</p>
+
+<p>[[spring.factories]]
+[source]
+.META-INF/spring.factories
+—-
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration
+—-</p>
+
+<p>To sum up: <code>MongoAutoConfiguration</code> will be performed when <code>MongoClient</code> class is available at runtime
+(happens when <code>mongo-java-driver</code> dependency is added) and if no <code>Bean</code> of type <code>MongoDbFactory</code> is found.
+The latter implies, that you can define <code>Bean</code> of such type in your application and handle MongoDB scaffolding yourself.
+In that case <code>MongoAutoConfiguration</code> will be ignored by Spring Boot.</p>
+
+<p>There are some more annotation elements that may be helpful designing your starter:</p>
+
+<p>.Conditional annotations
+[cols=”1,2”, options=”header”]
+|===
+|Annotation
+|Description</p>
+
+<table>
+  <tbody>
+    <tr>
+      <td>https://github.com/spring-projects/spring-boot/blob/master/spring-boot-autoconfigure/src/main/java/org/springframework/boot/autoconfigure/condition/ConditionalOnClass.java[<code>@ConditionalOnClass</code>] / https://github.com/spring-projects/spring-boot/blob/master/spring-boot-autoconfigure/src/main/java/org/springframework/boot/autoconfigure/condition/ConditionalOnMissingClass.java[<code>@ConditionalOnMissingClass</code>]</td>
+    </tr>
+    <tr>
+      <td>Matches when specified classes are (or not) on classpath.</td>
+    </tr>
+  </tbody>
+</table>
+
+<table>
+  <tbody>
+    <tr>
+      <td>https://github.com/spring-projects/spring-boot/blob/master/spring-boot-autoconfigure/src/main/java/org/springframework/boot/autoconfigure/condition/ConditionalOnBean.java[<code>@ConditionalOnBean</code>] / https://github.com/spring-projects/spring-boot/blob/master/spring-boot-autoconfigure/src/main/java/org/springframework/boot/autoconfigure/condition/ConditionalOnMissingBean.java[<code>@ConditionalOnMissingBean</code>]</td>
+    </tr>
+    <tr>
+      <td>Matches when specified bean is present (absent).</td>
+    </tr>
+  </tbody>
+</table>
+
+<table>
+  <tbody>
+    <tr>
+      <td>https://github.com/spring-projects/spring-boot/blob/master/spring-boot-autoconfigure/src/main/java/org/springframework/boot/autoconfigure/condition/ConditionalOnWebApplication.java[<code>@ConditionalOnWebApplication</code>] / https://github.com/spring-projects/spring-boot/blob/master/spring-boot-autoconfigure/src/main/java/org/springframework/boot/autoconfigure/condition/ConditionalOnNotWebApplication.java[<code>@ConditionalOnNotWebApplication</code>]</td>
+    </tr>
+    <tr>
+      <td>Matches when the application uses <code>WebApplicationContext</code> or not.</td>
+    </tr>
+  </tbody>
+</table>
+
+<table>
+  <tbody>
+    <tr>
+      <td>https://github.com/spring-projects/spring-boot/blob/master/spring-boot-autoconfigure/src/main/java/org/springframework/boot/autoconfigure/condition/ConditionalOnJava.java[<code>@ConditionalOnJava</code>]</td>
+    </tr>
+    <tr>
+      <td>Matches on Java version the application is running.</td>
+    </tr>
+  </tbody>
+</table>
+
+<table>
+  <tbody>
+    <tr>
+      <td>https://github.com/spring-projects/spring-boot/blob/master/spring-boot-autoconfigure/src/main/java/org/springframework/boot/autoconfigure/condition/ConditionalOnExpression.java[<code>@ConditionalOnExpression</code>]</td>
+    </tr>
+    <tr>
+      <td>Matches on specified SpEL expression.</td>
+    </tr>
+  </tbody>
+</table>
+
+<table>
+  <tbody>
+    <tr>
+      <td>https://github.com/spring-projects/spring-boot/blob/master/spring-boot-autoconfigure/src/main/java/org/springframework/boot/autoconfigure/condition/ConditionalOnJndi.java[<code>@ConditionalOnJndi</code>]</td>
+    </tr>
+    <tr>
+      <td>Matches if one of provided names can be looked up in JNDI.</td>
+    </tr>
+  </tbody>
+</table>
+
+<table>
+  <tbody>
+    <tr>
+      <td>https://github.com/spring-projects/spring-boot/blob/master/spring-boot-autoconfigure/src/main/java/org/springframework/boot/autoconfigure/condition/ConditionalOnProperty.java[<code>@ConditionalOnProperty</code>]</td>
+    </tr>
+    <tr>
+      <td>Matches if a property with specified value can be found in Spring Environment.</td>
+    </tr>
+  </tbody>
+</table>
+
+<table>
+  <tbody>
+    <tr>
+      <td>https://github.com/spring-projects/spring-boot/blob/master/spring-boot-autoconfigure/src/main/java/org/springframework/boot/autoconfigure/condition/ConditionalOnResource.java[<code>@ConditionalOnResource</code>]</td>
+    </tr>
+    <tr>
+      <td>Matches when specified resource can be found.</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>.Configuration order annotations
+[cols=”1,2”, options=”header”]
+|===
+|Annotation
+|Description</p>
+
+<table>
+  <tbody>
+    <tr>
+      <td>https://github.com/spring-projects/spring-boot/blob/master/spring-boot-autoconfigure/src/main/java/org/springframework/boot/autoconfigure/AutoConfigureBefore.java[<code>@AutoConfigureBefore</code>]</td>
+    </tr>
+    <tr>
+      <td>Marks annotated auto-configuration class to be resolved before other auto-configuration classes.</td>
+    </tr>
+  </tbody>
+</table>
+
+<table>
+  <tbody>
+    <tr>
+      <td>https://github.com/spring-projects/spring-boot/blob/master/spring-boot-autoconfigure/src/main/java/org/springframework/boot/autoconfigure/AutoConfigureAfter.java[<code>@AutoConfigureAfter</code>]</td>
+    </tr>
+    <tr>
+      <td>Marks annotated auto-configuration class to be resolved after other auto-configuration classes.</td>
+    </tr>
+  </tbody>
+</table>
+
+<table>
+  <tbody>
+    <tr>
+      <td>https://github.com/spring-projects/spring-boot/blob/master/spring-boot-autoconfigure/src/main/java/org/springframework/boot/autoconfigure/AutoConfigureOrder.java[<code>@AutoConfigureOrder</code>]</td>
+    </tr>
+    <tr>
+      <td>Allows auto-configuration classes to be resolved in a specific order without knowledge of each other.</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>To help solve potential auto-configuration problems just run your Spring Boot application with a <code>--debug</code> switch
+(or <code>-Ddebug</code> system property). It will output nice <strong>Auto Configuration Report</strong> to the console. It contains all found
+auto-configuration classes, divided into 4 sections:</p>
+
+<ul>
+  <li>Positive matches</li>
+  <li>Negative matches</li>
+  <li>Exclusions</li>
+  <li>Unconditional classes</li>
+</ul>
+
+<p>When <code>spring-boot-starter-actuator</code> dependency is added to your project, there is an alternative way to get information about
+auto-configuration classes by calling <code>/autoconfig</code> endpoint.</p>
+
+<h1 id="tip">[TIP]</h1>
+<p>To know the exact order of classes execution you can also put a breakpoint
+in <code>EnableAutoConfigurationImportSelector</code> in a place where <code>AutoConfigurationSorter</code> is
+https://github.com/spring-projects/spring-boot/blob/0c1dd1aac5517ce6dc42c64b21515b5d2d1e8c75/spring-boot-autoconfigure/src/main/java/org/springframework/boot/autoconfigure/EnableAutoConfigurationImportSelector.java#L192[used].
+====</p>
+
+<p>=== Custom Starter guidelines</p>
+
+<p>As Spring Boot https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#boot-features-custom-starter-naming[documentation] states,
+you should not begin your starter name with <strong>spring-boot-</strong>* Especially when, you are making some technology <em>“Spring Bootable”</em>.
+Keep in mind that it may get official support in the future.</p>
+
+<p>Spring Boot structures its Starters into two parts:
+[quote, Spring Boot documentation]
+<strong>__
+The **autoconfigure** module that contains the auto-configuration code. +
+The **starter** module that provides a dependency to the autoconfigure module as well as the library and any additional
+dependencies that are typically useful.
+__</strong></p>
+
+<p>For custom Starters there is also a suggestion that both these modules can be combined into a single one named simply
+<strong>starter</strong>. That’s how we approach creating our Starters, and couldn’t come up with a good reason to split.</p>
+
+<p>No matter, if you want to create a Starter to support a technology, or to encapsulate common behaviour among your
+applications, always try to provide sensible defaults with an option of extensive configuration. To achieve that you can
+provide configuration keys in your Starter. To do that mark a simple POJO class with a <code>@ConfigurationProperties</code>
+annotation, providing prefix for your properties (again, do not start your prefixes with Spring Boot’s defaults such as:
+<em>spring</em>, <em>server</em>, etc). Example:</p>
+
+<p>[source, java]
+.SwaggerProperties.java
+—-
+@ConfigurationProperties(“neostarter.swagger”)
+public class SwaggerProperties {</p>
+
+<pre><code>/**
+ * Enable swagger switch
+ */
+private boolean enabled = true;
+
+/**
+ * Should generated swagger.json be formatted
+ */
+private boolean prettyPrint = true;
+
+/**
+ * Provides the version of the application API
+ */
+private String version = "1";
+
+/**
+ * The contact information for the exposed API.
+ */
+private String contact = "backend@neoteric.eu";
+
+/**
+ * The transfer protocol for the operation. Values MUST be from the list: "http", "https", "ws", "wss".
+ */
+private String[] schemes = {"http"};
+
+/**
+ * The title of the application.
+ */
+private String title;
+
+... (more fields, getters and setters) ...
+</code></pre>
+
+<p>}</p>
+
+<hr />
+
+<p>You can then use the configuration properties as a conditions for your auto-configuration (via <code>@ConditionalOnProperty</code>)
+or / and register it with <code>@EnableConfigProperties</code> and inject into auto-configuration class. As said
+https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#configuration-metadata-annotation-processor[here]
+you can use annotation processing to help IDE assist on your custom properties autocompletion:</p>
+
+<p>image::/images/starters/ide-hints.png[IDE autocompletion]</p>
+
+<p>To do that, you add an optional dependency (in Maven):
+[source, xml]
+—-</p>
+<dependency>
+    <groupid>org.springframework.boot</groupid>
+    <artifactid>spring-boot-configuration-processor</artifactid>
+    <optional>true</optional>
+</dependency>
+<hr />
+
+<p>and it will pick up your fields Javadoc set up and provide as an autocompletion description.</p>
+
+<p>Another important thing Spring Boot provides is that you don’t have to worry about dependencies version management.
+Spring Boot picks dependencies (and its versions) that works well with each other. Additional value your Starter brings
+is that you already specified the libraries version you use and the end-user don’t have to think about that anymore (and
+potential version conflicts).</p>
+
+<p>=== Neo-Starters</p>
+
+<p>At Neoteric we have worked out some practices and guidelines for our services. Hence I came with an idea that we can bend
+Spring Boot to our needs even more by creating our own set of starters. They would encapsulate these practices and enable
+us to development new applications faster and with even less boilerplate code. We called them
+<code>neo-starters</code>.</p>
+
+<h1 id="note">[NOTE]</h1>
+<p>Neo-Starters are available at Neoteric’s http://github.com/neoteric-eu/neo-starters[GitHub].
+====</p>
+
+<h1 id="warning">[WARNING]</h1>
+<p>However, they are still under heavy development and subject to breaking changes.
+====</p>
+
+<p>Each starter covers individual aspects of application. I will cover their details (whys and hows) in upcoming blog posts.</p>
+]]></content>
+  </entry>
+  
+</feed>
