@@ -4,7 +4,7 @@
   <title><![CDATA[Category: spring-cloud | It's SOAP's Fault...]]></title>
   <link href="http://blog.poznachowski.pl/categories/spring-cloud/atom.xml" rel="self"/>
   <link href="http://blog.poznachowski.pl/"/>
-  <updated>2016-04-01T16:49:23+02:00</updated>
+  <updated>2016-04-01T17:21:00+02:00</updated>
   <id>http://blog.poznachowski.pl/</id>
   <author>
     <name><![CDATA[Grzegorz Poznachowski]]></name>
@@ -32,7 +32,7 @@ http://projects.spring.io/spring-cloud/[Spring Cloud] capabilities.</p>
 <p>=== Spring Boot magic</p>
 
 <p>There is so much hype on Spring Boot lately and so many Spring Boot articles, presentations etc., that I want to focus
-only on essential parts, that are required to understand how to write your own starter.</p>
+only on essential parts - required to understand how to write your own starter.</p>
 
 <p>The whole ‘magic’, as often expressed when explaining Spring Boot, mostly boils down to scanning application classpath for particular classes
 available and providing preconfigured <code>Beans</code> for them. Treat it as a convention over configuration concept applied to the application level.
@@ -94,7 +94,8 @@ org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration
 <p>To sum up: <code>MongoAutoConfiguration</code> will be performed when <code>MongoClient</code> class is available at runtime
 (happens when <code>mongo-java-driver</code> dependency is added) and if no <code>Bean</code> of type <code>MongoDbFactory</code> is found.
 The latter implies, that you can define <code>Bean</code> of such type in your application and handle MongoDB scaffolding yourself.
-In that case <code>MongoAutoConfiguration</code> will be ignored by Spring Boot.</p>
+In that case <code>MongoAutoConfiguration</code> will be ignored by Spring Boot. In our example, MongoDB set up is moved into
+property class itself: <code>this.properties.createMongoClient(this.options, this.environment);</code></p>
 
 <p>There are some more annotation elements that may be helpful designing your starter:</p>
 
@@ -270,9 +271,9 @@ __</strong></p>
 
 <p>No matter, if you want to create a Starter to support a technology, or to encapsulate common behaviour among your
 applications, always try to provide sensible defaults with an option of extensive configuration. To achieve that you can
-provide configuration keys in your Starter. To do that mark a simple POJO class with a <code>@ConfigurationProperties</code>
-annotation, providing prefix for your properties (again, do not start your prefixes with Spring Boot’s defaults such as:
-<em>spring</em>, <em>server</em>, etc). Example:</p>
+provide configuration keys in your Starter. To do that, mark a simple POJO class with a <code>@ConfigurationProperties</code>
+annotation, providing prefix for your properties (again, do not make same prefixes as Spring Boot is using:
+<em>spring</em>, <em>server</em>, etc). Example property class:</p>
 
 <p>[source, java]
 .SwaggerProperties.java
@@ -320,11 +321,11 @@ private String title;
 <p>You can then use the configuration properties as a conditions for your auto-configuration (via <code>@ConditionalOnProperty</code>)
 or / and register it with <code>@EnableConfigProperties</code> and inject into auto-configuration class. As said
 https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#configuration-metadata-annotation-processor[here]
-you can use annotation processing to help IDE assist on your custom properties autocompletion:</p>
+you can use annotation processing to help IDE assist on your custom properties auto-completion:</p>
 
 <p>image::/images/starters/ide-hints.png[IDE autocompletion]</p>
 
-<p>To do that, you add an optional dependency (in Maven):
+<p>To achieve that, add an optional dependency (in Maven):
 [source, xml]
 —-</p>
 <dependency>
@@ -334,18 +335,18 @@ you can use annotation processing to help IDE assist on your custom properties a
 </dependency>
 <hr />
 
-<p>and it will pick up your fields Javadoc set up and provide as an autocompletion description.</p>
+<p>and it will pick up your fields Javadoc set up and provide as an auto-completion description.</p>
 
 <p>Another important thing Spring Boot provides is that you don’t have to worry about dependencies version management.
 Spring Boot picks dependencies (and its versions) that works well with each other. Additional value your Starter brings
-is that you already specified the libraries version you use and the end-user don’t have to think about that anymore (and
+is that you have already specified libraries versions you use and the end-user don’t have to think about that anymore (and
 potential version conflicts).</p>
 
 <p>=== Neo-Starters</p>
 
 <p>At Neoteric we have worked out some practices and guidelines for our services. Hence I came with an idea that we can bend
 Spring Boot to our needs even more by creating our own set of starters. They would encapsulate these practices and enable
-us to development new applications faster and with even less boilerplate code. We called them
+us to develop new applications faster and with even less boilerplate code needed. We called them
 <code>neo-starters</code>.</p>
 
 <h1 id="note">[NOTE]</h1>
