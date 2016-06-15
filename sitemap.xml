@@ -1,122 +1,129 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>http://blog.poznachowski.pl/2016/04/01/get-along-with-your-spring-boot-starter/</loc>
-    <lastmod>2016-04-01T00:00:00+02:00</lastmod>
-  </url>
-  <url>
-    <loc>http://blog.poznachowski.pl/2015/08/04/befriend-your-changelog/</loc>
-    <lastmod>2015-08-04T00:00:00+02:00</lastmod>
-  </url>
-  <url>
-    <loc>http://blog.poznachowski.pl/2015/05/27/migrating-to-octopress/</loc>
-    <lastmod>2015-05-27T04:00:00+02:00</lastmod>
-  </url>
-  <url>
-    <loc>http://blog.poznachowski.pl/2015/02/14/how-to-make-jenkins-speak-git-flow/</loc>
-    <lastmod>2015-02-14T00:00:00+01:00</lastmod>
-  </url>
-  <url>
-    <loc>http://blog.poznachowski.pl/2014/04/03/munit-testing-mule-practices-and-some/</loc>
-    <lastmod>2014-04-03T00:00:00+02:00</lastmod>
-  </url>
-  <url>
-    <loc>http://blog.poznachowski.pl/2013/11/03/handling-groovy-scripts-in-mule-esb/</loc>
-    <lastmod>2013-11-03T00:00:00+01:00</lastmod>
-  </url>
-  <url>
-    <loc>http://blog.poznachowski.pl/2013/10/20/exposing-restful-interface-with-mule-pt2/</loc>
-    <lastmod>2013-10-20T00:00:00+02:00</lastmod>
-  </url>
-  <url>
-    <loc>http://blog.poznachowski.pl/2013/10/11/exposing-restful-interface-with-mule-pt1/</loc>
-    <lastmod>2013-10-11T00:00:00+02:00</lastmod>
-  </url>
-  <url>
-    <loc>http://blog.poznachowski.pl/about.html</loc>
-  </url>
-  <url>
-    <loc>http://blog.poznachowski.pl/</loc>
-  </url>
-  <url>
-    <loc>http://blog.poznachowski.pl/blog/archives/</loc>
-  </url>
-  <url>
-    <loc>http://blog.poznachowski.pl/blog/categories/</loc>
-  </url>
-  <url>
-    <loc>http://blog.poznachowski.pl/categories/rest/</loc>
-  </url>
-  <url>
-    <loc>http://blog.poznachowski.pl/categories/api/</loc>
-  </url>
-  <url>
-    <loc>http://blog.poznachowski.pl/categories/esb/</loc>
-  </url>
-  <url>
-    <loc>http://blog.poznachowski.pl/categories/mule/</loc>
-  </url>
-  <url>
-    <loc>http://blog.poznachowski.pl/categories/component-binding/</loc>
-  </url>
-  <url>
-    <loc>http://blog.poznachowski.pl/categories/testing/</loc>
-  </url>
-  <url>
-    <loc>http://blog.poznachowski.pl/categories/script/</loc>
-  </url>
-  <url>
-    <loc>http://blog.poznachowski.pl/categories/groovy/</loc>
-  </url>
-  <url>
-    <loc>http://blog.poznachowski.pl/categories/assertj/</loc>
-  </url>
-  <url>
-    <loc>http://blog.poznachowski.pl/categories/mock/</loc>
-  </url>
-  <url>
-    <loc>http://blog.poznachowski.pl/categories/munit/</loc>
-  </url>
-  <url>
-    <loc>http://blog.poznachowski.pl/categories/design/</loc>
-  </url>
-  <url>
-    <loc>http://blog.poznachowski.pl/categories/flow/</loc>
-  </url>
-  <url>
-    <loc>http://blog.poznachowski.pl/categories/jenkins/</loc>
-  </url>
-  <url>
-    <loc>http://blog.poznachowski.pl/categories/gitflow/</loc>
-  </url>
-  <url>
-    <loc>http://blog.poznachowski.pl/categories/git/</loc>
-  </url>
-  <url>
-    <loc>http://blog.poznachowski.pl/categories/blogger/</loc>
-  </url>
-  <url>
-    <loc>http://blog.poznachowski.pl/categories/octopress/</loc>
-  </url>
-  <url>
-    <loc>http://blog.poznachowski.pl/categories/disqus/</loc>
-  </url>
-  <url>
-    <loc>http://blog.poznachowski.pl/categories/maven/</loc>
-  </url>
-  <url>
-    <loc>http://blog.poznachowski.pl/categories/changelog/</loc>
-  </url>
-  <url>
-    <loc>http://blog.poznachowski.pl/categories/spring/</loc>
-  </url>
-  <url>
-    <loc>http://blog.poznachowski.pl/categories/spring-cloud/</loc>
-  </url>
-  <url>
-    <loc>http://blog.poznachowski.pl/categories/spring-boot/</loc>
-  </url>
-  <url>
-    <loc>http://blog.poznachowski.pl/categories/spring-boot-starter/</loc>
-  </url>
+<url>
+<loc>http://blog.poznachowski.pl/2016/06/15/mockbean-spring-boot-missing-ingredient/</loc>
+<lastmod>2016-06-15T00:00:00+02:00</lastmod>
+</url>
+<url>
+<loc>http://blog.poznachowski.pl/2016/04/01/get-along-with-your-spring-boot-starter/</loc>
+<lastmod>2016-04-01T00:00:00+02:00</lastmod>
+</url>
+<url>
+<loc>http://blog.poznachowski.pl/2015/08/04/befriend-your-changelog/</loc>
+<lastmod>2015-08-04T00:00:00+02:00</lastmod>
+</url>
+<url>
+<loc>http://blog.poznachowski.pl/2015/05/27/migrating-to-octopress/</loc>
+<lastmod>2015-05-27T04:00:00+02:00</lastmod>
+</url>
+<url>
+<loc>http://blog.poznachowski.pl/2015/02/14/how-to-make-jenkins-speak-git-flow/</loc>
+<lastmod>2015-02-14T00:00:00+01:00</lastmod>
+</url>
+<url>
+<loc>http://blog.poznachowski.pl/2014/04/03/munit-testing-mule-practices-and-some/</loc>
+<lastmod>2014-04-03T00:00:00+02:00</lastmod>
+</url>
+<url>
+<loc>http://blog.poznachowski.pl/2013/11/03/handling-groovy-scripts-in-mule-esb/</loc>
+<lastmod>2013-11-03T00:00:00+01:00</lastmod>
+</url>
+<url>
+<loc>http://blog.poznachowski.pl/2013/10/20/exposing-restful-interface-with-mule-pt2/</loc>
+<lastmod>2013-10-20T00:00:00+02:00</lastmod>
+</url>
+<url>
+<loc>http://blog.poznachowski.pl/2013/10/11/exposing-restful-interface-with-mule-pt1/</loc>
+<lastmod>2013-10-11T00:00:00+02:00</lastmod>
+</url>
+<url>
+<loc>http://blog.poznachowski.pl/about.html</loc>
+</url>
+<url>
+<loc>http://blog.poznachowski.pl/blog/archives/</loc>
+</url>
+<url>
+<loc>http://blog.poznachowski.pl/</loc>
+</url>
+<url>
+<loc>http://blog.poznachowski.pl/blog/categories/</loc>
+</url>
+<url>
+<loc>http://blog.poznachowski.pl/categories/rest/</loc>
+</url>
+<url>
+<loc>http://blog.poznachowski.pl/categories/api/</loc>
+</url>
+<url>
+<loc>http://blog.poznachowski.pl/categories/esb/</loc>
+</url>
+<url>
+<loc>http://blog.poznachowski.pl/categories/mule/</loc>
+</url>
+<url>
+<loc>http://blog.poznachowski.pl/categories/component-binding/</loc>
+</url>
+<url>
+<loc>http://blog.poznachowski.pl/categories/testing/</loc>
+</url>
+<url>
+<loc>http://blog.poznachowski.pl/categories/script/</loc>
+</url>
+<url>
+<loc>http://blog.poznachowski.pl/categories/groovy/</loc>
+</url>
+<url>
+<loc>http://blog.poznachowski.pl/categories/assertj/</loc>
+</url>
+<url>
+<loc>http://blog.poznachowski.pl/categories/mock/</loc>
+</url>
+<url>
+<loc>http://blog.poznachowski.pl/categories/munit/</loc>
+</url>
+<url>
+<loc>http://blog.poznachowski.pl/categories/design/</loc>
+</url>
+<url>
+<loc>http://blog.poznachowski.pl/categories/flow/</loc>
+</url>
+<url>
+<loc>http://blog.poznachowski.pl/categories/jenkins/</loc>
+</url>
+<url>
+<loc>http://blog.poznachowski.pl/categories/gitflow/</loc>
+</url>
+<url>
+<loc>http://blog.poznachowski.pl/categories/git/</loc>
+</url>
+<url>
+<loc>http://blog.poznachowski.pl/categories/blogger/</loc>
+</url>
+<url>
+<loc>http://blog.poznachowski.pl/categories/octopress/</loc>
+</url>
+<url>
+<loc>http://blog.poznachowski.pl/categories/disqus/</loc>
+</url>
+<url>
+<loc>http://blog.poznachowski.pl/categories/maven/</loc>
+</url>
+<url>
+<loc>http://blog.poznachowski.pl/categories/changelog/</loc>
+</url>
+<url>
+<loc>http://blog.poznachowski.pl/categories/spring/</loc>
+</url>
+<url>
+<loc>http://blog.poznachowski.pl/categories/spring-cloud/</loc>
+</url>
+<url>
+<loc>http://blog.poznachowski.pl/categories/spring-boot/</loc>
+</url>
+<url>
+<loc>http://blog.poznachowski.pl/categories/spring-boot-starter/</loc>
+</url>
+<url>
+<loc>http://blog.poznachowski.pl/categories/jsr-310/</loc>
+</url>
 </urlset>
