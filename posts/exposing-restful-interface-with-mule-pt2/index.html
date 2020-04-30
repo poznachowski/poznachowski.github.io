@@ -1,0 +1,390 @@
+<!doctype html>
+<html lang="en-us">
+  <head>
+    <title>Exposing RESTful interface with Mule pt.2 // It&#39;s SOAP&#39;s Fault...</title>
+    <meta charset="utf-8" />
+    <meta name="generator" content="Hugo 0.69.2" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="Grzegorz Poznachowski" />
+    <meta name="description" content="Exposing RESTful interface with Mule part 2" />
+    <script defer src="https://use.fontawesome.com/releases/v5.11.2/js/all.js" integrity="sha384-b3ua1l97aVGAPEIe48b4TC60WUQbQaGi2jqAWM90y0OZXZeyaTCWtBTKtjW2GXG1" crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="https://blog.poznachowski.pl/css/main.min.25eca3824fcf78d24fcae19d3e8e6569422d8b9e88d219450ad3bb7fe6638673.css" />
+    <link rel="stylesheet" type="text/css" href="https:////fonts.googleapis.com/css?family=Quicksand" />
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Open+Sans" />
+    <link rel="stylesheet"
+          href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.1/styles/dracula.min.css">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.1/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+
+    
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Exposing RESTful interface with Mule pt.2"/>
+<meta name="twitter:description" content="Exposing RESTful interface with Mule part 2"/>
+
+    <meta property="og:title" content="Exposing RESTful interface with Mule pt.2" />
+<meta property="og:description" content="Exposing RESTful interface with Mule part 2" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://blog.poznachowski.pl/posts/exposing-restful-interface-with-mule-pt2/" />
+<meta property="article:published_time" content="2013-10-20T00:00:00+00:00" />
+<meta property="article:modified_time" content="2013-10-20T00:00:00+00:00" />
+
+
+  </head>
+  <body>
+    <header class="app-header">
+      <div class="flex-wrapper">
+        <a href="https://blog.poznachowski.pl/">
+          <img class="app-header-avatar" src="/avatarGP.jpg" alt="Grzegorz Poznachowski" />
+        </a>
+        <div class="flex-text">
+          <a href="https://blog.poznachowski.pl/">
+            <h1>It&#39;s SOAP&#39;s Fault...</h1>
+          </a>
+          <p>My notes on coding and software development</p>
+        </div>
+      </div>
+      <div class ="footer-desktop">
+        <section class="social">
+  
+  <a href="https://linkedin.com/in/gpoznachowski" rel="me"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a>
+  
+	
+	
+	<a href="https://github.com/poznachowski" rel="me"><i class="fab fa-github fa-lg" aria-hidden="true"></i></a>
+	
+
+	
+	<a href="https://stackoverflow.com/users/2514330" rel="me"><i class="fab fa-stack-overflow fa-lg" aria-hidden="true"></i></a>
+	
+	
+  
+  <a href="https://twitter.com/poznachowski" rel="me"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a>
+  
+	
+	<a href="mailto:grzegorz@poznachowski.pl" rel="me"><i class="fas fa-at fa-lg" aria-hidden="true"></i></a>
+	
+</section>
+<div class="copyright">
+  blog.poznachowski.pl &copy; 2013 - 2020
+</div>
+
+      </div>
+    </header>
+    <main class="app-container">
+      
+  <article class="post">
+    <header class="post-header">
+      <h1 class ="post-title">Exposing RESTful interface with Mule pt.2</h1>
+      <div class="post-meta">
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
+  <title>calendar</title>
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>
+</svg>
+          Oct 20, 2013
+        </div>
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
+  <title>clock</title>
+  <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
+</svg>
+          5 min read
+        </div><div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
+  <title>tag</title>
+  <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
+</svg>
+          <a class="tag" href="https://blog.poznachowski.pl/tags/rest/">rest</a><a class="tag" href="https://blog.poznachowski.pl/tags/api/">api</a><a class="tag" href="https://blog.poznachowski.pl/tags/esb/">esb</a><a class="tag" href="https://blog.poznachowski.pl/tags/mule/">mule</a></div></div>
+    </header>
+    <div class="post-content">
+      <p>In <a href="/2013/10/11/exposing-restful-interface-with-mule-pt1/">previous part</a> of this article I&rsquo;ve presented two ways of building REST API on Mule ESB: using Mule REST Module and handling HTTP properties manually.</p>
+<p>This time I want to present achieving the same result using Mule <a href="http://www.mulesoft.org/documentation/display/current/REST+Component+Reference">Jersey Module</a> with addition of<br>
+<a href="http://www.mulesoft.org/documentation/display/current/Component+Bindings">Component Bindings</a> - feature of Mule, which enables us to leave Java and go back to Mule flow processing.</p>
+<p>Presented example was tested against Mule ESB 3.4.0 EE.</p>
+<p><strong>3. Jersey REST</strong></p>
+<p>Flow overview:<br>
+<img src="/images/mulerest2/JerseyRestFlow.png" alt="JerseyRestFlow">
+<img src="/images/mulerest2/ProcessPostFlow.png" alt="ProcessPostFlow">
+<img src="/images/mulerest2/ProcessGetFlow.png" alt="ProcessGetFlow"></p>
+<p>Unfortunately, not much to see in this graphical overview - devil is in the details :)</p>
+<p>Jersey REST Component is the official recommendation for exposing REST Services on Mule ESB. Usually, this reference implementation of JAX-RS would be everything we need to achieve the goal. However, in terms of Mule, it ties us heavily to Java code, which is not what we are especially looking for. To overcome this we can use Component Bindings.</p>
+<p>Let&rsquo;s go back to our example. Staring with the simple Jersey service class:</p>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">@Path<span style="color:#ff79c6">(</span>value <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;/&#34;</span><span style="color:#ff79c6">)</span>  
+<span style="color:#8be9fd;font-style:italic">public</span> <span style="color:#8be9fd;font-style:italic">class</span> <span style="color:#50fa7b">JerseyRestService</span> <span style="color:#ff79c6">{</span>  
+
+ <span style="color:#8be9fd;font-style:italic">private</span> FlowProcessing flowProcessing<span style="color:#ff79c6">;</span>  
+
+ @GET  
+ @Path<span style="color:#ff79c6">(</span>value <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;/client/{accountID}/{userID}/get&#34;</span><span style="color:#ff79c6">)</span>  
+ <span style="color:#8be9fd;font-style:italic">public</span> Response <span style="color:#50fa7b">processGET</span><span style="color:#ff79c6">(</span>@PathParam<span style="color:#ff79c6">(</span><span style="color:#f1fa8c">&#34;accountID&#34;</span><span style="color:#ff79c6">)</span> String accountId<span style="color:#ff79c6">,</span> @PathParam<span style="color:#ff79c6">(</span><span style="color:#f1fa8c">&#34;userID&#34;</span><span style="color:#ff79c6">)</span> String userId<span style="color:#ff79c6">)</span> <span style="color:#ff79c6">{</span>  
+  String result <span style="color:#ff79c6">=</span> flowProcessing<span style="color:#ff79c6">.</span><span style="color:#50fa7b">processGET</span><span style="color:#ff79c6">(</span>accountId<span style="color:#ff79c6">,</span> userId<span style="color:#ff79c6">);</span>  
+  <span style="color:#ff79c6">return</span> Response<span style="color:#ff79c6">.</span><span style="color:#50fa7b">ok</span><span style="color:#ff79c6">(</span>result<span style="color:#ff79c6">).</span><span style="color:#50fa7b">build</span><span style="color:#ff79c6">();</span>  
+ <span style="color:#ff79c6">}</span>  
+
+ @POST  
+ @Path<span style="color:#ff79c6">(</span>value <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;/client/{accountID}/{userID}/get&#34;</span><span style="color:#ff79c6">)</span>  
+ <span style="color:#8be9fd;font-style:italic">public</span> Response <span style="color:#50fa7b">processPOST</span><span style="color:#ff79c6">(</span>@PathParam<span style="color:#ff79c6">(</span><span style="color:#f1fa8c">&#34;accountID&#34;</span><span style="color:#ff79c6">)</span> String accountId<span style="color:#ff79c6">,</span> @PathParam<span style="color:#ff79c6">(</span><span style="color:#f1fa8c">&#34;userID&#34;</span><span style="color:#ff79c6">)</span> String userId<span style="color:#ff79c6">,</span> String body<span style="color:#ff79c6">)</span> <span style="color:#ff79c6">{</span>  
+  String result <span style="color:#ff79c6">=</span> flowProcessing<span style="color:#ff79c6">.</span><span style="color:#50fa7b">processPOST</span><span style="color:#ff79c6">(</span>accountId<span style="color:#ff79c6">,</span> userId<span style="color:#ff79c6">,</span> body<span style="color:#ff79c6">);</span>  
+  <span style="color:#ff79c6">return</span> Response<span style="color:#ff79c6">.</span><span style="color:#50fa7b">ok</span><span style="color:#ff79c6">(</span>result<span style="color:#ff79c6">).</span><span style="color:#50fa7b">build</span><span style="color:#ff79c6">();</span>  
+ <span style="color:#ff79c6">}</span>  
+
+ <span style="color:#8be9fd;font-style:italic">public</span> <span style="color:#8be9fd">void</span> <span style="color:#50fa7b">setFlowProcessing</span><span style="color:#ff79c6">(</span>FlowProcessing flowProcessing<span style="color:#ff79c6">)</span> <span style="color:#ff79c6">{</span>  
+  <span style="color:#ff79c6">this</span><span style="color:#ff79c6">.</span><span style="color:#50fa7b">flowProcessing</span> <span style="color:#ff79c6">=</span> flowProcessing<span style="color:#ff79c6">;</span>  
+ <span style="color:#ff79c6">}</span>  
+<span style="color:#ff79c6">}</span>  
+</code></pre></td></tr></table>
+</div>
+</div><p>Nothing fancy here. JAX-RS plain and simple. Interesting part is the FlowProcessing interface. It looks like it&rsquo;s wrapping whole business logic processing. By using Component Bindings we can make any Mule&rsquo;s outbound endpoint behave as an implementation of that interface. Hence, we can make use of VM endpoints and move the processing from Java back to Mule flows:</p>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#ff79c6">&lt;jersey:resources</span> <span style="color:#50fa7b">doc:name=</span><span style="color:#f1fa8c">&#34;REST&#34;</span><span style="color:#ff79c6">&gt;</span>  
+  <span style="color:#ff79c6">&lt;component</span> <span style="color:#50fa7b">class=</span><span style="color:#f1fa8c">&#34;pl.poznachowski.jerseyrest.JerseyRestService&#34;</span><span style="color:#ff79c6">&gt;</span>  
+    <span style="color:#ff79c6">&lt;binding</span> <span style="color:#50fa7b">interface=</span><span style="color:#f1fa8c">&#34;pl.poznachowski.jerseyrest.FlowProcessing&#34;</span> <span style="color:#50fa7b">method=</span><span style="color:#f1fa8c">&#34;processGET&#34;</span><span style="color:#ff79c6">&gt;</span>  
+      <span style="color:#ff79c6">&lt;vm:outbound-endpoint</span> <span style="color:#50fa7b">exchange-pattern=</span><span style="color:#f1fa8c">&#34;request-response&#34;</span> <span style="color:#50fa7b">path=</span><span style="color:#f1fa8c">&#34;vmProcessGET&#34;</span> <span style="color:#ff79c6">/&gt;</span>  
+    <span style="color:#ff79c6">&lt;/binding&gt;</span>  
+    <span style="color:#ff79c6">&lt;binding</span> <span style="color:#50fa7b">interface=</span><span style="color:#f1fa8c">&#34;pl.poznachowski.jerseyrest.FlowProcessing&#34;</span> <span style="color:#50fa7b">method=</span><span style="color:#f1fa8c">&#34;processPOST&#34;</span><span style="color:#ff79c6">&gt;</span>  
+      <span style="color:#ff79c6">&lt;vm:outbound-endpoint</span> <span style="color:#50fa7b">exchange-pattern=</span><span style="color:#f1fa8c">&#34;request-response&#34;</span> <span style="color:#50fa7b">path=</span><span style="color:#f1fa8c">&#34;vmProcessPOST&#34;</span> <span style="color:#ff79c6">/&gt;</span>  
+    <span style="color:#ff79c6">&lt;/binding&gt;</span>  
+  <span style="color:#ff79c6">&lt;/component&gt;</span>  
+  <span style="color:#ff79c6">&lt;jersey:exception-mapper</span> <span style="color:#50fa7b">class=</span><span style="color:#f1fa8c">&#34;pl.poznachowski.jerseyrest.BadURIExceptionMapper&#34;</span> <span style="color:#ff79c6">/&gt;</span>  
+<span style="color:#ff79c6">&lt;/jersey:resources&gt;</span>  
+</code></pre></td></tr></table>
+</div>
+</div><p>As seen above, everything we need to make it work is to provide binding element specifying the interface, interface&rsquo;s method and outbound endpoint, which should be called. Few things to remember:</p>
+<ul>
+<li>Don&rsquo;t forget to write setter for the interface in the Jersey class. </li>
+<li>Make sure that request and response of the interface and endpoint matches </li>
+<li>It is possible to have the method return MuleMessage. It lets Java component have access to whole message, not only payload.</li>
+</ul>
+<p>Flows with the &ldquo;business logic&rdquo; for POST and GET methods processing are described below:</p>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#ff79c6">&lt;flow</span> <span style="color:#50fa7b">name=</span><span style="color:#f1fa8c">&#34;ProcessGetFlow&#34;</span> <span style="color:#50fa7b">doc:name=</span><span style="color:#f1fa8c">&#34;ProcessGetFlow&#34;</span><span style="color:#ff79c6">&gt;</span>  
+  <span style="color:#ff79c6">&lt;vm:inbound-endpoint</span> <span style="color:#50fa7b">exchange-pattern=</span><span style="color:#f1fa8c">&#34;request-response&#34;</span> <span style="color:#50fa7b">path=</span><span style="color:#f1fa8c">&#34;vmProcessGET&#34;</span> <span style="color:#50fa7b">doc:name=</span><span style="color:#f1fa8c">&#34;VM&#34;</span> <span style="color:#ff79c6">/&gt;</span>  
+  <span style="color:#ff79c6">&lt;transformer</span> <span style="color:#50fa7b">ref=</span><span style="color:#f1fa8c">&#34;populateVariables&#34;</span> <span style="color:#50fa7b">doc:name=</span><span style="color:#f1fa8c">&#34;Populate variables&#34;</span><span style="color:#ff79c6">/&gt;</span>  
+  <span style="color:#ff79c6">&lt;set-payload</span> <span style="color:#50fa7b">value=</span><span style="color:#f1fa8c">&#34;Processing GET with account id: #[accountID] and user id: #[userID]&#34;</span> <span style="color:#50fa7b">doc:name=</span><span style="color:#f1fa8c">&#34;Set Payload&#34;</span> <span style="color:#ff79c6">/&gt;</span>  
+<span style="color:#ff79c6">&lt;/flow&gt;</span>  
+<span style="color:#ff79c6">&lt;flow</span> <span style="color:#50fa7b">name=</span><span style="color:#f1fa8c">&#34;ProcessPostFlow&#34;</span> <span style="color:#50fa7b">doc:name=</span><span style="color:#f1fa8c">&#34;ProcessPostFlow&#34;</span><span style="color:#ff79c6">&gt;</span>  
+  <span style="color:#ff79c6">&lt;vm:inbound-endpoint</span> <span style="color:#50fa7b">exchange-pattern=</span><span style="color:#f1fa8c">&#34;request-response&#34;</span> <span style="color:#50fa7b">path=</span><span style="color:#f1fa8c">&#34;vmProcessPOST&#34;</span> <span style="color:#50fa7b">doc:name=</span><span style="color:#f1fa8c">&#34;VM&#34;</span> <span style="color:#ff79c6">/&gt;</span>  
+  <span style="color:#ff79c6">&lt;transformer</span> <span style="color:#50fa7b">ref=</span><span style="color:#f1fa8c">&#34;populateVariables&#34;</span> <span style="color:#50fa7b">doc:name=</span><span style="color:#f1fa8c">&#34;Populate variables&#34;</span><span style="color:#ff79c6">/&gt;</span>  
+  <span style="color:#ff79c6">&lt;set-payload</span> <span style="color:#50fa7b">value=</span><span style="color:#f1fa8c">&#34;Processing POST with account id: #[accountID] and user id: #[userID] and body: #[payload]&#34;</span>  
+<span style="color:#50fa7b">doc:name=</span><span style="color:#f1fa8c">&#34;Set Payload&#34;</span> <span style="color:#ff79c6">/&gt;</span>  
+<span style="color:#ff79c6">&lt;/flow&gt;</span>  
+</code></pre></td></tr></table>
+</div>
+</div><p>Input parameters of the FlowProcessing interface methods comes in the Mule flows as an Object array. We can map them into Mule parameters by writting and setting global transformer:</p>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#ff79c6">&lt;custom-transformer</span> <span style="color:#50fa7b">class=</span><span style="color:#f1fa8c">&#34;pl.poznachowski.jerseyrest.PopulateVariables&#34;</span> <span style="color:#50fa7b">name=</span><span style="color:#f1fa8c">&#34;populateVariables&#34;</span> <span style="color:#50fa7b">doc:name=</span><span style="color:#f1fa8c">&#34;Java&#34;</span> <span style="color:#ff79c6">/&gt;</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>and reusing it in the flows:</p>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#ff79c6">&lt;transformer</span> <span style="color:#50fa7b">ref=</span><span style="color:#f1fa8c">&#34;populateVariables&#34;</span> <span style="color:#ff79c6">/&gt;</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>PopulateVariables Java transformer:</p>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#8be9fd;font-style:italic">public</span> <span style="color:#8be9fd;font-style:italic">class</span> <span style="color:#50fa7b">PopulateVariables</span> <span style="color:#8be9fd;font-style:italic">extends</span> AbstractMessageTransformer <span style="color:#ff79c6">{</span>  
+
+ @Override  
+ <span style="color:#8be9fd;font-style:italic">public</span> MuleMessage <span style="color:#50fa7b">transformMessage</span><span style="color:#ff79c6">(</span>MuleMessage message<span style="color:#ff79c6">,</span> String outputEncoding<span style="color:#ff79c6">)</span> <span style="color:#8be9fd;font-style:italic">throws</span> TransformerException <span style="color:#ff79c6">{</span>  
+
+  Object<span style="color:#ff79c6">[]</span> args <span style="color:#ff79c6">=</span> message<span style="color:#ff79c6">.</span><span style="color:#50fa7b">getPayload</span><span style="color:#ff79c6">(</span>Object<span style="color:#ff79c6">[].</span><span style="color:#50fa7b">class</span><span style="color:#ff79c6">);</span>  
+  message<span style="color:#ff79c6">.</span><span style="color:#50fa7b">setInvocationProperty</span><span style="color:#ff79c6">(</span><span style="color:#f1fa8c">&#34;accountID&#34;</span><span style="color:#ff79c6">,</span> args<span style="color:#ff79c6">[</span>0<span style="color:#ff79c6">]);</span>  
+  message<span style="color:#ff79c6">.</span><span style="color:#50fa7b">setInvocationProperty</span><span style="color:#ff79c6">(</span><span style="color:#f1fa8c">&#34;userID&#34;</span><span style="color:#ff79c6">,</span> args<span style="color:#ff79c6">[</span>1<span style="color:#ff79c6">]);</span>  
+
+  <span style="color:#6272a4">// For POST method  
+</span><span style="color:#6272a4"></span>  <span style="color:#ff79c6">if</span> <span style="color:#ff79c6">(</span>args<span style="color:#ff79c6">.</span><span style="color:#50fa7b">length</span> <span style="color:#ff79c6">&gt;</span> 2<span style="color:#ff79c6">)</span> <span style="color:#ff79c6">{</span>  
+   message<span style="color:#ff79c6">.</span><span style="color:#50fa7b">setPayload</span><span style="color:#ff79c6">(</span>args<span style="color:#ff79c6">[</span>2<span style="color:#ff79c6">]);</span>  
+  <span style="color:#ff79c6">}</span>  
+
+  <span style="color:#ff79c6">return</span> message<span style="color:#ff79c6">;</span>  
+ <span style="color:#ff79c6">}</span>  
+<span style="color:#ff79c6">}</span>  
+</code></pre></td></tr></table>
+</div>
+</div><p>We have everything in place to make it work. One thing I don&rsquo;t like is that Jersey for requests with URL not met is returning 404 HTTP status (Not Found). I find 400 status (Bad Request) more appropriate in such case and I&rsquo;d like to keep 404 reserved for situations where URL was met, but resource was not found. Satysfying that requirement is fairly simple. We need to add a custom exception mapper in Jersey definition:</p>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#ff79c6">&lt;jersey:exception-mapper</span> <span style="color:#50fa7b">class=</span><span style="color:#f1fa8c">&#34;pl.poznachowski.jerseyrest.BadURIExceptionMapper&#34;</span> <span style="color:#ff79c6">/&gt;</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>with implementation:</p>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#8be9fd;font-style:italic">public</span> <span style="color:#8be9fd;font-style:italic">class</span> <span style="color:#50fa7b">BadURIExceptionMapper</span> <span style="color:#8be9fd;font-style:italic">implements</span> ExceptionMapper<span style="color:#ff79c6">&lt;</span>NotFoundException<span style="color:#ff79c6">&gt;</span> <span style="color:#ff79c6">{</span>  
+
+  <span style="color:#8be9fd;font-style:italic">public</span> Response <span style="color:#50fa7b">toResponse</span><span style="color:#ff79c6">(</span>NotFoundException exception<span style="color:#ff79c6">){</span>  
+      <span style="color:#ff79c6">return</span> Response<span style="color:#ff79c6">.</span><span style="color:#50fa7b">status</span><span style="color:#ff79c6">(</span>Response<span style="color:#ff79c6">.</span><span style="color:#50fa7b">Status</span><span style="color:#ff79c6">.</span><span style="color:#50fa7b">BAD_REQUEST</span><span style="color:#ff79c6">).</span><span style="color:#50fa7b">entity</span><span style="color:#ff79c6">(</span><span style="color:#f1fa8c">&#34;Unknown resource: &#34;</span> <span style="color:#ff79c6">+</span> exception<span style="color:#ff79c6">.</span><span style="color:#50fa7b">getNotFoundUri</span><span style="color:#ff79c6">().</span><span style="color:#50fa7b">toString</span><span style="color:#ff79c6">()).</span><span style="color:#50fa7b">build</span><span style="color:#ff79c6">();</span>  
+  <span style="color:#ff79c6">}</span>  
+<span style="color:#ff79c6">}</span>  
+</code></pre></td></tr></table>
+</div>
+</div><p><strong>Note:</strong> It is possible to catch exceptions thrown in the binded outbound endpoints. To make that possible we just need to declare exception in binding interface method.</p>
+<p>To test described solution I used the same set of tests as in previous post. However I was having problems testing successful scenarios using MUnit:</p>
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<p>It seems that muleContext is not propagated correctly with MUnit and reflective proxy classes. Switching <a href="https://github.com/poznachowski/JerseyREST/blob/master/src/test/java/pl/poznachowski/jerseyrest/JerseyRESTTest.java">test class</a> to use &lsquo;official&rsquo; FunctionalTestCase instead of MUnit worked like a charm.</p>
+<p>Full example at GitHub: <a href="https://github.com/poznachowski/JerseyREST/">JerseyREST</a></p>
+<p>That were all the solutions for exposing REST Services I can think of.<br>
+In my work project, I&rsquo;m using the REST Module and it&rsquo;s doing its job well. Thus, if you want build REST API and use all of the nifty Mule features  I would suggest going with the Router Module.<br>
+If you prefer to be more Java-centric, make use of Mule for handling integration matter only or to use Mule flows to a smaller extent then Jersey approach will fit in.</p>
+<p>For more information about Component Bindings I encourage you to read Mule&rsquo;s well-written <a href="http://blogs.mulesoft.org/mule-component-bindings/">blog post</a> explaining the feature.</p>
+
+    </div>
+    <div class="post-footer">
+      <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "itssoapsfault" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+    </div>
+  </article>
+
+    </main>
+    <div class ="footer-mobile">
+      <section class="social">
+  
+  <a href="https://linkedin.com/in/gpoznachowski" rel="me"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a>
+  
+	
+	
+	<a href="https://github.com/poznachowski" rel="me"><i class="fab fa-github fa-lg" aria-hidden="true"></i></a>
+	
+
+	
+	<a href="https://stackoverflow.com/users/2514330" rel="me"><i class="fab fa-stack-overflow fa-lg" aria-hidden="true"></i></a>
+	
+	
+  
+  <a href="https://twitter.com/poznachowski" rel="me"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a>
+  
+	
+	<a href="mailto:grzegorz@poznachowski.pl" rel="me"><i class="fas fa-at fa-lg" aria-hidden="true"></i></a>
+	
+</section>
+<div class="copyright">
+  blog.poznachowski.pl &copy; 2013 - 2020
+</div>
+
+    </div>
+  </body>
+</html>

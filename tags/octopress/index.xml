@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>octopress on It&#39;s SOAP&#39;s Fault...</title>
+    <link>https://blog.poznachowski.pl/tags/octopress/</link>
+    <description>Recent content in octopress on It&#39;s SOAP&#39;s Fault...</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 27 May 2015 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://blog.poznachowski.pl/tags/octopress/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Migrating to Octopress</title>
+      <link>https://blog.poznachowski.pl/posts/migrating-to-octopress/</link>
+      <pubDate>Wed, 27 May 2015 00:00:00 +0000</pubDate>
+      
+      <guid>https://blog.poznachowski.pl/posts/migrating-to-octopress/</guid>
+      <description>I decided to move from Blogger to something, which is more close to a developer&amp;rsquo;s nature - Octopress. Now I can write my blog in my favourite IDE using language I&amp;rsquo;m used to (Markdown). However, my biggest motivation was to change the old layout to something up-to-date. Due to the migration I also expect one more thing to happen - me writing more often. :)
+To make this post somehow valuable, I will outline few steps I followed and share links I found useful.</description>
+    </item>
+    
+  </channel>
+</rss>

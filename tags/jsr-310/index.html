@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en-us">
+  <head>
+    <title>jsr-310 // It&#39;s SOAP&#39;s Fault...</title>
+    <meta charset="utf-8" />
+    <meta name="generator" content="Hugo 0.69.2" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="Grzegorz Poznachowski" />
+    <meta name="description" content="" />
+    <script defer src="https://use.fontawesome.com/releases/v5.11.2/js/all.js" integrity="sha384-b3ua1l97aVGAPEIe48b4TC60WUQbQaGi2jqAWM90y0OZXZeyaTCWtBTKtjW2GXG1" crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="https://blog.poznachowski.pl/css/main.min.25eca3824fcf78d24fcae19d3e8e6569422d8b9e88d219450ad3bb7fe6638673.css" />
+    <link rel="stylesheet" type="text/css" href="https:////fonts.googleapis.com/css?family=Quicksand" />
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Open+Sans" />
+    <link rel="stylesheet"
+          href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.1/styles/dracula.min.css">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.1/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+
+    
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="jsr-310"/>
+<meta name="twitter:description" content="My notes on coding and software development"/>
+
+    <meta property="og:title" content="jsr-310" />
+<meta property="og:description" content="My notes on coding and software development" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://blog.poznachowski.pl/tags/jsr-310/" />
+<meta property="og:updated_time" content="2016-06-15T00:00:00+00:00" />
+
+
+  </head>
+  <body>
+    <header class="app-header">
+      <div class="flex-wrapper">
+        <a href="https://blog.poznachowski.pl/">
+          <img class="app-header-avatar" src="/avatarGP.jpg" alt="Grzegorz Poznachowski" />
+        </a>
+        <div class="flex-text">
+          <a href="https://blog.poznachowski.pl/">
+            <h1>It&#39;s SOAP&#39;s Fault...</h1>
+          </a>
+          <p>My notes on coding and software development</p>
+        </div>
+      </div>
+      <div class ="footer-desktop">
+        <section class="social">
+  
+  <a href="https://linkedin.com/in/gpoznachowski" rel="me"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a>
+  
+	
+	
+	<a href="https://github.com/poznachowski" rel="me"><i class="fab fa-github fa-lg" aria-hidden="true"></i></a>
+	
+
+	
+	<a href="https://stackoverflow.com/users/2514330" rel="me"><i class="fab fa-stack-overflow fa-lg" aria-hidden="true"></i></a>
+	
+	
+  
+  <a href="https://twitter.com/poznachowski" rel="me"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a>
+  
+	
+	<a href="mailto:grzegorz@poznachowski.pl" rel="me"><i class="fas fa-at fa-lg" aria-hidden="true"></i></a>
+	
+</section>
+<div class="copyright">
+  blog.poznachowski.pl &copy; 2013 - 2020
+</div>
+
+      </div>
+    </header>
+    <main class="app-container">
+      
+<article>
+  <h1 class="title-list">jsr-310</h1>
+  <ul class="posts-list">
+    
+    <li class="posts-list-item">
+      <a class="posts-list-item-title" href="https://blog.poznachowski.pl/posts/mockbean-spring-boot-missing-ingredient/">@MockBean - Spring Boot&#39;s missing ingredient</a>
+      <span class="posts-list-item-description">
+        <div class="item-details">
+          <span class="post-list-details-time">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
+  <title>calendar</title>
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>
+</svg> Jun 06, 2016
+          </span>
+          <span class="post-list-details-read">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
+  <title>clock</title>
+  <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
+</svg> 10 min read
+          </span>
+        </div><span>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
+  <title>tag</title>
+  <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
+</svg>
+          <a class="tag" href="https://blog.poznachowski.pl/tags/spring-boot/">spring-boot</a><a class="tag" href="https://blog.poznachowski.pl/tags/testing/">testing</a><a class="tag" href="https://blog.poznachowski.pl/tags/mock/">mock</a><a class="tag" href="https://blog.poznachowski.pl/tags/jsr-310/">jsr-310</a></span></span>
+    </li>
+    
+  </ul>
+  
+
+
+
+</article>
+
+    </main>
+    <div class ="footer-mobile">
+      <section class="social">
+  
+  <a href="https://linkedin.com/in/gpoznachowski" rel="me"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a>
+  
+	
+	
+	<a href="https://github.com/poznachowski" rel="me"><i class="fab fa-github fa-lg" aria-hidden="true"></i></a>
+	
+
+	
+	<a href="https://stackoverflow.com/users/2514330" rel="me"><i class="fab fa-stack-overflow fa-lg" aria-hidden="true"></i></a>
+	
+	
+  
+  <a href="https://twitter.com/poznachowski" rel="me"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a>
+  
+	
+	<a href="mailto:grzegorz@poznachowski.pl" rel="me"><i class="fas fa-at fa-lg" aria-hidden="true"></i></a>
+	
+</section>
+<div class="copyright">
+  blog.poznachowski.pl &copy; 2013 - 2020
+</div>
+
+    </div>
+  </body>
+</html>

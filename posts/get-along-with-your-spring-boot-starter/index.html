@@ -1,0 +1,538 @@
+<!doctype html>
+<html lang="en-us">
+  <head>
+    <title>Get along with your Spring Boot Starter // It&#39;s SOAP&#39;s Fault...</title>
+    <meta charset="utf-8" />
+    <meta name="generator" content="Hugo 0.69.2" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="Grzegorz Poznachowski" />
+    <meta name="description" content="Spring Boot and Spring Boot Starters" />
+    <script defer src="https://use.fontawesome.com/releases/v5.11.2/js/all.js" integrity="sha384-b3ua1l97aVGAPEIe48b4TC60WUQbQaGi2jqAWM90y0OZXZeyaTCWtBTKtjW2GXG1" crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="https://blog.poznachowski.pl/css/main.min.25eca3824fcf78d24fcae19d3e8e6569422d8b9e88d219450ad3bb7fe6638673.css" />
+    <link rel="stylesheet" type="text/css" href="https:////fonts.googleapis.com/css?family=Quicksand" />
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Open+Sans" />
+    <link rel="stylesheet"
+          href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.1/styles/dracula.min.css">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.1/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+
+    
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Get along with your Spring Boot Starter"/>
+<meta name="twitter:description" content="Spring Boot and Spring Boot Starters"/>
+
+    <meta property="og:title" content="Get along with your Spring Boot Starter" />
+<meta property="og:description" content="Spring Boot and Spring Boot Starters" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://blog.poznachowski.pl/posts/get-along-with-your-spring-boot-starter/" />
+<meta property="article:published_time" content="2016-04-01T00:00:00+00:00" />
+<meta property="article:modified_time" content="2016-04-01T00:00:00+00:00" />
+
+
+  </head>
+  <body>
+    <header class="app-header">
+      <div class="flex-wrapper">
+        <a href="https://blog.poznachowski.pl/">
+          <img class="app-header-avatar" src="/avatarGP.jpg" alt="Grzegorz Poznachowski" />
+        </a>
+        <div class="flex-text">
+          <a href="https://blog.poznachowski.pl/">
+            <h1>It&#39;s SOAP&#39;s Fault...</h1>
+          </a>
+          <p>My notes on coding and software development</p>
+        </div>
+      </div>
+      <div class ="footer-desktop">
+        <section class="social">
+  
+  <a href="https://linkedin.com/in/gpoznachowski" rel="me"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a>
+  
+	
+	
+	<a href="https://github.com/poznachowski" rel="me"><i class="fab fa-github fa-lg" aria-hidden="true"></i></a>
+	
+
+	
+	<a href="https://stackoverflow.com/users/2514330" rel="me"><i class="fab fa-stack-overflow fa-lg" aria-hidden="true"></i></a>
+	
+	
+  
+  <a href="https://twitter.com/poznachowski" rel="me"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a>
+  
+	
+	<a href="mailto:grzegorz@poznachowski.pl" rel="me"><i class="fas fa-at fa-lg" aria-hidden="true"></i></a>
+	
+</section>
+<div class="copyright">
+  blog.poznachowski.pl &copy; 2013 - 2020
+</div>
+
+      </div>
+    </header>
+    <main class="app-container">
+      
+  <article class="post">
+    <header class="post-header">
+      <h1 class ="post-title">Get along with your Spring Boot Starter</h1>
+      <div class="post-meta">
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
+  <title>calendar</title>
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>
+</svg>
+          Apr 1, 2016
+        </div>
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
+  <title>clock</title>
+  <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
+</svg>
+          7 min read
+        </div><div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
+  <title>tag</title>
+  <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
+</svg>
+          <a class="tag" href="https://blog.poznachowski.pl/tags/spring/">spring</a><a class="tag" href="https://blog.poznachowski.pl/tags/spring-cloud/">spring-cloud</a><a class="tag" href="https://blog.poznachowski.pl/tags/spring-boot/">spring-boot</a><a class="tag" href="https://blog.poznachowski.pl/tags/spring-boot-starter/">spring-boot-starter</a><a class="tag" href="https://blog.poznachowski.pl/tags/maven/">maven</a></div></div>
+    </header>
+    <div class="post-content">
+      <div class="paragraph lead">
+<p>At <a href="http://neoteric.eu">Neoteric</a> we have finally decided
+to move forward with our technology stack. From custom-tailored mix-up of Jetty, Jersey, Guava and
+Jackson (it all started before <a href="http://dropwizard.github.io">Dropwizard</a> came along), going through different versions of
+these (during our journey we migrated from Jersey 1.x to 2.x, Jackson 1.x to 2.x, Guava 3.0 to 4.0 etc.), we&#8217;ve reached
+to the <a href="http://spring.io">Spring</a> island and we are currently learning language of the autochthons.</p>
+</div>
+<div class="paragraph">
+<p>We have picked Spring ecosystem as its most widely known Java solution, with great community support. But, most importantly,
+because we fell in love with <a href="http://projects.spring.io/spring-boot/">Spring Boot</a> and
+<a href="http://projects.spring.io/spring-cloud/">Spring Cloud</a> capabilities.</p>
+</div>
+<div class="sect2">
+<h3 id="_spring_boot_magic">Spring Boot magic</h3>
+<div class="paragraph">
+<p>There is so much hype on Spring Boot lately and so many Spring Boot articles, presentations etc., that I want to focus
+only on essential parts - required to understand how to write your own starter.</p>
+</div>
+<div class="paragraph">
+<p>The whole 'magic', as often expressed when explaining Spring Boot, mostly boils down to scanning application classpath for particular classes
+available and providing preconfigured <code>Beans</code> for them. Treat it as a convention over configuration concept applied to the application level.
+I think that, best way to understand it is to learn by example. Hence, let&#8217;s summon and examine Spring Boot&#8217;s <code>MongoAutoConfiguration</code> class.</p>
+</div>
+<div class="listingblock">
+<div class="title"><a href="https://github.com/spring-projects/spring-boot/blob/master/spring-boot-autoconfigure/src/main/java/org/springframework/boot/autoconfigure/mongo/MongoAutoConfiguration.java">MongoAutoConfiguration.java</a></div>
+<div class="content">
+<pre class="highlightjs highlight"><code data-lang="java" class="language-java hljs">@Configuration <b class="conum">(1)</b>
+@ConditionalOnClass(MongoClient.class) <b class="conum">(2)</b>
+@EnableConfigurationProperties(MongoProperties.class) <b class="conum">(3)</b>
+@ConditionalOnMissingBean(type = "org.springframework.data.mongodb.MongoDbFactory") <b class="conum">(4)</b>
+public class MongoAutoConfiguration {
+
+	@Autowired <b class="conum">(5)</b>
+	private MongoProperties properties;
+
+	@Autowired(required = false)
+	private MongoClientOptions options;
+
+	@Autowired
+	private Environment environment;
+
+	private MongoClient mongo;
+
+	@PreDestroy
+	public void close() {
+		if (this.mongo != null) {
+			this.mongo.close();
+		}
+	}
+
+	@Bean
+	@ConditionalOnMissingBean <b class="conum">(6)</b>
+	public MongoClient mongo() throws UnknownHostException {
+		this.mongo = this.properties.createMongoClient(this.options, this.environment);
+		return this.mongo;
+	}
+
+}</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<ol>
+<li>
+<p>Standard Spring <code>@Configuration</code> annotation. What it makes an auto-configuration class is an entry in
+<code><a href="#spring.factories">META-INF/spring.factories</a></code> file.</p>
+</li>
+<li>
+<p>One of the Conditional type annotations. This one means that the <code>MongoAutoConfiguration</code> class will be processed only
+if <code>MongoClient</code> class is available on classpath in runtime.</p>
+</li>
+<li>
+<p>Registers a properties class, so it can be used in the auto-configuration. More on this here.</p>
+</li>
+<li>
+<p>Another condition, which has to be met, to start processing the class.</p>
+</li>
+<li>
+<p>Auto-configuration class is a standard Spring configuration class, hence ability to inject beans is quite obvious.</p>
+</li>
+<li>
+<p>If you put <code>@ConditionalOnMissingBean</code> directly on a bean declaration, bean type will be inferred.</p>
+</li>
+</ol>
+</div>
+<div id="spring.factories" class="listingblock">
+<div class="title">META-INF/spring.factories</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>To sum up: <code>MongoAutoConfiguration</code> will be performed when <code>MongoClient</code> class is available at runtime
+(happens when <code>mongo-java-driver</code> dependency is added) and if no <code>Bean</code> of type <code>MongoDbFactory</code> is found.
+The latter implies, that you can define <code>Bean</code> of such type in your application and handle MongoDB scaffolding yourself.
+In that case <code>MongoAutoConfiguration</code> will be ignored by Spring Boot. In our example, MongoDB set up is moved into
+property class itself: <code>this.properties.createMongoClient(this.options, this.environment);</code></p>
+</div>
+<div class="paragraph">
+<p>There are some more annotation elements that may be helpful designing your starter:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 1. Conditional annotations</caption>
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 66.6667%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Annotation</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://github.com/spring-projects/spring-boot/blob/master/spring-boot-autoconfigure/src/main/java/org/springframework/boot/autoconfigure/condition/ConditionalOnClass.java"><code>@ConditionalOnClass</code></a> / <a href="https://github.com/spring-projects/spring-boot/blob/master/spring-boot-autoconfigure/src/main/java/org/springframework/boot/autoconfigure/condition/ConditionalOnMissingClass.java"><code>@ConditionalOnMissingClass</code></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Matches when specified classes are (or not) on classpath.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://github.com/spring-projects/spring-boot/blob/master/spring-boot-autoconfigure/src/main/java/org/springframework/boot/autoconfigure/condition/ConditionalOnBean.java"><code>@ConditionalOnBean</code></a> / <a href="https://github.com/spring-projects/spring-boot/blob/master/spring-boot-autoconfigure/src/main/java/org/springframework/boot/autoconfigure/condition/ConditionalOnMissingBean.java"><code>@ConditionalOnMissingBean</code></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Matches when specified bean is present (absent).</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://github.com/spring-projects/spring-boot/blob/master/spring-boot-autoconfigure/src/main/java/org/springframework/boot/autoconfigure/condition/ConditionalOnWebApplication.java"><code>@ConditionalOnWebApplication</code></a> / <a href="https://github.com/spring-projects/spring-boot/blob/master/spring-boot-autoconfigure/src/main/java/org/springframework/boot/autoconfigure/condition/ConditionalOnNotWebApplication.java"><code>@ConditionalOnNotWebApplication</code></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Matches when the application uses <code>WebApplicationContext</code> or not.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://github.com/spring-projects/spring-boot/blob/master/spring-boot-autoconfigure/src/main/java/org/springframework/boot/autoconfigure/condition/ConditionalOnJava.java"><code>@ConditionalOnJava</code></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Matches on Java version the application is running.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://github.com/spring-projects/spring-boot/blob/master/spring-boot-autoconfigure/src/main/java/org/springframework/boot/autoconfigure/condition/ConditionalOnExpression.java"><code>@ConditionalOnExpression</code></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Matches on specified SpEL expression.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://github.com/spring-projects/spring-boot/blob/master/spring-boot-autoconfigure/src/main/java/org/springframework/boot/autoconfigure/condition/ConditionalOnJndi.java"><code>@ConditionalOnJndi</code></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Matches if one of provided names can be looked up in JNDI.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://github.com/spring-projects/spring-boot/blob/master/spring-boot-autoconfigure/src/main/java/org/springframework/boot/autoconfigure/condition/ConditionalOnProperty.java"><code>@ConditionalOnProperty</code></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Matches if a property with specified value can be found in Spring Environment.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://github.com/spring-projects/spring-boot/blob/master/spring-boot-autoconfigure/src/main/java/org/springframework/boot/autoconfigure/condition/ConditionalOnResource.java"><code>@ConditionalOnResource</code></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Matches when specified resource can be found.</p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 2. Configuration order annotations</caption>
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 66.6667%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Annotation</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://github.com/spring-projects/spring-boot/blob/master/spring-boot-autoconfigure/src/main/java/org/springframework/boot/autoconfigure/AutoConfigureBefore.java"><code>@AutoConfigureBefore</code></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Marks annotated auto-configuration class to be resolved before other auto-configuration classes.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://github.com/spring-projects/spring-boot/blob/master/spring-boot-autoconfigure/src/main/java/org/springframework/boot/autoconfigure/AutoConfigureAfter.java"><code>@AutoConfigureAfter</code></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Marks annotated auto-configuration class to be resolved after other auto-configuration classes.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://github.com/spring-projects/spring-boot/blob/master/spring-boot-autoconfigure/src/main/java/org/springframework/boot/autoconfigure/AutoConfigureOrder.java"><code>@AutoConfigureOrder</code></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Allows auto-configuration classes to be resolved in a specific order without knowledge of each other.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>To help solve potential auto-configuration problems just run your Spring Boot application with a <code>--debug</code> switch
+(or <code>-Ddebug</code> system property). It will output nice <strong>Auto Configuration Report</strong> to the console. It contains all found
+auto-configuration classes, divided into 4 sections:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Positive matches</p>
+</li>
+<li>
+<p>Negative matches</p>
+</li>
+<li>
+<p>Exclusions</p>
+</li>
+<li>
+<p>Unconditional classes</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>When <code>spring-boot-starter-actuator</code> dependency is added to your project, there is an alternative way to get information about
+auto-configuration classes by calling <code>/autoconfig</code> endpoint.</p>
+</div>
+<div class="paragraph">
+
+
+<aside class="admonition">
+  <div class="admonition-bar tip">
+    <i class="fas
+    
+    fa-lightbulb
+    
+
+"></i>
+  </div>
+  <div class="admonition-content tip"><div class="paragraph">
+<p>To know the exact order of classes execution you can also put a breakpoint
+in <code>EnableAutoConfigurationImportSelector</code> in a place where <code>AutoConfigurationSorter</code> is
+<a href="https://github.com/spring-projects/spring-boot/blob/0c1dd1aac5517ce6dc42c64b21515b5d2d1e8c75/spring-boot-autoconfigure/src/main/java/org/springframework/boot/autoconfigure/EnableAutoConfigurationImportSelector.java#L192">used</a>.</p>
+</div>
+</div>
+</aside>
+
+</div>
+</div>
+<div class="sect2">
+<h3 id="_custom_starter_guidelines">Custom Starter guidelines</h3>
+<div class="paragraph">
+<p>As Spring Boot <a href="https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#boot-features-custom-starter-naming">documentation</a> states,
+you should not begin your starter name with <strong>spring-boot-</strong>* Especially when, you are making some technology <em>"Spring Bootable"</em>.
+Keep in mind that it may get official support in the future.</p>
+</div>
+<div class="paragraph">
+<p>Spring Boot structures its Starters into two parts:</p>
+</div>
+<div class="quoteblock">
+<blockquote>
+<div class="paragraph">
+<p>The <strong>autoconfigure</strong> module that contains the auto-configuration code.<br>
+The <strong>starter</strong> module that provides a dependency to the autoconfigure module as well as the library and any additional
+dependencies that are typically useful.</p>
+</div>
+</blockquote>
+<div class="attribution">
+&#8212; Spring Boot documentation
+</div>
+</div>
+<div class="paragraph">
+<p>For custom Starters there is also a suggestion that both these modules can be combined into a single one named simply
+<strong>starter</strong>. That&#8217;s how we approach creating our Starters, and couldn&#8217;t come up with a good reason to split.</p>
+</div>
+<div class="paragraph">
+<p>No matter, if you want to create a Starter to support a technology, or to encapsulate common behaviour among your
+applications, always try to provide sensible defaults with an option of extensive configuration. To achieve that you can
+provide configuration keys in your Starter. To do that, mark a simple POJO class with a <code>@ConfigurationProperties</code>
+annotation, providing prefix for your properties (again, do not make same prefixes as Spring Boot is using:
+<strong>spring</strong>, <strong>server</strong>, etc). Example property class:</p>
+</div>
+<div class="listingblock">
+<div class="title">SwaggerProperties.java</div>
+<div class="content">
+<pre class="highlightjs highlight"><code data-lang="java" class="language-java hljs">@ConfigurationProperties("neostarter.swagger")
+public class SwaggerProperties {
+
+    /**
+     * Enable swagger switch
+     */
+    private boolean enabled = true;
+
+    /**
+     * Should generated swagger.json be formatted
+     */
+    private boolean prettyPrint = true;
+
+    /**
+     * Provides the version of the application API
+     */
+    private String version = "1";
+
+    /**
+     * The contact information for the exposed API.
+     */
+    private String contact = "backend@neoteric.eu";
+
+    /**
+     * The transfer protocol for the operation. Values MUST be from the list: "http", "https", "ws", "wss".
+     */
+    private String[] schemes = {"http"};
+
+    /**
+     * The title of the application.
+     */
+    private String title;
+
+    ... (more fields, getters and setters) ...
+
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>You can then use the configuration properties as a conditions for your auto-configuration (via <code>@ConditionalOnProperty</code>)
+or / and register it with <code>@EnableConfigProperties</code> and inject into auto-configuration class. As said
+<a href="https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#configuration-metadata-annotation-processor">here</a>
+you can use annotation processing to help IDE assist on your custom properties auto-completion:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="/images/starters/ide-hints.png" alt="IDE autocompletion">
+</div>
+</div>
+<div class="paragraph">
+<p>To achieve that, add an optional dependency (in Maven):</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code data-lang="xml" class="language-xml hljs">&lt;dependency&gt;
+    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+    &lt;artifactId&gt;spring-boot-configuration-processor&lt;/artifactId&gt;
+    &lt;optional&gt;true&lt;/optional&gt;
+&lt;/dependency&gt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>and it will pick up your fields Javadoc set up and provide as an auto-completion description.</p>
+</div>
+<div class="paragraph">
+<p>Another important thing Spring Boot provides is that you don&#8217;t have to worry about dependencies version management.
+Spring Boot picks dependencies (and its versions) that works well with each other. Additional value your Starter brings
+is that you have already specified libraries versions you use and the end-user don&#8217;t have to think about that anymore (and
+potential version conflicts).</p>
+</div>
+<div class="paragraph">
+
+
+<aside class="admonition">
+  <div class="admonition-bar tip">
+    <i class="fas
+    
+    fa-lightbulb
+    
+
+"></i>
+  </div>
+  <div class="admonition-content tip"><div class="paragraph">
+<p>If you ever feel trapped into the corner, do not hesitate to dive deep into Spring Boot&#8217;s codebase.
+It is very well written and documented. When you get along with it, nothing will seem magical anymore. Don&#8217;t also forget
+about <a href="http://stackoverflow.com/questions/tagged/spring-boot">Stack Overflow</a> or Spring Boot
+<a href="https://gitter.im/spring-projects/spring-boot">Gitter</a> channel. There is a chance that somebody had same problem you are
+having. If not, don&#8217;t be afraid to ask - people there are more than happy to help you.</p>
+</div>
+</div>
+</aside>
+
+</div>
+</div>
+<div class="sect2">
+<h3 id="_neo_starters">Neo-Starters</h3>
+<div class="paragraph">
+<p>At Neoteric we have worked out some practices and standards for our services. Hence, came up with an idea that we can bend
+Spring Boot to our needs even more by creating our own set of starters. They would encapsulate these practices and enable
+us to develop new applications faster and with even less boilerplate code needed. We called them <code>neo-starters</code>.</p>
+</div>
+<div class="paragraph">
+
+
+<aside class="admonition">
+  <div class="admonition-bar info">
+    <i class="fas
+    
+    fa-info
+    
+
+"></i>
+  </div>
+  <div class="admonition-content info"><div class="paragraph">
+<p>Neo-Starters are available at Neoteric&#8217;s <a href="http://github.com/neoteric-eu/neo-starters">GitHub</a>. However, they are still
+under heavy development and subject to breaking changes.</p>
+</div>
+</div>
+</aside>
+
+</div>
+<div class="paragraph">
+<p>Each starter covers individual aspects of application. I will cover their details (whys and hows) in upcoming blog posts&#8230;&#8203;</p>
+</div>
+</div>
+
+    </div>
+    <div class="post-footer">
+      <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "itssoapsfault" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+    </div>
+  </article>
+
+    </main>
+    <div class ="footer-mobile">
+      <section class="social">
+  
+  <a href="https://linkedin.com/in/gpoznachowski" rel="me"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a>
+  
+	
+	
+	<a href="https://github.com/poznachowski" rel="me"><i class="fab fa-github fa-lg" aria-hidden="true"></i></a>
+	
+
+	
+	<a href="https://stackoverflow.com/users/2514330" rel="me"><i class="fab fa-stack-overflow fa-lg" aria-hidden="true"></i></a>
+	
+	
+  
+  <a href="https://twitter.com/poznachowski" rel="me"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a>
+  
+	
+	<a href="mailto:grzegorz@poznachowski.pl" rel="me"><i class="fas fa-at fa-lg" aria-hidden="true"></i></a>
+	
+</section>
+<div class="copyright">
+  blog.poznachowski.pl &copy; 2013 - 2020
+</div>
+
+    </div>
+  </body>
+</html>

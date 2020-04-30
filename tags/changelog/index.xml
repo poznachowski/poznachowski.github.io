@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>changelog on It&#39;s SOAP&#39;s Fault...</title>
+    <link>https://blog.poznachowski.pl/tags/changelog/</link>
+    <description>Recent content in changelog on It&#39;s SOAP&#39;s Fault...</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 04 Aug 2015 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://blog.poznachowski.pl/tags/changelog/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Befriend your changelog</title>
+      <link>https://blog.poznachowski.pl/posts/befriend-your-changelog/</link>
+      <pubDate>Tue, 04 Aug 2015 00:00:00 +0000</pubDate>
+      
+      <guid>https://blog.poznachowski.pl/posts/befriend-your-changelog/</guid>
+      <description>If you are tired of maintaining your changelog files manually, following solution may help you as it helped me.
+At my current company we have quite a lot of services to maintain. Some time ago we introduced proper versioning and releasing. That was a great step forward, but we were still missing an important piece. We wanted to have an easy way to know what was introduced (features &amp;amp; bug fixes) in each version.</description>
+    </item>
+    
+  </channel>
+</rss>

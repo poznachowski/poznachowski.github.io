@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  
+  <url>
+    <loc>https://blog.poznachowski.pl/posts/mockbean-spring-boot-missing-ingredient/</loc>
+    <lastmod>2016-06-15T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.poznachowski.pl/</loc>
+    <lastmod>2016-06-15T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.poznachowski.pl/tags/jsr-310/</loc>
+    <lastmod>2016-06-15T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.poznachowski.pl/tags/mock/</loc>
+    <lastmod>2016-06-15T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.poznachowski.pl/posts/</loc>
+    <lastmod>2016-06-15T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.poznachowski.pl/tags/spring/</loc>
+    <lastmod>2016-06-15T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.poznachowski.pl/tags/spring-boot/</loc>
+    <lastmod>2016-06-15T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.poznachowski.pl/tags/</loc>
+    <lastmod>2016-06-15T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.poznachowski.pl/tags/testing/</loc>
+    <lastmod>2016-06-15T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.poznachowski.pl/posts/get-along-with-your-spring-boot-starter/</loc>
+    <lastmod>2016-04-01T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.poznachowski.pl/tags/maven/</loc>
+    <lastmod>2016-04-01T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.poznachowski.pl/tags/spring-boot-starter/</loc>
+    <lastmod>2016-04-01T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.poznachowski.pl/tags/spring-cloud/</loc>
+    <lastmod>2016-04-01T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.poznachowski.pl/posts/befriend-your-changelog/</loc>
+    <lastmod>2015-08-04T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.poznachowski.pl/tags/changelog/</loc>
+    <lastmod>2015-08-04T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.poznachowski.pl/tags/git/</loc>
+    <lastmod>2015-08-04T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.poznachowski.pl/tags/blogger/</loc>
+    <lastmod>2015-05-27T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.poznachowski.pl/tags/disqus/</loc>
+    <lastmod>2015-05-27T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.poznachowski.pl/posts/migrating-to-octopress/</loc>
+    <lastmod>2015-05-27T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.poznachowski.pl/tags/octopress/</loc>
+    <lastmod>2015-05-27T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.poznachowski.pl/tags/gitflow/</loc>
+    <lastmod>2015-02-14T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.poznachowski.pl/posts/how-to-make-jenkins-speak-git-flow/</loc>
+    <lastmod>2015-02-14T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.poznachowski.pl/tags/jenkins/</loc>
+    <lastmod>2015-02-14T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.poznachowski.pl/tags/assertj/</loc>
+    <lastmod>2014-04-03T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.poznachowski.pl/tags/design/</loc>
+    <lastmod>2014-04-03T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.poznachowski.pl/tags/esb/</loc>
+    <lastmod>2014-04-03T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.poznachowski.pl/tags/flow/</loc>
+    <lastmod>2014-04-03T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.poznachowski.pl/tags/mule/</loc>
+    <lastmod>2014-04-03T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.poznachowski.pl/tags/munit/</loc>
+    <lastmod>2014-04-03T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.poznachowski.pl/posts/munit-testing-mule-practices-and-some/</loc>
+    <lastmod>2014-04-03T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.poznachowski.pl/posts/handling-groovy-scripts-in-mule-esb/</loc>
+    <lastmod>2013-11-03T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.poznachowski.pl/tags/script/</loc>
+    <lastmod>2013-11-03T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.poznachowski.pl/tags/api/</loc>
+    <lastmod>2013-10-20T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.poznachowski.pl/tags/component-binding/</loc>
+    <lastmod>2013-10-20T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.poznachowski.pl/posts/exposing-restful-interface-with-mule-pt2/</loc>
+    <lastmod>2013-10-20T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.poznachowski.pl/tags/rest/</loc>
+    <lastmod>2013-10-20T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.poznachowski.pl/posts/exposing-restful-interface-with-mule-pt1/</loc>
+    <lastmod>2013-10-11T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.poznachowski.pl/categories/</loc>
+  </url>
+  
+</urlset>

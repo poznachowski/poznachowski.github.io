@@ -1,0 +1,273 @@
+<!doctype html>
+<html lang="en-us">
+  <head>
+    <title>Migrating to Octopress // It&#39;s SOAP&#39;s Fault...</title>
+    <meta charset="utf-8" />
+    <meta name="generator" content="Hugo 0.69.2" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="Grzegorz Poznachowski" />
+    <meta name="description" content="" />
+    <script defer src="https://use.fontawesome.com/releases/v5.11.2/js/all.js" integrity="sha384-b3ua1l97aVGAPEIe48b4TC60WUQbQaGi2jqAWM90y0OZXZeyaTCWtBTKtjW2GXG1" crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="https://blog.poznachowski.pl/css/main.min.25eca3824fcf78d24fcae19d3e8e6569422d8b9e88d219450ad3bb7fe6638673.css" />
+    <link rel="stylesheet" type="text/css" href="https:////fonts.googleapis.com/css?family=Quicksand" />
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Open+Sans" />
+    <link rel="stylesheet"
+          href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.1/styles/dracula.min.css">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.1/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+
+    
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Migrating to Octopress"/>
+<meta name="twitter:description" content="I decided to move from Blogger to something, which is more close to a developer&rsquo;s nature - Octopress. Now I can write my blog in my favourite IDE using language I&rsquo;m used to (Markdown). However, my biggest motivation was to change the old layout to something up-to-date. Due to the migration I also expect one more thing to happen - me writing more often. :)
+To make this post somehow valuable, I will outline few steps I followed and share links I found useful."/>
+
+    <meta property="og:title" content="Migrating to Octopress" />
+<meta property="og:description" content="I decided to move from Blogger to something, which is more close to a developer&rsquo;s nature - Octopress. Now I can write my blog in my favourite IDE using language I&rsquo;m used to (Markdown). However, my biggest motivation was to change the old layout to something up-to-date. Due to the migration I also expect one more thing to happen - me writing more often. :)
+To make this post somehow valuable, I will outline few steps I followed and share links I found useful." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://blog.poznachowski.pl/posts/migrating-to-octopress/" />
+<meta property="article:published_time" content="2015-05-27T00:00:00+00:00" />
+<meta property="article:modified_time" content="2015-05-27T00:00:00+00:00" />
+
+
+  </head>
+  <body>
+    <header class="app-header">
+      <div class="flex-wrapper">
+        <a href="https://blog.poznachowski.pl/">
+          <img class="app-header-avatar" src="/avatarGP.jpg" alt="Grzegorz Poznachowski" />
+        </a>
+        <div class="flex-text">
+          <a href="https://blog.poznachowski.pl/">
+            <h1>It&#39;s SOAP&#39;s Fault...</h1>
+          </a>
+          <p>My notes on coding and software development</p>
+        </div>
+      </div>
+      <div class ="footer-desktop">
+        <section class="social">
+  
+  <a href="https://linkedin.com/in/gpoznachowski" rel="me"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a>
+  
+	
+	
+	<a href="https://github.com/poznachowski" rel="me"><i class="fab fa-github fa-lg" aria-hidden="true"></i></a>
+	
+
+	
+	<a href="https://stackoverflow.com/users/2514330" rel="me"><i class="fab fa-stack-overflow fa-lg" aria-hidden="true"></i></a>
+	
+	
+  
+  <a href="https://twitter.com/poznachowski" rel="me"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a>
+  
+	
+	<a href="mailto:grzegorz@poznachowski.pl" rel="me"><i class="fas fa-at fa-lg" aria-hidden="true"></i></a>
+	
+</section>
+<div class="copyright">
+  blog.poznachowski.pl &copy; 2013 - 2020
+</div>
+
+      </div>
+    </header>
+    <main class="app-container">
+      
+  <article class="post">
+    <header class="post-header">
+      <h1 class ="post-title">Migrating to Octopress</h1>
+      <div class="post-meta">
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
+  <title>calendar</title>
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>
+</svg>
+          May 27, 2015
+        </div>
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
+  <title>clock</title>
+  <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
+</svg>
+          4 min read
+        </div><div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
+  <title>tag</title>
+  <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
+</svg>
+          <a class="tag" href="https://blog.poznachowski.pl/tags/blogger/">blogger</a><a class="tag" href="https://blog.poznachowski.pl/tags/octopress/">octopress</a><a class="tag" href="https://blog.poznachowski.pl/tags/disqus/">disqus</a></div></div>
+    </header>
+    <div class="post-content">
+      <p>I decided to move from Blogger to something, which is more close to a developer&rsquo;s nature - <a href="http://http://octopress.org/">Octopress</a>.
+Now I can write my blog in my favourite IDE using language I&rsquo;m used to (Markdown). However, my biggest motivation was to change the
+old layout to something up-to-date. Due to the migration I also expect one more thing to happen - me writing more often. :)</p>
+<p>To make this post somehow valuable, I will outline few steps I followed and share links I found useful. In general,<br>
+I consider the migration rather smooth, especially as I did not have any knowledge on Octopress, <a href="http://jekyllrb.com/">Jekyll</a>
+and <a href="https://www.ruby-lang.org">Ruby</a> before. It took me a single weekend to set up everything (Most of the time - tweaking the theme).</p>
+<p><em><strong>Note</strong>: While I was writing this, I realized that I used somewhat old Octopress version (or at least an old way of using it).
+Latest version instructions are only available on <a href="https://github.com/octopress/octopress">Octopus GitHub</a> (as for today). Nevertheless,
+it works as is, so I&rsquo;m not bothered with it right now.</em></p>
+<p>Firstly, I want to point out that <a href="http://octopress.org/docs/">documentation</a> of Octopress is well written and everything is clearly explained.
+Another place to go is <a href="http://staxmanade.com/2014/04/migrating-blogspot-to-octopress-part-1-introduction/">Jason&rsquo;s series of posts</a> strictly on migrating from Blogger to Octopress.
+I will add some notes, when something was not clear for me or if it was out of scope of the Octopress.</p>
+<p>For reference: I use <em>Ubuntu Gnome 15.04</em>.</p>
+<ul>
+<li>Installing Ruby</li>
+</ul>
+<p>I installed the exact version they recommend <em>(1.9.3-rc0)</em> using <a href="http://octopress.org/docs/setup/rbenv/">rbenv</a>. When cloning rbenv remember
+to stay in your home folder :)</p>
+<ul>
+<li>
+<p>Installing ExecJS</p>
+<p>I went with <em>therubyracer</em>, but I have encountered a problem of ExecJS not finding JavaScript environment. Surprisingly (at least for me)
+<a href="http://stackoverflow.com/questions/16846088/rails-server-does-not-start-could-not-find-a-javascript-runtime">installing Node.js</a> helps.</p>
+</li>
+<li>
+<p>Installing Octopress and deploying to GitHub</p>
+<p>That was really straightforward, everything went just fine.</p>
+</li>
+<li>
+<p>Blogger posts migration</p>
+<p><a href="http://p7h.org/blog/2015/01/18/migration-blogger-to-octopress/">Posts migration</a> is an easy task, as long as you find a good version of import script.
+I went through some and eventually found the one which worked. They are really similar and I don&rsquo;t remember who was the author of that specific version (sorry!),
+Hence, I placed it as another Gist - available <a href="https://gist.github.com/poznachowski/7e34a454520a32f51698">here</a>.</p>
+</li>
+<li>
+<p>Comments migration</p>
+<p>I decided to go with Disqus. Octopress has a built-in support, so it was an obvious choice. And here is the biggest disappointment. Disqus has lost
+support for importing comments from blogger (<a href="https://disqus.com/home/channel/discussdisqus/discussion/channel-discussdisqus/problems_syncing_comments_to_blogger/">Source</a>).
+I did not have that much to migrate and I decided to leave my old comments behind.</p>
+</li>
+<li>
+<p>Custom domain</p>
+<p>Everything is well described in the Octopress docs. I want to share my experience here: for the first time I managed to switch the domain
+within seconds!</p>
+</li>
+<li>
+<p>Fixing links and handling redirects</p>
+<p>As I have only few blog posts so far, I handled broken links in posts manually. You can use tools for search and replace like sed or something similar.
+Redirects were a little bit more tricky. <a href="http://staxmanade.com/2014/04/migrating-blogspot-to-octopress-part-6-301-redirect-old-posts-to-new-location/">Solution</a>
+suggested by Jason, does not seem to work anymore. Blogger template is now strictly XML validated and <a href="https://support.google.com/blogger/answer/42095?hl=en">these</a>
+tags don&rsquo;t work currently. The other option I found is <a href="http://salman-w.blogspot.com/2013/04/301-redirect-old-blogger-blog-to-new-address.html">here</a>.
+The solution is really naive. I modified it a little bit - the pages are now recognized not by URL, but by title, as one can provide URL in
+different blogspot domains:</p>
+</li>
+</ul>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#ff79c6">&lt;b:if</span> <span style="color:#50fa7b">cond=</span><span style="color:#f1fa8c">&#39;data:blog.pageTitle == &amp;quot;It&amp;apos;s SOAP&amp;apos;s Fault...: Handling Groovy scripts in Mule ESB&amp;quot;&#39;</span><span style="color:#ff79c6">&gt;</span>
+<span style="color:#ff79c6">&lt;meta</span> <span style="color:#50fa7b">content=</span><span style="color:#f1fa8c">&#39;0;url=http://blog.poznachowski.pl/2013/11/03/handling-groovy-scripts-in-mule-esb/&#39;</span> <span style="color:#50fa7b">http-equiv=</span><span style="color:#f1fa8c">&#39;refresh&#39;</span><span style="color:#ff79c6">/&gt;</span>
+
+<span style="color:#ff79c6">&lt;b:elseif</span> <span style="color:#50fa7b">cond=</span><span style="color:#f1fa8c">&#39;data:blog.pageTitle == &amp;quot;It&amp;apos;s SOAP&amp;apos;s Fault...: MUnit testing, Mule best practices and more...&amp;quot;&#39;</span><span style="color:#ff79c6">/&gt;</span>
+<span style="color:#ff79c6">&lt;meta</span> <span style="color:#50fa7b">content=</span><span style="color:#f1fa8c">&#39;0;url=http://blog.poznachowski.pl/2014/04/03/munit-testing-mule-practices-and-some/&#39;</span> <span style="color:#50fa7b">http-equiv=</span><span style="color:#f1fa8c">&#39;refresh&#39;</span><span style="color:#ff79c6">/&gt;</span>
+
+<span style="color:#ff79c6">&lt;b:elseif</span> <span style="color:#50fa7b">cond=</span><span style="color:#f1fa8c">&#39;data:blog.pageTitle == &amp;quot;It&amp;apos;s SOAP&amp;apos;s Fault...: Exposing RESTful interface with Mule pt.2&amp;quot;&#39;</span><span style="color:#ff79c6">/&gt;</span>
+<span style="color:#ff79c6">&lt;meta</span> <span style="color:#50fa7b">content=</span><span style="color:#f1fa8c">&#39;0;url=http://blog.poznachowski.pl/2013/10/20/exposing-restful-interface-with-mule-pt2/&#39;</span> <span style="color:#50fa7b">http-equiv=</span><span style="color:#f1fa8c">&#39;refresh&#39;</span><span style="color:#ff79c6">/&gt;</span>
+
+<span style="color:#ff79c6">&lt;b:elseif</span> <span style="color:#50fa7b">cond=</span><span style="color:#f1fa8c">&#39;data:blog.pageTitle == &amp;quot;It&amp;apos;s SOAP&amp;apos;s Fault...: Exposing RESTful interface with Mule pt.1&amp;quot;&#39;</span><span style="color:#ff79c6">/&gt;</span>
+<span style="color:#ff79c6">&lt;meta</span> <span style="color:#50fa7b">content=</span><span style="color:#f1fa8c">&#39;0;url=http://blog.poznachowski.pl/2013/10/11/exposing-restful-interface-with-mule-pt1/&#39;</span> <span style="color:#50fa7b">http-equiv=</span><span style="color:#f1fa8c">&#39;refresh&#39;</span><span style="color:#ff79c6">/&gt;</span>
+
+<span style="color:#ff79c6">&lt;b:elseif</span> <span style="color:#50fa7b">cond=</span><span style="color:#f1fa8c">&#39;data:blog.pageTitle == &amp;quot;It&amp;apos;s SOAP&amp;apos;s Fault...: How to make Jenkins speak Git Flow?&amp;quot;&#39;</span><span style="color:#ff79c6">/&gt;</span>
+<span style="color:#ff79c6">&lt;meta</span> <span style="color:#50fa7b">content=</span><span style="color:#f1fa8c">&#39;0;url=http://blog.poznachowski.pl/2015/02/14/how-to-make-jenkins-speak-git-flow/&#39;</span> <span style="color:#50fa7b">http-equiv=</span><span style="color:#f1fa8c">&#39;refresh&#39;</span><span style="color:#ff79c6">/&gt;</span>
+
+<span style="color:#ff79c6">&lt;b:else/&gt;</span>
+<span style="color:#ff79c6">&lt;meta</span> <span style="color:#50fa7b">content=</span><span style="color:#f1fa8c">&#39;0;url=http://blog.poznachowski.pl&#39;</span> <span style="color:#50fa7b">http-equiv=</span><span style="color:#f1fa8c">&#39;refresh&#39;</span><span style="color:#ff79c6">/&gt;</span>
+<span style="color:#ff79c6">&lt;/b:if&gt;</span>
+</code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>
+<p>Making the blog look nice</p>
+<p>This is the part that took me 80% of the time. My first step around Octopress was <a href="https://github.com/imathis/octopress/wiki/3rd-Party-Octopress-Themes">searching</a>
+for a good looking theme. I ended up using <a href="https://github.com/alexgaribay/octoflat">Octoflat</a>. It looked really nice, but I wanted to tweak
+it a little bit. Important places to investigate are: <em>source/_layouts</em>, <em>source/_includes</em>, <em>sass/_flat-ui.scss</em>. It is important to get familiar with <a href="http://liquidmarkup.org/">Liquid</a>,
+which is a templating language used in Jekyll. Fortunately, it&rsquo;s pretty easy to grasp.</p>
+</li>
+<li>
+<p>Code syntax highlight</p>
+<p>Default version of code highlighter of Octopress has two color schemes, which I didn&rsquo;t find attractive. Then I found <a href="http://coderay.rubychan.de/">Coderay</a>
+and an <a href="http://blog.alestanis.com/2013/02/04/octopress-and-the-twilight-color-scheme/">article</a>, how to integrate it into the blog.
+The problem I had is that line number greater than 9 were not shown properly. I found a <a href="https://github.com/rubychan/coderay/issues/102">solution</a> for that.
+This indicated me another thing. Root cause of submitted issue - line numbers of wrapped lines are out of sync. Unfortunately, it still applies
+in my case. I need to work on that.</p>
+</li>
+</ul>
+<p>That would sum up all things I was coping with last weekend. My next goal is to introduce <a href="http://asciidoctor.org/">Asciidoctor</a> to the blog and
+make sure everything works as expected :) If you have any suggestions or comments, please reach out.</p>
+
+    </div>
+    <div class="post-footer">
+      <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "itssoapsfault" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+    </div>
+  </article>
+
+    </main>
+    <div class ="footer-mobile">
+      <section class="social">
+  
+  <a href="https://linkedin.com/in/gpoznachowski" rel="me"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a>
+  
+	
+	
+	<a href="https://github.com/poznachowski" rel="me"><i class="fab fa-github fa-lg" aria-hidden="true"></i></a>
+	
+
+	
+	<a href="https://stackoverflow.com/users/2514330" rel="me"><i class="fab fa-stack-overflow fa-lg" aria-hidden="true"></i></a>
+	
+	
+  
+  <a href="https://twitter.com/poznachowski" rel="me"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a>
+  
+	
+	<a href="mailto:grzegorz@poznachowski.pl" rel="me"><i class="fas fa-at fa-lg" aria-hidden="true"></i></a>
+	
+</section>
+<div class="copyright">
+  blog.poznachowski.pl &copy; 2013 - 2020
+</div>
+
+    </div>
+  </body>
+</html>

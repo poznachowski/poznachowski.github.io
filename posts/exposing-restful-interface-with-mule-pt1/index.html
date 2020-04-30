@@ -1,0 +1,452 @@
+<!doctype html>
+<html lang="en-us">
+  <head>
+    <title>Exposing RESTful interface with Mule pt.1 // It&#39;s SOAP&#39;s Fault...</title>
+    <meta charset="utf-8" />
+    <meta name="generator" content="Hugo 0.69.2" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="Grzegorz Poznachowski" />
+    <meta name="description" content="Exposing RESTful interface with Mule part 1" />
+    <script defer src="https://use.fontawesome.com/releases/v5.11.2/js/all.js" integrity="sha384-b3ua1l97aVGAPEIe48b4TC60WUQbQaGi2jqAWM90y0OZXZeyaTCWtBTKtjW2GXG1" crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="https://blog.poznachowski.pl/css/main.min.25eca3824fcf78d24fcae19d3e8e6569422d8b9e88d219450ad3bb7fe6638673.css" />
+    <link rel="stylesheet" type="text/css" href="https:////fonts.googleapis.com/css?family=Quicksand" />
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Open+Sans" />
+    <link rel="stylesheet"
+          href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.1/styles/dracula.min.css">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.1/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+
+    
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Exposing RESTful interface with Mule pt.1"/>
+<meta name="twitter:description" content="Exposing RESTful interface with Mule part 1"/>
+
+    <meta property="og:title" content="Exposing RESTful interface with Mule pt.1" />
+<meta property="og:description" content="Exposing RESTful interface with Mule part 1" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://blog.poznachowski.pl/posts/exposing-restful-interface-with-mule-pt1/" />
+<meta property="article:published_time" content="2013-10-11T00:00:00+00:00" />
+<meta property="article:modified_time" content="2013-10-11T00:00:00+00:00" />
+
+
+  </head>
+  <body>
+    <header class="app-header">
+      <div class="flex-wrapper">
+        <a href="https://blog.poznachowski.pl/">
+          <img class="app-header-avatar" src="/avatarGP.jpg" alt="Grzegorz Poznachowski" />
+        </a>
+        <div class="flex-text">
+          <a href="https://blog.poznachowski.pl/">
+            <h1>It&#39;s SOAP&#39;s Fault...</h1>
+          </a>
+          <p>My notes on coding and software development</p>
+        </div>
+      </div>
+      <div class ="footer-desktop">
+        <section class="social">
+  
+  <a href="https://linkedin.com/in/gpoznachowski" rel="me"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a>
+  
+	
+	
+	<a href="https://github.com/poznachowski" rel="me"><i class="fab fa-github fa-lg" aria-hidden="true"></i></a>
+	
+
+	
+	<a href="https://stackoverflow.com/users/2514330" rel="me"><i class="fab fa-stack-overflow fa-lg" aria-hidden="true"></i></a>
+	
+	
+  
+  <a href="https://twitter.com/poznachowski" rel="me"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a>
+  
+	
+	<a href="mailto:grzegorz@poznachowski.pl" rel="me"><i class="fas fa-at fa-lg" aria-hidden="true"></i></a>
+	
+</section>
+<div class="copyright">
+  blog.poznachowski.pl &copy; 2013 - 2020
+</div>
+
+      </div>
+    </header>
+    <main class="app-container">
+      
+  <article class="post">
+    <header class="post-header">
+      <h1 class ="post-title">Exposing RESTful interface with Mule pt.1</h1>
+      <div class="post-meta">
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
+  <title>calendar</title>
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>
+</svg>
+          Oct 11, 2013
+        </div>
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
+  <title>clock</title>
+  <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
+</svg>
+          8 min read
+        </div><div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
+  <title>tag</title>
+  <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
+</svg>
+          <a class="tag" href="https://blog.poznachowski.pl/tags/rest/">rest</a><a class="tag" href="https://blog.poznachowski.pl/tags/api/">api</a><a class="tag" href="https://blog.poznachowski.pl/tags/esb/">esb</a><a class="tag" href="https://blog.poznachowski.pl/tags/mule/">mule</a></div></div>
+    </header>
+    <div class="post-content">
+      <p><strong>Update (20.10.2013)</strong> - When not supported HTTP method is used, return more appropriate HTTP status (405 instead of 400).</p>
+<p>As it&rsquo;s my first blog entry I&rsquo;d like to welcome everyone. If you&rsquo;d like to know more about me click on the tab above. If not.. I&rsquo;ll go straight to the point.</p>
+<p>Recently, I had to create Mule&rsquo;s application, which exposes itself via a simple RESTful API. However, when it comes to REST, Mule ESB seems to be quite limited in viable options.<br>
+The only, official approach is to use the <a href="http://www.mulesoft.org/documentation/display/current/REST+Component+Reference">REST Component</a>, which relies on <a href="https://jersey.java.net/">Jersey</a>, which is the Reference Implementation of JAX-RS. Sounds good, but it ties you to the Java code instead of having fun with the Mule&rsquo;s message processing :) This can be overcome as well, but still some Java needs to be written.</p>
+<p>Fortunately, there are some other possibilites, which would make simple REST API creation easier. Nevertheless, I&rsquo;d like to present you all the options (of which I&rsquo;m aware of) with description and a working example.</p>
+<p>All presented examples were tested against Mule ESB 3.4.0 EE. However, they should run without any problems on CE and even on previous versions.</p>
+<p><strong>1. &ldquo;Poor man&rsquo;s&rdquo; REST:</strong></p>
+<p>First approach is the most straightforward one - handling HTTP properties available in Mule manually. Quick overview over HTTP properties is available <a href="http://www.mulesoft.org/documentation/download/attachments/96633423/Archived_Mule_Developer_Notes_20130816.pdf?version=1&amp;modificationDate=1376677251871">here</a> - (1.4.7 Use Case) in archived Mule Developer Resources.</p>
+<p>In that case, we need to take care of detecting the HTTP method, URL and fetching URL variable parameters by ourselves. We can accomplish that using Mule&rsquo;s choice component and setting flow variables (if needed).<br>
+An example will accept URL (on 8088 port) as follows: <strong>/client/{accountID}/{userID}/get</strong> on both <strong>GET</strong> and <strong>POST</strong> HTTP methods, where {accountID} and {userID} are the variable parameters.</p>
+<p>General overview of the flow:<br>
+<img src="/images/mulerest1/PoorMansRESTFlow.png" alt="PoorMansRESTFlow"></p>
+<p>First step is not necessary, but helpful for quick suppresion of favicon.ico requests when accesing service via browsers:</p>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#ff79c6">&lt;message-filter</span> <span style="color:#50fa7b">doc:name=</span><span style="color:#f1fa8c">&#34;Filter favicon&#34;</span><span style="color:#ff79c6">&gt;</span>  
+  <span style="color:#ff79c6">&lt;not-filter&gt;</span>  
+    <span style="color:#ff79c6">&lt;wildcard-filter</span> <span style="color:#50fa7b">casesensitive=</span><span style="color:#f1fa8c">&#34;true&#34;</span> <span style="color:#50fa7b">pattern=</span><span style="color:#f1fa8c">&#34;/favicon.ico&#34;</span><span style="color:#ff79c6">&gt;</span>  
+  <span style="color:#ff79c6">&lt;/wildcard-filter&gt;&lt;/not-filter&gt;</span>  
+<span style="color:#ff79c6">&lt;/message-filter&gt;</span>  
+</code></pre></td></tr></table>
+</div>
+</div><p>To match URL let&rsquo;s use choice component with regular expression:</p>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#ff79c6">&lt;choice</span> <span style="color:#50fa7b">doc:name=</span><span style="color:#f1fa8c">&#34;Choice&#34;</span><span style="color:#ff79c6">&gt;</span>  
+  <span style="color:#ff79c6">&lt;when</span> <span style="color:#50fa7b">expression=</span><span style="color:#f1fa8c">&#34;#[regex(&#39;/client/\\w+/\\w+/get/?&#39;, message.inboundProperties[&#39;http.request.path&#39;])]&#34;</span><span style="color:#ff79c6">&gt;</span>  
+   ...  
+ <span style="color:#ff79c6">&lt;/when&gt;</span>  
+  <span style="color:#ff79c6">&lt;otherwise&gt;</span>  
+    <span style="color:#ff79c6">&lt;http:response-builder</span> <span style="color:#50fa7b">status=</span><span style="color:#f1fa8c">&#34;400&#34;</span> <span style="color:#50fa7b">doc:name=</span><span style="color:#f1fa8c">&#34;Return 400 For bad URL&#34;</span><span style="color:#ff79c6">&gt;</span>  
+      <span style="color:#ff79c6">&lt;set-payload</span> <span style="color:#50fa7b">value=</span><span style="color:#f1fa8c">&#34;Unknown resource: #[message.inboundProperties[&#39;http.request.path&#39;]]&#34;</span> <span style="color:#ff79c6">/&gt;</span>  
+    <span style="color:#ff79c6">&lt;/http:response-builder&gt;</span>  
+  <span style="color:#ff79c6">&lt;/otherwise&gt;</span>  
+<span style="color:#ff79c6">&lt;/choice&gt;</span>  
+</code></pre></td></tr></table>
+</div>
+</div><p>We retrieve URL path using Mule&rsquo;s inbound property - &lsquo;http.request.path&rsquo;, then match it with the regexp &lsquo;/client/\w+/\w+/get/?'. If we don&rsquo;t have a match we just simply return 400 HTTP status.<br>
+Otherwise, we can proceed and determine which HTTP method was used to send the request:</p>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml">  <span style="color:#ff79c6">&lt;when</span> <span style="color:#50fa7b">expression=</span><span style="color:#f1fa8c">&#34;message.inboundProperties[&#39;http.method&#39;] == &#39;GET&#39;&#34;</span><span style="color:#ff79c6">&gt;</span>  
+    <span style="color:#ff79c6">&lt;flow-ref</span> <span style="color:#50fa7b">name=</span><span style="color:#f1fa8c">&#34;RetrievingParameters&#34;</span> <span style="color:#50fa7b">doc:name=</span><span style="color:#f1fa8c">&#34;Retrieve Parameters&#34;</span><span style="color:#ff79c6">/&gt;</span>  
+    <span style="color:#ff79c6">&lt;flow-ref</span> <span style="color:#50fa7b">name=</span><span style="color:#f1fa8c">&#34;ProcessGET&#34;</span> <span style="color:#50fa7b">doc:name=</span><span style="color:#f1fa8c">&#34;Process GET&#34;</span><span style="color:#ff79c6">/&gt;</span>  
+  <span style="color:#ff79c6">&lt;/when&gt;</span>  
+  <span style="color:#ff79c6">&lt;when</span> <span style="color:#50fa7b">expression=</span><span style="color:#f1fa8c">&#34;message.inboundProperties[&#39;http.method&#39;] == &#39;POST&#39;&#34;</span><span style="color:#ff79c6">&gt;</span>  
+    <span style="color:#ff79c6">&lt;flow-ref</span> <span style="color:#50fa7b">name=</span><span style="color:#f1fa8c">&#34;RetrievingParameters&#34;</span> <span style="color:#50fa7b">doc:name=</span><span style="color:#f1fa8c">&#34;Retrieve Parameters&#34;</span><span style="color:#ff79c6">/&gt;</span>  
+    <span style="color:#ff79c6">&lt;flow-ref</span> <span style="color:#50fa7b">name=</span><span style="color:#f1fa8c">&#34;ProcessPOST&#34;</span> <span style="color:#50fa7b">doc:name=</span><span style="color:#f1fa8c">&#34;Process POST&#34;</span><span style="color:#ff79c6">/&gt;</span>  
+  <span style="color:#ff79c6">&lt;/when&gt;</span>  
+  <span style="color:#ff79c6">&lt;otherwise&gt;</span>  
+    <span style="color:#ff79c6">&lt;http:response-builder</span> <span style="color:#50fa7b">status=</span><span style="color:#f1fa8c">&#34;405&#34;</span> <span style="color:#50fa7b">doc:name=</span><span style="color:#f1fa8c">&#34;Return 405 For bad HTTP method&#34;</span><span style="color:#ff79c6">&gt;</span>  
+      <span style="color:#ff79c6">&lt;set-payload</span> <span style="color:#50fa7b">value=</span><span style="color:#f1fa8c">&#34;Unknown HTTP method: #[message.inboundProperties[&#39;http.method&#39;]]&#34;</span> <span style="color:#ff79c6">/&gt;</span>  
+    <span style="color:#ff79c6">&lt;/http:response-builder&gt;</span>  
+  <span style="color:#ff79c6">&lt;/otherwise&gt;</span>  
+<span style="color:#ff79c6">&lt;/choice&gt;</span>  
+</code></pre></td></tr></table>
+</div>
+</div><p>This time we are checking another inbound parameter - &lsquo;http.method&rsquo;. If it&rsquo;s not the method we want to proceed with, we return 405 HTTP status (Method Not Allowed).</p>
+<p>For all supported methods we want to fetch the URL parameters. Hence, this functionality is extracted to a reusable sub-flow:</p>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#ff79c6">&lt;sub-flow</span> <span style="color:#50fa7b">name=</span><span style="color:#f1fa8c">&#34;RetrievingParameters&#34;</span> <span style="color:#50fa7b">doc:name=</span><span style="color:#f1fa8c">&#34;RetrievingParameters&#34;</span><span style="color:#ff79c6">&gt;</span>  
+  <span style="color:#ff79c6">&lt;set-variable</span> <span style="color:#50fa7b">variableName=</span><span style="color:#f1fa8c">&#34;accountID&#34;</span> <span style="color:#50fa7b">value=</span><span style="color:#f1fa8c">&#34;#[StringUtils.splitAndTrim(message.inboundProperties[&#39;http.request.path&#39;], &#39;/&#39;)[1]]&#34;</span> <span style="color:#50fa7b">doc:name=</span><span style="color:#f1fa8c">&#34;Set Account ID&#34;</span><span style="color:#ff79c6">/&gt;</span>  
+  <span style="color:#ff79c6">&lt;set-variable</span> <span style="color:#50fa7b">variableName=</span><span style="color:#f1fa8c">&#34;userID&#34;</span> <span style="color:#50fa7b">value=</span><span style="color:#f1fa8c">&#34;#[StringUtils.splitAndTrim(message.inboundProperties[&#39;http.request.path&#39;], &#39;/&#39;)[2]]&#34;</span> <span style="color:#50fa7b">doc:name=</span><span style="color:#f1fa8c">&#34;Set User ID&#34;</span><span style="color:#ff79c6">/&gt;</span>
+<span style="color:#ff79c6">&lt;/sub-flow&gt;</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>As I&rsquo;m not good at regular expressions, I decided to go with Mule&rsquo;s StringUtils method, which splits the URL and gets me the parameters I&rsquo;m looking for.</p>
+<p>To avoid providing fully qualified name of the class over and over again, we can define global import for Mule expressions:</p>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#ff79c6">&lt;configuration</span> <span style="color:#50fa7b">doc:name=</span><span style="color:#f1fa8c">&#34;Configuration&#34;</span><span style="color:#ff79c6">&gt;</span>  
+  <span style="color:#ff79c6">&lt;expression-language&gt;</span>  
+    <span style="color:#ff79c6">&lt;import</span> <span style="color:#50fa7b">class=</span><span style="color:#f1fa8c">&#34;org.mule.util.StringUtils&#34;</span> <span style="color:#ff79c6">/&gt;</span>  
+  <span style="color:#ff79c6">&lt;/expression-language&gt;</span>  
+<span style="color:#ff79c6">&lt;/configuration&gt;</span>  
+</code></pre></td></tr></table>
+</div>
+</div><p>That is basically everything we needed. We can now process GET / POST requests. For readability and maintainability reasons we will do that in separate flows:</p>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#ff79c6">&lt;flow</span> <span style="color:#50fa7b">name=</span><span style="color:#f1fa8c">&#34;ProcessPOST&#34;</span> <span style="color:#50fa7b">doc:name=</span><span style="color:#f1fa8c">&#34;ProcessPOST&#34;</span><span style="color:#ff79c6">&gt;</span>  
+  <span style="color:#ff79c6">&lt;http:response-builder</span> <span style="color:#50fa7b">status=</span><span style="color:#f1fa8c">&#34;200&#34;</span><span style="color:#50fa7b">doc:name=</span><span style="color:#f1fa8c">&#34;Return OK&#34;</span><span style="color:#ff79c6">&gt;</span>  
+    <span style="color:#ff79c6">&lt;set-payload</span> <span style="color:#50fa7b">value=</span><span style="color:#f1fa8c">&#34;Processing POST with account id: #[accountID] and user id: #[userID] and body: #[payload]&#34;</span> <span style="color:#50fa7b">doc:name=</span><span style="color:#f1fa8c">&#34;Set Payload&#34;</span><span style="color:#ff79c6">/&gt;</span>  
+  <span style="color:#ff79c6">&lt;/http:response-builder&gt;</span>  
+<span style="color:#ff79c6">&lt;/flow&gt;</span>  
+<span style="color:#ff79c6">&lt;flow</span> <span style="color:#50fa7b">name=</span><span style="color:#f1fa8c">&#34;ProcessGET&#34;</span> <span style="color:#50fa7b">doc:name=</span><span style="color:#f1fa8c">&#34;ProcessGET&#34;</span><span style="color:#ff79c6">&gt;</span>  
+  <span style="color:#ff79c6">&lt;http:response-builder</span> <span style="color:#50fa7b">status=</span><span style="color:#f1fa8c">&#34;200&#34;</span><span style="color:#50fa7b">doc:name=</span><span style="color:#f1fa8c">&#34;Return OK&#34;</span><span style="color:#ff79c6">&gt;</span>  
+    <span style="color:#ff79c6">&lt;set-payload</span> <span style="color:#50fa7b">value=</span><span style="color:#f1fa8c">&#34;Processing GET with account id: #[accountID] and user id: #[userID]&#34;</span> <span style="color:#50fa7b">doc:name=</span><span style="color:#f1fa8c">&#34;Set Payload&#34;</span><span style="color:#ff79c6">/&gt;</span>  
+  <span style="color:#ff79c6">&lt;/http:response-builder&gt;</span>  
+<span style="color:#ff79c6">&lt;/flow&gt;</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>To test my service I&rsquo;ve prepared a <a href="https://github.com/poznachowski/PoorMansREST/blob/master/src/test/java/pl/poznachowski/poormanrest/PoorMansRESTTest.java">test class</a> with couple of Mule functional tests. Instead of using default <a href="http://www.mulesoft.org/documentation/display/current/Functional+Testing">FunctionalTestCases</a>, I suggest using <a href="https://github.com/mulesoft/munit">MUnit</a>. From what I know, it is supposed to replace current Mule testing solution in future. With MUnit you can write your tests using Java (JUnit) or XML (Mule code). It has features like mocking endpoints, processors and ability to call flow directly, skipping inbound endpoints. However, development of MUnit seemed to slow down recently.<br>
+To keep the test concise, I used <a href="https://code.google.com/p/junitparams/">JUnitParams</a> extension, as I wanted to use same test methods, but with different input (URLs).</p>
+<p>Additionally, we could&rsquo;ve checked for content-type etc., but I didn&rsquo;t want to clutter the code with insignificant details.<br>
+Having in mind next example, I&rsquo;m not exactly sure, if anyone would opt for this approach. But still, there it is, probably for demonstration purposes only ;)</p>
+<p>Full example at GitHub: <a href="https://github.com/Poznachowski/PoorMansREST">PoorMansREST</a></p>
+<p><strong>2. REST Router</strong></p>
+<p>To make our lives easier <a href="http://mulesoft.github.io/mule-module-rest-router/">Mule REST Router Module</a> has been developed. Code is available at <a href="https://github.com/mulesoft/mule-module-rest-router">GitHub</a>.<br>
+Almost everything we did in previous approach is wrapped into one message processor. Installation and configuration is well explained in the links provided.</p>
+<p>Flow overview:<br>
+<img src="/images/mulerest1/RestWithRouterFlow.png" alt="RestWithRouterFlow"></p>
+<p>Basically, to implement same behaviour, we need to configure rest-router as follows:</p>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">8
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#ff79c6">&lt;rest-router:router</span> <span style="color:#50fa7b">templateUri=</span><span style="color:#f1fa8c">&#34;/client/{accountID}/{userID}/get&#34;</span><span style="color:#ff79c6">&gt;</span>  
+  <span style="color:#ff79c6">&lt;rest-router:get&gt;</span>  
+    <span style="color:#ff79c6">&lt;flow-ref</span> <span style="color:#50fa7b">name=</span><span style="color:#f1fa8c">&#34;ProcessGET&#34;</span> <span style="color:#50fa7b">doc:name=</span><span style="color:#f1fa8c">&#34;Process GET&#34;</span> <span style="color:#ff79c6">/&gt;</span>  
+  <span style="color:#ff79c6">&lt;/rest-router:get&gt;</span>  
+  <span style="color:#ff79c6">&lt;rest-router:post&gt;</span>  
+    <span style="color:#ff79c6">&lt;flow-ref</span> <span style="color:#50fa7b">name=</span><span style="color:#f1fa8c">&#34;ProcessPOST&#34;</span> <span style="color:#50fa7b">doc:name=</span><span style="color:#f1fa8c">&#34;Process POST&#34;</span> <span style="color:#ff79c6">/&gt;</span>  
+  <span style="color:#ff79c6">&lt;/rest-router:post&gt;</span>  
+<span style="color:#ff79c6">&lt;/rest-router:router&gt;</span>  
+</code></pre></td></tr></table>
+</div>
+</div><p>REST Router automatically assign parameters specified in templateUri to flow variables. However, I found out that it passes through empty parameters, so it is advisable to validate them explicitly in your code.<!-- raw HTML omitted --></p>
+<p>Outstanding part is to cover invalid URLs and return something meaningful. For requests not matching our template we return standard 400 HTTP status (placed just after &lt;/rest-router:router&gt;) :</p>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#ff79c6">&lt;http:response-builder</span> <span style="color:#50fa7b">status=</span><span style="color:#f1fa8c">&#34;400&#34;</span> <span style="color:#50fa7b">doc:name=</span><span style="color:#f1fa8c">&#34;Return 400 For bad URL&#34;</span><span style="color:#ff79c6">&gt;</span>  
+  <span style="color:#ff79c6">&lt;set-payload</span> <span style="color:#50fa7b">value=</span><span style="color:#f1fa8c">&#34;Unknown resource: #[message.inboundProperties[&#39;http.request.path&#39;]]&#34;</span> <span style="color:#ff79c6">/&gt;</span>  
+<span style="color:#ff79c6">&lt;/http:response-builder&gt;</span>  
+</code></pre></td></tr></table>
+</div>
+</div><p>For HTTP methods not supported REST Router should (per documentation) throw <a href="http://mulesoft.github.io/mule-module-rest-router/java/org/mule/modules/rest/UnsupportedHttpVerbException.html">UnsupportedHttpVerbException</a>. However, there is an issue I submitted <a href="https://github.com/mulesoft/mule-module-rest-router/issues/4">here</a>. Unfortunately, the project looks abandoned as nobody cared :) I did some more research and it appears that the issue is not in the REST Router itself, but how the <a href="http://www.mulesoft.org/documentation/display/current/Anypoint+Connector+DevKit+Guide">DevKit</a> java code is generated.<br>
+There are two solutions for that:</p>
+<ol>
+<li>Always implement whole set of methods in REST Router and return appriopriate message / status / throw exception in those you don&rsquo;t want to support.</li>
+<li>As I don&rsquo;t like to have redundancy in my code I used a dirty hack of replacing compiled class with a fixed one directly in the jar file. Amended version of the module is available <a href="https://dl.dropboxusercontent.com/u/17262593/blog/mule-module-rest-router-fixed.zip">here</a>. Just install it in your local Maven repository and switch module version in your pom.xml file to 1.2-fixed.</li>
+</ol>
+<p><strong>Fix description:</strong></p>
+<p>HTTP method recognition is implemented as in the following snippet: (<strong>RestRouterModule.java</strong>)</p>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#ff79c6">if</span> <span style="color:#ff79c6">(</span>get <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">null</span> <span style="color:#ff79c6">&amp;&amp;</span> method<span style="color:#ff79c6">.</span><span style="color:#50fa7b">equalsIgnoreCase</span><span style="color:#ff79c6">(</span><span style="color:#f1fa8c">&#34;get&#34;</span><span style="color:#ff79c6">))</span> <span style="color:#ff79c6">{</span>  
+ <span style="color:#ff79c6">return</span> get<span style="color:#ff79c6">.</span><span style="color:#50fa7b">processWithExtraProperties</span><span style="color:#ff79c6">(</span>properties<span style="color:#ff79c6">);</span>  
+<span style="color:#ff79c6">}</span> <span style="color:#ff79c6">else</span> <span style="color:#ff79c6">if</span> <span style="color:#ff79c6">(</span>put <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">null</span> <span style="color:#ff79c6">&amp;&amp;</span> method<span style="color:#ff79c6">.</span><span style="color:#50fa7b">equalsIgnoreCase</span><span style="color:#ff79c6">(</span><span style="color:#f1fa8c">&#34;put&#34;</span><span style="color:#ff79c6">))</span> <span style="color:#ff79c6">{</span>  
+ <span style="color:#ff79c6">return</span> put<span style="color:#ff79c6">.</span><span style="color:#50fa7b">processWithExtraProperties</span><span style="color:#ff79c6">(</span>properties<span style="color:#ff79c6">);</span>  
+<span style="color:#ff79c6">}</span> <span style="color:#ff79c6">else</span> <span style="color:#ff79c6">if</span> <span style="color:#ff79c6">(</span>post <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">null</span> <span style="color:#ff79c6">&amp;&amp;</span> method<span style="color:#ff79c6">.</span><span style="color:#50fa7b">equalsIgnoreCase</span><span style="color:#ff79c6">(</span><span style="color:#f1fa8c">&#34;post&#34;</span><span style="color:#ff79c6">))</span> <span style="color:#ff79c6">{</span>  
+ <span style="color:#ff79c6">return</span> post<span style="color:#ff79c6">.</span><span style="color:#50fa7b">processWithExtraProperties</span><span style="color:#ff79c6">(</span>properties<span style="color:#ff79c6">);</span>  
+<span style="color:#ff79c6">}</span> <span style="color:#ff79c6">else</span> <span style="color:#ff79c6">if</span> <span style="color:#ff79c6">(</span>delete <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">null</span> <span style="color:#ff79c6">&amp;&amp;</span> method<span style="color:#ff79c6">.</span><span style="color:#50fa7b">equalsIgnoreCase</span><span style="color:#ff79c6">(</span><span style="color:#f1fa8c">&#34;delete&#34;</span><span style="color:#ff79c6">))</span> <span style="color:#ff79c6">{</span>  
+ <span style="color:#ff79c6">return</span> delete<span style="color:#ff79c6">.</span><span style="color:#50fa7b">processWithExtraProperties</span><span style="color:#ff79c6">(</span>properties<span style="color:#ff79c6">);</span>  
+<span style="color:#ff79c6">}</span> <span style="color:#ff79c6">else</span> <span style="color:#ff79c6">if</span> <span style="color:#ff79c6">(</span>patch <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">null</span> <span style="color:#ff79c6">&amp;&amp;</span> method<span style="color:#ff79c6">.</span><span style="color:#50fa7b">equalsIgnoreCase</span><span style="color:#ff79c6">(</span><span style="color:#f1fa8c">&#34;patch&#34;</span><span style="color:#ff79c6">))</span> <span style="color:#ff79c6">{</span>  
+ <span style="color:#ff79c6">return</span> patch<span style="color:#ff79c6">.</span><span style="color:#50fa7b">processWithExtraProperties</span><span style="color:#ff79c6">(</span>properties<span style="color:#ff79c6">);</span>  
+<span style="color:#ff79c6">}</span> <span style="color:#ff79c6">else</span> <span style="color:#ff79c6">{</span>  
+ <span style="color:#ff79c6">throw</span> <span style="color:#ff79c6">new</span> UnsupportedHttpVerbException<span style="color:#ff79c6">(</span>method<span style="color:#ff79c6">);</span>  
+<span style="color:#ff79c6">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>Variables: get, put, post&hellip; are instances of NestedProcessor class, marked @Optional.<br>
+However, code generated by DevKit always propagates those variables to the RestRouterModule as instances of NestedProcessorChain (<strong>RouterMessageProcessor.java</strong>):</p>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#8be9fd;font-style:italic">final</span> NestedProcessor _transformedGet <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">new</span> NestedProcessorChain<span style="color:#ff79c6">(</span>event<span style="color:#ff79c6">,</span> getMuleContext<span style="color:#ff79c6">(),</span> <span style="color:#ff79c6">((</span>MessageProcessor<span style="color:#ff79c6">)</span> get<span style="color:#ff79c6">));</span>  
+<span style="color:#8be9fd;font-style:italic">final</span> NestedProcessor _transformedPut <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">new</span> NestedProcessorChain<span style="color:#ff79c6">(</span>event<span style="color:#ff79c6">,</span> getMuleContext<span style="color:#ff79c6">(),</span> <span style="color:#ff79c6">((</span>MessageProcessor<span style="color:#ff79c6">)</span> put<span style="color:#ff79c6">));</span>  
+<span style="color:#8be9fd;font-style:italic">final</span> NestedProcessor _transformedPost <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">new</span> NestedProcessorChain<span style="color:#ff79c6">(</span>event<span style="color:#ff79c6">,</span> getMuleContext<span style="color:#ff79c6">(),</span> <span style="color:#ff79c6">((</span>MessageProcessor<span style="color:#ff79c6">)</span> post<span style="color:#ff79c6">));</span>  
+<span style="color:#8be9fd;font-style:italic">final</span> NestedProcessor _transformedDelete <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">new</span> NestedProcessorChain<span style="color:#ff79c6">(</span>event<span style="color:#ff79c6">,</span> getMuleContext<span style="color:#ff79c6">(),</span> <span style="color:#ff79c6">((</span>MessageProcessor<span style="color:#ff79c6">)</span> delete<span style="color:#ff79c6">));</span>  
+<span style="color:#8be9fd;font-style:italic">final</span> NestedProcessor _transformedPatch <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">new</span> NestedProcessorChain<span style="color:#ff79c6">(</span>event<span style="color:#ff79c6">,</span> getMuleContext<span style="color:#ff79c6">(),</span> <span style="color:#ff79c6">((</span>MessageProcessor<span style="color:#ff79c6">)</span> patch<span style="color:#ff79c6">));</span>  
+</code></pre></td></tr></table>
+</div>
+</div><p>Those _transformed method variables are passed into the RestRouterModule class, hence it always tries to process the <strong>processWithExtraProperties(properties)</strong> method and eventually finishes with NullPointerException as the last argument in NestedProcessorChain contructor is null.</p>
+<p>My fixed version of <strong>RouterMessageProcessor.java</strong> includes following change:</p>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#8be9fd;font-style:italic">final</span> NestedProcessor _transformedGet <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">(</span>get <span style="color:#ff79c6">==</span> <span style="color:#ff79c6">null</span><span style="color:#ff79c6">)</span> <span style="color:#ff79c6">?</span> <span style="color:#ff79c6">null</span> <span style="color:#ff79c6">:</span> <span style="color:#ff79c6">new</span> NestedProcessorChain<span style="color:#ff79c6">(</span>event<span style="color:#ff79c6">,</span> getMuleContext<span style="color:#ff79c6">(),</span> <span style="color:#ff79c6">((</span>MessageProcessor<span style="color:#ff79c6">)</span> get<span style="color:#ff79c6">));</span>  
+<span style="color:#8be9fd;font-style:italic">final</span> NestedProcessor _transformedPut <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">(</span>put <span style="color:#ff79c6">==</span> <span style="color:#ff79c6">null</span><span style="color:#ff79c6">)</span> <span style="color:#ff79c6">?</span> <span style="color:#ff79c6">null</span> <span style="color:#ff79c6">:</span> <span style="color:#ff79c6">new</span> NestedProcessorChain<span style="color:#ff79c6">(</span>event<span style="color:#ff79c6">,</span> getMuleContext<span style="color:#ff79c6">(),</span> <span style="color:#ff79c6">((</span>MessageProcessor<span style="color:#ff79c6">)</span> put<span style="color:#ff79c6">));</span>  
+<span style="color:#8be9fd;font-style:italic">final</span> NestedProcessor _transformedPost <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">(</span>post <span style="color:#ff79c6">==</span> <span style="color:#ff79c6">null</span><span style="color:#ff79c6">)</span> <span style="color:#ff79c6">?</span> <span style="color:#ff79c6">null</span> <span style="color:#ff79c6">:</span> <span style="color:#ff79c6">new</span> NestedProcessorChain<span style="color:#ff79c6">(</span>event<span style="color:#ff79c6">,</span> getMuleContext<span style="color:#ff79c6">(),</span> <span style="color:#ff79c6">((</span>MessageProcessor<span style="color:#ff79c6">)</span> post<span style="color:#ff79c6">));</span>  
+<span style="color:#8be9fd;font-style:italic">final</span> NestedProcessor _transformedDelete <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">(</span>delete <span style="color:#ff79c6">==</span> <span style="color:#ff79c6">null</span><span style="color:#ff79c6">)</span> <span style="color:#ff79c6">?</span> <span style="color:#ff79c6">null</span> <span style="color:#ff79c6">:</span> <span style="color:#ff79c6">new</span> NestedProcessorChain<span style="color:#ff79c6">(</span>event<span style="color:#ff79c6">,</span> getMuleContext<span style="color:#ff79c6">(),</span> <span style="color:#ff79c6">((</span>MessageProcessor<span style="color:#ff79c6">)</span> delete<span style="color:#ff79c6">));</span>  
+<span style="color:#8be9fd;font-style:italic">final</span> NestedProcessor _transformedPatch <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">(</span>patch <span style="color:#ff79c6">==</span> <span style="color:#ff79c6">null</span><span style="color:#ff79c6">)</span> <span style="color:#ff79c6">?</span> <span style="color:#ff79c6">null</span> <span style="color:#ff79c6">:</span> <span style="color:#ff79c6">new</span> NestedProcessorChain<span style="color:#ff79c6">(</span>event<span style="color:#ff79c6">,</span> getMuleContext<span style="color:#ff79c6">(),</span> <span style="color:#ff79c6">((</span>MessageProcessor<span style="color:#ff79c6">)</span> patch<span style="color:#ff79c6">));</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>Not much to explain here. Now, if a REST module HTTP method is not defined it will propagate null to <strong>RestRouterModule.java</strong> and throw UnsupportedHttpVerbException as expected.<!-- raw HTML omitted --></p>
+<p>In the flow we use standard choice exception strategy and catch the UnsupportedHttpVerbException to return 405 HTTP status:</p>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#ff79c6">&lt;choice-exception-strategy</span> <span style="color:#50fa7b">doc:name=</span><span style="color:#f1fa8c">&#34;Choice Exception Strategy&#34;</span><span style="color:#ff79c6">&gt;</span>  
+   <span style="color:#ff79c6">&lt;catch-exception-strategy</span> <span style="color:#50fa7b">doc:name=</span><span style="color:#f1fa8c">&#34;Catch Exception Strategy&#34;</span> <span style="color:#50fa7b">enablenotifications=</span><span style="color:#f1fa8c">&#34;false&#34;</span> <span style="color:#50fa7b">when=</span><span style="color:#f1fa8c">&#34;#[exception.causedBy(UnsupportedHttpVerbException)]&#34;</span><span style="color:#ff79c6">&gt;</span>  
+       <span style="color:#ff79c6">&lt;http:response-builder</span> <span style="color:#50fa7b">doc:name=</span><span style="color:#f1fa8c">&#34;Return 405 For bad HTTP method&#34;</span> <span style="color:#50fa7b">status=</span><span style="color:#f1fa8c">&#34;405&#34;</span><span style="color:#ff79c6">&gt;&lt;set-payload</span> <span style="color:#50fa7b">value=</span><span style="color:#f1fa8c">&#34;Unknown HTTP method: #[message.inboundProperties[&#39;http.method&#39;]]&#34;</span><span style="color:#ff79c6">&gt;&lt;/set-payload&gt;&lt;/http:response-builder&gt;</span> 
+   <span style="color:#ff79c6">&lt;/catch-exception-strategy&gt;</span>
+<span style="color:#ff79c6">&lt;/choice-exception-strategy&gt;</span>  
+</code></pre></td></tr></table>
+</div>
+</div><p>For testing I used the same set of tests as in previous example. As you can see, it&rsquo;s much quicker and cleaner approach that saves you a lot of time and lines of code :)</p>
+<p>Full example (using modified version of the module) at GitHub: <a href="https://github.com/poznachowski/RestWithRouter">RestWithRouter</a></p>
+<p>In the next part I will present how to achieve the same, but using Jersey with writing as little Java as possible. Go <a href="http://poznachowski.blogspot.com/2013/10/exposing-restful-interface-with-mule-pt2.html">here</a> for the second part!<!-- raw HTML omitted --></p>
+
+    </div>
+    <div class="post-footer">
+      <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "itssoapsfault" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+    </div>
+  </article>
+
+    </main>
+    <div class ="footer-mobile">
+      <section class="social">
+  
+  <a href="https://linkedin.com/in/gpoznachowski" rel="me"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a>
+  
+	
+	
+	<a href="https://github.com/poznachowski" rel="me"><i class="fab fa-github fa-lg" aria-hidden="true"></i></a>
+	
+
+	
+	<a href="https://stackoverflow.com/users/2514330" rel="me"><i class="fab fa-stack-overflow fa-lg" aria-hidden="true"></i></a>
+	
+	
+  
+  <a href="https://twitter.com/poznachowski" rel="me"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a>
+  
+	
+	<a href="mailto:grzegorz@poznachowski.pl" rel="me"><i class="fas fa-at fa-lg" aria-hidden="true"></i></a>
+	
+</section>
+<div class="copyright">
+  blog.poznachowski.pl &copy; 2013 - 2020
+</div>
+
+    </div>
+  </body>
+</html>

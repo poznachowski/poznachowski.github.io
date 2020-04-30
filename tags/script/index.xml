@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>script on It&#39;s SOAP&#39;s Fault...</title>
+    <link>https://blog.poznachowski.pl/tags/script/</link>
+    <description>Recent content in script on It&#39;s SOAP&#39;s Fault...</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 03 Nov 2013 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://blog.poznachowski.pl/tags/script/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Handling Groovy scripts in Mule ESB</title>
+      <link>https://blog.poznachowski.pl/posts/handling-groovy-scripts-in-mule-esb/</link>
+      <pubDate>Sun, 03 Nov 2013 00:00:00 +0000</pubDate>
+      
+      <guid>https://blog.poznachowski.pl/posts/handling-groovy-scripts-in-mule-esb/</guid>
+      <description>In my work project we had to make plenty of XML manipulations on some complex structures. As Mule supports Groovy (scripts) natively, we decided to make use of Groovy&amp;rsquo;s XMLSlurper. Two things I wanted to have covered, before I begin: How to easily handle those scripts in Mule Studio and how to unit test them.
+1. Groovy scripts in Mule Studio
+Mule, when it comes to Groovy components, can embed script code inside the Mule configuration file or use an external script file.</description>
+    </item>
+    
+  </channel>
+</rss>

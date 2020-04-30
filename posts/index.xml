@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Posts on It&#39;s SOAP&#39;s Fault...</title>
+    <link>https://blog.poznachowski.pl/posts/</link>
+    <description>Recent content in Posts on It&#39;s SOAP&#39;s Fault...</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 15 Jun 2016 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://blog.poznachowski.pl/posts/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>@MockBean - Spring Boot&#39;s missing ingredient</title>
+      <link>https://blog.poznachowski.pl/posts/mockbean-spring-boot-missing-ingredient/</link>
+      <pubDate>Wed, 15 Jun 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://blog.poznachowski.pl/posts/mockbean-spring-boot-missing-ingredient/</guid>
+      <description>I really liked the Spring Boot&amp;#8217;s concept, since I first saw it. The only thing, I felt, it was missing was a better support for testing in general.
+ The problem It all started, when I wanted to have a way to test &#39;current date&#39; logic in my application. It was supposed to be a reusable, easy-to-use feature (via an annotation) in a custom Spring Boot Starter. The starter is based on Java 8, hence JSR-310 Date / Time API is a natural pick.</description>
+    </item>
+    
+    <item>
+      <title>Get along with your Spring Boot Starter</title>
+      <link>https://blog.poznachowski.pl/posts/get-along-with-your-spring-boot-starter/</link>
+      <pubDate>Fri, 01 Apr 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://blog.poznachowski.pl/posts/get-along-with-your-spring-boot-starter/</guid>
+      <description>At Neoteric we have finally decided to move forward with our technology stack. From custom-tailored mix-up of Jetty, Jersey, Guava and Jackson (it all started before Dropwizard came along), going through different versions of these (during our journey we migrated from Jersey 1.x to 2.x, Jackson 1.x to 2.x, Guava 3.0 to 4.0 etc.), we&amp;#8217;ve reached to the Spring island and we are currently learning language of the autochthons.
+ We have picked Spring ecosystem as its most widely known Java solution, with great community support.</description>
+    </item>
+    
+    <item>
+      <title>Befriend your changelog</title>
+      <link>https://blog.poznachowski.pl/posts/befriend-your-changelog/</link>
+      <pubDate>Tue, 04 Aug 2015 00:00:00 +0000</pubDate>
+      
+      <guid>https://blog.poznachowski.pl/posts/befriend-your-changelog/</guid>
+      <description>If you are tired of maintaining your changelog files manually, following solution may help you as it helped me.
+At my current company we have quite a lot of services to maintain. Some time ago we introduced proper versioning and releasing. That was a great step forward, but we were still missing an important piece. We wanted to have an easy way to know what was introduced (features &amp;amp; bug fixes) in each version.</description>
+    </item>
+    
+    <item>
+      <title>Migrating to Octopress</title>
+      <link>https://blog.poznachowski.pl/posts/migrating-to-octopress/</link>
+      <pubDate>Wed, 27 May 2015 00:00:00 +0000</pubDate>
+      
+      <guid>https://blog.poznachowski.pl/posts/migrating-to-octopress/</guid>
+      <description>I decided to move from Blogger to something, which is more close to a developer&amp;rsquo;s nature - Octopress. Now I can write my blog in my favourite IDE using language I&amp;rsquo;m used to (Markdown). However, my biggest motivation was to change the old layout to something up-to-date. Due to the migration I also expect one more thing to happen - me writing more often. :)
+To make this post somehow valuable, I will outline few steps I followed and share links I found useful.</description>
+    </item>
+    
+    <item>
+      <title>How to make Jenkins speak Git Flow?</title>
+      <link>https://blog.poznachowski.pl/posts/how-to-make-jenkins-speak-git-flow/</link>
+      <pubDate>Sat, 14 Feb 2015 00:00:00 +0000</pubDate>
+      
+      <guid>https://blog.poznachowski.pl/posts/how-to-make-jenkins-speak-git-flow/</guid>
+      <description>It&amp;rsquo;s been a while and quite a lot has changed since then. I moved to a different company, which means I won&amp;rsquo;t be playing around with Mule for now. On the other hand, I have several new things to play with.
+My current company lacked of proper versioning capability of their products. Hence, my first task was to help with that matter. The plan was to be able to utilize Jenkins for modules releases (via Maven) with keeping all powers of a Git Flow branching convention.</description>
+    </item>
+    
+    <item>
+      <title>MUnit testing, Mule best practices and more...</title>
+      <link>https://blog.poznachowski.pl/posts/munit-testing-mule-practices-and-some/</link>
+      <pubDate>Thu, 03 Apr 2014 00:00:00 +0000</pubDate>
+      
+      <guid>https://blog.poznachowski.pl/posts/munit-testing-mule-practices-and-some/</guid>
+      <description>Quite long time passed, since my last update. I hope that this post will successfully fill the resulting gap and you will find reading it worthwhile.
+Table of Content:
+ Foreword MUnit introduction Think about your flow design Test constants Assertions MUnit test structure Property enricher Execution environments Mocking Implementing mocked services Verifying &amp;amp; spying Summary   munit-utils@github munit-utils-0.0.1.zip  A little bit too long of a foreword&amp;hellip; When I first met Mule there was that thing, that made me feel a little bit discouraged.</description>
+    </item>
+    
+    <item>
+      <title>Handling Groovy scripts in Mule ESB</title>
+      <link>https://blog.poznachowski.pl/posts/handling-groovy-scripts-in-mule-esb/</link>
+      <pubDate>Sun, 03 Nov 2013 00:00:00 +0000</pubDate>
+      
+      <guid>https://blog.poznachowski.pl/posts/handling-groovy-scripts-in-mule-esb/</guid>
+      <description>In my work project we had to make plenty of XML manipulations on some complex structures. As Mule supports Groovy (scripts) natively, we decided to make use of Groovy&amp;rsquo;s XMLSlurper. Two things I wanted to have covered, before I begin: How to easily handle those scripts in Mule Studio and how to unit test them.
+1. Groovy scripts in Mule Studio
+Mule, when it comes to Groovy components, can embed script code inside the Mule configuration file or use an external script file.</description>
+    </item>
+    
+    <item>
+      <title>Exposing RESTful interface with Mule pt.2</title>
+      <link>https://blog.poznachowski.pl/posts/exposing-restful-interface-with-mule-pt2/</link>
+      <pubDate>Sun, 20 Oct 2013 00:00:00 +0000</pubDate>
+      
+      <guid>https://blog.poznachowski.pl/posts/exposing-restful-interface-with-mule-pt2/</guid>
+      <description>In previous part of this article I&amp;rsquo;ve presented two ways of building REST API on Mule ESB: using Mule REST Module and handling HTTP properties manually.
+This time I want to present achieving the same result using Mule Jersey Module with addition of
+Component Bindings - feature of Mule, which enables us to leave Java and go back to Mule flow processing.
+Presented example was tested against Mule ESB 3.4.0 EE.</description>
+    </item>
+    
+    <item>
+      <title>Exposing RESTful interface with Mule pt.1</title>
+      <link>https://blog.poznachowski.pl/posts/exposing-restful-interface-with-mule-pt1/</link>
+      <pubDate>Fri, 11 Oct 2013 00:00:00 +0000</pubDate>
+      
+      <guid>https://blog.poznachowski.pl/posts/exposing-restful-interface-with-mule-pt1/</guid>
+      <description>Update (20.10.2013) - When not supported HTTP method is used, return more appropriate HTTP status (405 instead of 400).
+As it&amp;rsquo;s my first blog entry I&amp;rsquo;d like to welcome everyone. If you&amp;rsquo;d like to know more about me click on the tab above. If not.. I&amp;rsquo;ll go straight to the point.
+Recently, I had to create Mule&amp;rsquo;s application, which exposes itself via a simple RESTful API. However, when it comes to REST, Mule ESB seems to be quite limited in viable options.</description>
+    </item>
+    
+  </channel>
+</rss>

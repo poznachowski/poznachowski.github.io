@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>git on It&#39;s SOAP&#39;s Fault...</title>
+    <link>https://blog.poznachowski.pl/tags/git/</link>
+    <description>Recent content in git on It&#39;s SOAP&#39;s Fault...</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 04 Aug 2015 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://blog.poznachowski.pl/tags/git/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Befriend your changelog</title>
+      <link>https://blog.poznachowski.pl/posts/befriend-your-changelog/</link>
+      <pubDate>Tue, 04 Aug 2015 00:00:00 +0000</pubDate>
+      
+      <guid>https://blog.poznachowski.pl/posts/befriend-your-changelog/</guid>
+      <description>If you are tired of maintaining your changelog files manually, following solution may help you as it helped me.
+At my current company we have quite a lot of services to maintain. Some time ago we introduced proper versioning and releasing. That was a great step forward, but we were still missing an important piece. We wanted to have an easy way to know what was introduced (features &amp;amp; bug fixes) in each version.</description>
+    </item>
+    
+    <item>
+      <title>How to make Jenkins speak Git Flow?</title>
+      <link>https://blog.poznachowski.pl/posts/how-to-make-jenkins-speak-git-flow/</link>
+      <pubDate>Sat, 14 Feb 2015 00:00:00 +0000</pubDate>
+      
+      <guid>https://blog.poznachowski.pl/posts/how-to-make-jenkins-speak-git-flow/</guid>
+      <description>It&amp;rsquo;s been a while and quite a lot has changed since then. I moved to a different company, which means I won&amp;rsquo;t be playing around with Mule for now. On the other hand, I have several new things to play with.
+My current company lacked of proper versioning capability of their products. Hence, my first task was to help with that matter. The plan was to be able to utilize Jenkins for modules releases (via Maven) with keeping all powers of a Git Flow branching convention.</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Tags on It&#39;s SOAP&#39;s Fault...</title>
+    <link>https://blog.poznachowski.pl/tags/</link>
+    <description>Recent content in Tags on It&#39;s SOAP&#39;s Fault...</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 15 Jun 2016 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://blog.poznachowski.pl/tags/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>jsr-310</title>
+      <link>https://blog.poznachowski.pl/tags/jsr-310/</link>
+      <pubDate>Wed, 15 Jun 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://blog.poznachowski.pl/tags/jsr-310/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>mock</title>
+      <link>https://blog.poznachowski.pl/tags/mock/</link>
+      <pubDate>Wed, 15 Jun 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://blog.poznachowski.pl/tags/mock/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>spring</title>
+      <link>https://blog.poznachowski.pl/tags/spring/</link>
+      <pubDate>Wed, 15 Jun 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://blog.poznachowski.pl/tags/spring/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>spring-boot</title>
+      <link>https://blog.poznachowski.pl/tags/spring-boot/</link>
+      <pubDate>Wed, 15 Jun 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://blog.poznachowski.pl/tags/spring-boot/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>testing</title>
+      <link>https://blog.poznachowski.pl/tags/testing/</link>
+      <pubDate>Wed, 15 Jun 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://blog.poznachowski.pl/tags/testing/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>maven</title>
+      <link>https://blog.poznachowski.pl/tags/maven/</link>
+      <pubDate>Fri, 01 Apr 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://blog.poznachowski.pl/tags/maven/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>spring-boot-starter</title>
+      <link>https://blog.poznachowski.pl/tags/spring-boot-starter/</link>
+      <pubDate>Fri, 01 Apr 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://blog.poznachowski.pl/tags/spring-boot-starter/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>spring-cloud</title>
+      <link>https://blog.poznachowski.pl/tags/spring-cloud/</link>
+      <pubDate>Fri, 01 Apr 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://blog.poznachowski.pl/tags/spring-cloud/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>changelog</title>
+      <link>https://blog.poznachowski.pl/tags/changelog/</link>
+      <pubDate>Tue, 04 Aug 2015 00:00:00 +0000</pubDate>
+      
+      <guid>https://blog.poznachowski.pl/tags/changelog/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>git</title>
+      <link>https://blog.poznachowski.pl/tags/git/</link>
+      <pubDate>Tue, 04 Aug 2015 00:00:00 +0000</pubDate>
+      
+      <guid>https://blog.poznachowski.pl/tags/git/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>blogger</title>
+      <link>https://blog.poznachowski.pl/tags/blogger/</link>
+      <pubDate>Wed, 27 May 2015 00:00:00 +0000</pubDate>
+      
+      <guid>https://blog.poznachowski.pl/tags/blogger/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>disqus</title>
+      <link>https://blog.poznachowski.pl/tags/disqus/</link>
+      <pubDate>Wed, 27 May 2015 00:00:00 +0000</pubDate>
+      
+      <guid>https://blog.poznachowski.pl/tags/disqus/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>octopress</title>
+      <link>https://blog.poznachowski.pl/tags/octopress/</link>
+      <pubDate>Wed, 27 May 2015 00:00:00 +0000</pubDate>
+      
+      <guid>https://blog.poznachowski.pl/tags/octopress/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>gitflow</title>
+      <link>https://blog.poznachowski.pl/tags/gitflow/</link>
+      <pubDate>Sat, 14 Feb 2015 00:00:00 +0000</pubDate>
+      
+      <guid>https://blog.poznachowski.pl/tags/gitflow/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>jenkins</title>
+      <link>https://blog.poznachowski.pl/tags/jenkins/</link>
+      <pubDate>Sat, 14 Feb 2015 00:00:00 +0000</pubDate>
+      
+      <guid>https://blog.poznachowski.pl/tags/jenkins/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>assertj</title>
+      <link>https://blog.poznachowski.pl/tags/assertj/</link>
+      <pubDate>Thu, 03 Apr 2014 00:00:00 +0000</pubDate>
+      
+      <guid>https://blog.poznachowski.pl/tags/assertj/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>design</title>
+      <link>https://blog.poznachowski.pl/tags/design/</link>
+      <pubDate>Thu, 03 Apr 2014 00:00:00 +0000</pubDate>
+      
+      <guid>https://blog.poznachowski.pl/tags/design/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>esb</title>
+      <link>https://blog.poznachowski.pl/tags/esb/</link>
+      <pubDate>Thu, 03 Apr 2014 00:00:00 +0000</pubDate>
+      
+      <guid>https://blog.poznachowski.pl/tags/esb/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>flow</title>
+      <link>https://blog.poznachowski.pl/tags/flow/</link>
+      <pubDate>Thu, 03 Apr 2014 00:00:00 +0000</pubDate>
+      
+      <guid>https://blog.poznachowski.pl/tags/flow/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>mule</title>
+      <link>https://blog.poznachowski.pl/tags/mule/</link>
+      <pubDate>Thu, 03 Apr 2014 00:00:00 +0000</pubDate>
+      
+      <guid>https://blog.poznachowski.pl/tags/mule/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>munit</title>
+      <link>https://blog.poznachowski.pl/tags/munit/</link>
+      <pubDate>Thu, 03 Apr 2014 00:00:00 +0000</pubDate>
+      
+      <guid>https://blog.poznachowski.pl/tags/munit/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>script</title>
+      <link>https://blog.poznachowski.pl/tags/script/</link>
+      <pubDate>Sun, 03 Nov 2013 00:00:00 +0000</pubDate>
+      
+      <guid>https://blog.poznachowski.pl/tags/script/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>api</title>
+      <link>https://blog.poznachowski.pl/tags/api/</link>
+      <pubDate>Sun, 20 Oct 2013 00:00:00 +0000</pubDate>
+      
+      <guid>https://blog.poznachowski.pl/tags/api/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>component binding</title>
+      <link>https://blog.poznachowski.pl/tags/component-binding/</link>
+      <pubDate>Sun, 20 Oct 2013 00:00:00 +0000</pubDate>
+      
+      <guid>https://blog.poznachowski.pl/tags/component-binding/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>rest</title>
+      <link>https://blog.poznachowski.pl/tags/rest/</link>
+      <pubDate>Sun, 20 Oct 2013 00:00:00 +0000</pubDate>
+      
+      <guid>https://blog.poznachowski.pl/tags/rest/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>
