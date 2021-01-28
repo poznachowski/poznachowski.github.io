@@ -5,10 +5,6 @@
     <link>https://blog.poznachowski.pl/categories/</link>
     <description>Recent content in Categories on It&#39;s SOAP&#39;s Fault...</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language>
-    
-	<atom:link href="https://blog.poznachowski.pl/categories/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <language>en-us</language><atom:link href="https://blog.poznachowski.pl/categories/index.xml" rel="self" type="application/rss+xml" />
   </channel>
 </rss>

@@ -3,21 +3,30 @@
   <head>
     <title>@MockBean - Spring Boot&#39;s missing ingredient // It&#39;s SOAP&#39;s Fault...</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.69.2" />
+    <meta name="generator" content="Hugo 0.80.0-DEV" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="Grzegorz Poznachowski" />
     <meta name="description" content="Testing with Spring Boot&#39;s @MockBean annotation" />
     <script defer src="https://use.fontawesome.com/releases/v5.11.2/js/all.js" integrity="sha384-b3ua1l97aVGAPEIe48b4TC60WUQbQaGi2jqAWM90y0OZXZeyaTCWtBTKtjW2GXG1" crossorigin="anonymous"></script>
 
-    <link rel="stylesheet" href="https://blog.poznachowski.pl/css/main.min.c22a73703a2764c36ff32fbb014d169be7b7204791b10e6a34290b8150c429cf.css" />
+    <link rel="stylesheet" href="https://blog.poznachowski.pl/css/main.min.c62e1128802cf4371e6795d244a95daf966cd81fadc8210e8e81a25d21a6511c.css" />
     <link rel="stylesheet" type="text/css" href="https:////fonts.googleapis.com/css?family=Quicksand" />
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Open+Sans" />
-    <link rel="stylesheet"
-          href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.1/styles/dracula.min.css">
-    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.1/highlight.min.js"></script>
-    <script>hljs.initHighlightingOnLoad();</script>
 
     
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-63324529-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+
     <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="@MockBean - Spring Boot&#39;s missing ingredient"/>
 <meta name="twitter:description" content="Testing with Spring Boot&#39;s @MockBean annotation"/>
@@ -66,7 +75,7 @@
 	
 </section>
 <div class="copyright">
-  blog.poznachowski.pl &copy; 2013 - 2020
+  blog.poznachowski.pl &copy; 2013 - 2021
 </div>
 
       </div>
@@ -99,16 +108,16 @@
     </header>
     <div class="post-content">
       <div class="paragraph">
-<p>I really liked the Spring Boot&#8217;s concept, since I first saw it.
+<p>I really liked the Spring Boot’s concept, since I first saw it.
 The only thing, I felt, it was missing was a better support for testing in general.</p>
 </div>
 <div class="sect2">
 <h3 id="_the_problem">The problem</h3>
 <div class="paragraph">
-<p>It all started, when I wanted to have a way to test 'current date' logic in my application.
+<p>It all started, when I wanted to have a way to test &#39;current date&#39; logic in my application.
 It was supposed to be a reusable, easy-to-use feature (via an annotation) in a custom Spring Boot Starter.
 The starter is based on Java 8, hence JSR-310 Date / Time API is a natural pick.
-Current date is only one of several things I want to make "mockable" in integration tests.
+Current date is only one of several things I want to make &#34;mockable&#34; in integration tests.
 There are other areas of functionality that are good candidates for mocking out.
 Keeping that in mind, I will use <code>ZonedDateTime</code> class as a mocking example across the article.</p>
 </div>
@@ -133,7 +142,7 @@ Most easy and basic way is to invoke <code>ZonedDateTime.now()</code>.
 However, it would be bad from testing perspective.
 How would you test that?
 There are two more overloaded <code>now</code> methods and we are mostly interested in <code>now(Clock clock)</code>.
-It&#8217;s Javadoc confirms that we are in the right place:</p>
+It’s Javadoc confirms that we are in the right place:</p>
 </div>
 <div class="quoteblock">
 <blockquote>
@@ -141,20 +150,20 @@ It&#8217;s Javadoc confirms that we are in the right place:</p>
 <p>Obtains the current date-time from the specified clock.</p>
 </div>
 <div class="paragraph">
-<p>This will query the specified clock to obtain the current date-time.<br>
+<p>This will query the specified clock to obtain the current date-time.<br/>
 The zone and offset will be set based on the time-zone in the clock.</p>
 </div>
 <div class="paragraph">
-<p><strong>Using this method allows the use of an alternate clock for testing.<br>
+<p><strong>Using this method allows the use of an alternate clock for testing.<br/>
 The alternate clock may be introduced using dependency injection.</strong></p>
 </div>
 <div class="paragraph">
-<p>@param clock  the clock to use, not null<br>
+<p>@param clock  the clock to use, not null<br/>
 @return the current date-time, not null</p>
 </div>
 </blockquote>
 <div class="attribution">
-&#8212; ZonedDateTime.now(Clock clock) Javadoc
+— ZonedDateTime.now(Clock clock) Javadoc
 </div>
 </div>
 <div class="paragraph">
@@ -167,10 +176,10 @@ Hence, the easiest way is to declare a <code>Clock</code> bean in your applicati
 <div class="listingblock">
 <div class="title">Specyfing Clock bean</div>
 <div class="content">
-<pre class="highlightjs highlight"><code data-lang="java" class="language-java hljs">@Bean
-public Clock clock() {
-    return Clock.systemDefaultZone();
-}</code></pre>
+<pre class="rouge highlight"><code data-lang="java"><span class="nd">@Bean</span>
+<span class="kd">public</span> <span class="nc">Clock</span> <span class="nf">clock</span><span class="o">()</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="nc">Clock</span><span class="o">.</span><span class="na">systemDefaultZone</span><span class="o">();</span>
+<span class="o">}</span></code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -189,17 +198,17 @@ public Clock clock() {
 "></i>
   </div>
   <div class="admonition-content tip"><div class="paragraph">
-<p>Since <a href="https://spring.io/blog/2016/03/04/core-container-refinements-in-spring-framework-4-3">Spring 4.3.RC1</a> you don&#8217;t need
+<p>Since <a href="https://spring.io/blog/2016/03/04/core-container-refinements-in-spring-framework-4-3">Spring 4.3.RC1</a> you don’t need
 to put <code>@Autowired</code> annotation with a single constructor class.
 So, if you use <a href="https://projectlombok.org/">Lombok</a> and constructor injection (you always should!), you can reduce your initial code to:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code data-lang="java" class="language-java hljs">@Service
-@AllArgsConstructor
-public class ClockService {
-    private final Clock clock;
-}</code></pre>
+<pre class="rouge highlight"><code data-lang="java"><span class="nd">@Service</span>
+<span class="nd">@AllArgsConstructor</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">ClockService</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="kd">final</span> <span class="nc">Clock</span> <span class="n">clock</span><span class="o">;</span>
+<span class="o">}</span></code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -213,7 +222,7 @@ public class ClockService {
 <div class="sect2">
 <h3 id="_before_spring_boot_1_4_0_m2">Before Spring Boot 1.4.0.M2</h3>
 <div class="paragraph">
-<p>It&#8217;s time for the main course.
+<p>It’s time for the main course.
 How we are going to test current date backed up with injected <code>Clock</code>?</p>
 </div>
 <div class="paragraph">
@@ -222,11 +231,11 @@ How we are going to test current date backed up with injected <code>Clock</code>
 <div class="listingblock">
 <div class="title">Specifying primary bean</div>
 <div class="content">
-<pre class="highlightjs highlight"><code data-lang="java" class="language-java hljs">@Bean
-@Primary
-public Clock clock() {
-    return Clock.fixed(Instant.parse("2010-01-10T10:00:00Z"), ZoneId.of("UTC"));
-}</code></pre>
+<pre class="rouge highlight"><code data-lang="java"><span class="nd">@Bean</span>
+<span class="nd">@Primary</span>
+<span class="kd">public</span> <span class="nc">Clock</span> <span class="nf">clock</span><span class="o">()</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="nc">Clock</span><span class="o">.</span><span class="na">fixed</span><span class="o">(</span><span class="nc">Instant</span><span class="o">.</span><span class="na">parse</span><span class="o">(</span><span class="s">&#34;2010-01-10T10:00:00Z&#34;</span><span class="o">),</span> <span class="nc">ZoneId</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="s">&#34;UTC&#34;</span><span class="o">));</span>
+<span class="o">}</span></code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -251,15 +260,15 @@ In my test starter I have added profile specific configuration with <code>@Prima
 <div class="listingblock">
 <div class="title">Profile specific auto-configuration</div>
 <div class="content">
-<pre class="highlightjs highlight"><code data-lang="java" class="language-java hljs">@Profile("fixedClock")
-@Configuration
-public class FixedClockAutoConfiguration {
-}</code></pre>
+<pre class="rouge highlight"><code data-lang="java"><span class="nd">@Profile</span><span class="o">(</span><span class="s">&#34;fixedClock&#34;</span><span class="o">)</span>
+<span class="nd">@Configuration</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">FixedClockAutoConfiguration</span> <span class="o">{</span>
+<span class="o">}</span></code></pre>
 </div>
 </div>
 <div class="paragraph">
 <p>To use them I had to run my integration tests with corresponding profiles via <code>@ActiveProfiles</code>.
-There were two major drawbacks I didn&#8217;t like with the solution:</p>
+There were two major drawbacks I didn’t like with the solution:</p>
 </div>
 <div class="ulist">
 <ul>
@@ -273,38 +282,38 @@ That was possible via <code>@TestPropertySource</code>, but again, property name
 </ul>
 </div>
 <div class="paragraph">
-<p>Was there anything else I could do, but I&#8217;m just not aware of?
-Eventually, Phil Webb <a href="http://stackoverflow.com/questions/35848467/spring-boot-integration-test-doubles-by-annotations">clarified that Spring Boot 1.3 does not have the tools</a> I&#8217;m looking for.
-With the bad news he brought, he brought also hope&#8230;&#8203;
+<p>Was there anything else I could do, but I’m just not aware of?
+Eventually, Phil Webb <a href="http://stackoverflow.com/questions/35848467/spring-boot-integration-test-doubles-by-annotations">clarified that Spring Boot 1.3 does not have the tools</a> I’m looking for.
+With the bad news he brought, he brought also hope…​
 Spring Boot 1.4 is supposed to bring heavy testing enhancements.
 Simplified annotation naming, focused testing (on JSON, MVC or JPA slices) and desired mocking support.</p>
 </div>
 <div class="paragraph">
-<p>I had to wait&#8230;&#8203; and for the time being, I did a slight improvement over my profiles.
+<p>I had to wait…​ and for the time being, I did a slight improvement over my profiles.
 I created a simple implementation of <code>ActiveProfilesResolver</code>, which enables picking proper profile via an annotation:</p>
 </div>
 <div class="listingblock">
 <div class="title">Example active profile resolver</div>
 <div class="content">
-<pre class="highlightjs highlight"><code data-lang="java" class="language-java hljs">public class TestProfilesResolver implements ActiveProfilesResolver {
+<pre class="rouge highlight"><code data-lang="java"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">TestProfilesResolver</span> <span class="kd">implements</span> <span class="nc">ActiveProfilesResolver</span> <span class="o">{</span>
 
-    ImmutableMap&lt;Class&lt;? extends Annotation&gt;, String&gt; PROFILES = ImmutableMap.&lt;Class&lt;? extends Annotation&gt;, String&gt;builder()
-            .put(Wiremock.class, "wireMock")
-            .put(FixedClock.class, "fixedClock")
-            .build();
+    <span class="nc">ImmutableMap</span><span class="o">&lt;</span><span class="nc">Class</span><span class="o">&lt;?</span> <span class="kd">extends</span> <span class="nc">Annotation</span><span class="o">&gt;,</span> <span class="nc">String</span><span class="o">&gt;</span> <span class="no">PROFILES</span> <span class="o">=</span> <span class="nc">ImmutableMap</span><span class="o">.&lt;</span><span class="nc">Class</span><span class="o">&lt;?</span> <span class="kd">extends</span> <span class="nc">Annotation</span><span class="o">&gt;,</span> <span class="nc">String</span><span class="o">&gt;</span><span class="n">builder</span><span class="o">()</span>
+            <span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="nc">Wiremock</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="s">&#34;wireMock&#34;</span><span class="o">)</span>
+            <span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="nc">FixedClock</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="s">&#34;fixedClock&#34;</span><span class="o">)</span>
+            <span class="o">.</span><span class="na">build</span><span class="o">();</span>
 
-    @Override
-    public String[] resolve(Class&lt;?&gt; testClass) {
-        List&lt;String&gt; profiles = Lists.newArrayList();
-        Arrays.stream(testClass.getAnnotations()).forEach(annotation -&gt; {
-            Class&lt;? extends Annotation&gt; annotationType = annotation.annotationType();
-            if (PROFILES.containsKey(annotationType)) {
-                profiles.add(PROFILES.get(annotationType));
-            }
-        });
-        return profiles.toArray(new String[profiles.size()]);
-    }
-}</code></pre>
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="nc">String</span><span class="o">[]</span> <span class="nf">resolve</span><span class="o">(</span><span class="nc">Class</span><span class="o">&lt;?&gt;</span> <span class="n">testClass</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">List</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">profiles</span> <span class="o">=</span> <span class="nc">Lists</span><span class="o">.</span><span class="na">newArrayList</span><span class="o">();</span>
+        <span class="nc">Arrays</span><span class="o">.</span><span class="na">stream</span><span class="o">(</span><span class="n">testClass</span><span class="o">.</span><span class="na">getAnnotations</span><span class="o">()).</span><span class="na">forEach</span><span class="o">(</span><span class="n">annotation</span> <span class="o">-&gt;</span> <span class="o">{</span>
+            <span class="nc">Class</span><span class="o">&lt;?</span> <span class="kd">extends</span> <span class="nc">Annotation</span><span class="o">&gt;</span> <span class="n">annotationType</span> <span class="o">=</span> <span class="n">annotation</span><span class="o">.</span><span class="na">annotationType</span><span class="o">();</span>
+            <span class="k">if</span> <span class="o">(</span><span class="no">PROFILES</span><span class="o">.</span><span class="na">containsKey</span><span class="o">(</span><span class="n">annotationType</span><span class="o">))</span> <span class="o">{</span>
+                <span class="n">profiles</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="no">PROFILES</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">annotationType</span><span class="o">));</span>
+            <span class="o">}</span>
+        <span class="o">});</span>
+        <span class="k">return</span> <span class="n">profiles</span><span class="o">.</span><span class="na">toArray</span><span class="o">(</span><span class="k">new</span> <span class="nc">String</span><span class="o">[</span><span class="n">profiles</span><span class="o">.</span><span class="na">size</span><span class="o">()]);</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -313,7 +322,7 @@ I created a simple implementation of <code>ActiveProfilesResolver</code>, which 
 <div class="paragraph">
 <p>It worked, but it had to be a part of the application and not a part of the starters I was preparing.
 Reason for that are mock candidates - located in many different starters.
-Without hardcoding all of them in a single one, it wouldn&#8217;t be particularly easy to accomplish.</p>
+Without hardcoding all of them in a single one, it wouldn’t be particularly easy to accomplish.</p>
 </div>
 </div>
 <div class="sect2">
@@ -331,23 +340,23 @@ Which is specifying the annotation on a class field and using Mockito methods di
 <div class="listingblock">
 <div class="title">Example @MockBean usage</div>
 <div class="content">
-<pre class="highlightjs highlight"><code data-lang="java" class="language-java hljs">@RunWith(SpringRunner.class)
-@SpringBootTest
-public class MockBeanIntegrationTest {
+<pre class="rouge highlight"><code data-lang="java"><span class="nd">@RunWith</span><span class="o">(</span><span class="nc">SpringRunner</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+<span class="nd">@SpringBootTest</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">MockBeanIntegrationTest</span> <span class="o">{</span>
 
-    @MockBean
-    private SomeService someService;
+    <span class="nd">@MockBean</span>
+    <span class="kd">private</span> <span class="nc">SomeService</span> <span class="n">someService</span><span class="o">;</span>
 
-    @Before
-    public void setupMock() {
-        when(someService.getResult())
-            .thenReturn("success");
-    }
-}</code></pre>
+    <span class="nd">@Before</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setupMock</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">when</span><span class="o">(</span><span class="n">someService</span><span class="o">.</span><span class="na">getResult</span><span class="o">())</span>
+            <span class="o">.</span><span class="na">thenReturn</span><span class="o">(</span><span class="s">&#34;success&#34;</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>With this in place, <code>SomeService</code> dependency is mocked out and set up to return "success" String anytime <code>getResult()</code> is invoked.
+<p>With this in place, <code>SomeService</code> dependency is mocked out and set up to return &#34;success&#34; String anytime <code>getResult()</code> is invoked.
 Mocks are reset after each test method by default.
 There is also analogical support for spying beans via <code>@SpyBean</code> annotation.
 It all works great, but there is more to that!</p>
@@ -362,28 +371,29 @@ listener:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code data-lang="java" class="language-java hljs">@Documented
-@Inherited
-@Target({ElementType.TYPE, ElementType.METHOD})
-@Retention(RetentionPolicy.RUNTIME)
-@MockBean(value = Clock.class, reset = MockReset.NONE) <b class="conum">(1)</b>
-public @interface FixedClock {
-    String value() default "2010-01-10T10:00:00Z";
-}</code></pre>
+<pre class="rouge highlight"><code data-lang="java"><span class="nd">@Documented</span>
+<span class="nd">@Inherited</span>
+<span class="nd">@Target</span><span class="o">({</span><span class="nc">ElementType</span><span class="o">.</span><span class="na">TYPE</span><span class="o">,</span> <span class="nc">ElementType</span><span class="o">.</span><span class="na">METHOD</span><span class="o">})</span>
+<span class="nd">@Retention</span><span class="o">(</span><span class="nc">RetentionPolicy</span><span class="o">.</span><span class="na">RUNTIME</span><span class="o">)</span>
+<span class="nd">@MockBean</span><span class="o">(</span><span class="n">value</span> <span class="o">=</span> <span class="nc">Clock</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="n">reset</span> <span class="o">=</span> <span class="nc">MockReset</span><span class="o">.</span><span class="na">NONE</span><span class="o">)</span> <i class="conum" data-value="1"></i><b>(1)</b>
+<span class="kd">public</span> <span class="nd">@interface</span> <span class="nc">FixedClock</span> <span class="o">{</span>
+    <span class="nc">String</span> <span class="nf">value</span><span class="o">()</span> <span class="k">default</span> <span class="s">&#34;2010-01-10T10:00:00Z&#34;</span><span class="o">;</span>
+<span class="o">}</span></code></pre>
 </div>
 </div>
 <div class="colist arabic">
-<ol>
-<li>
-<p>This is the only interesting part here.
-Anytime you annotate your test with <code>@FixedClock</code>, it substitutes application context&#8217;s Clock-type bean with a mock.
-We are disabling mock reset deliberately - it will be handled by the <code>TestExecutionListener</code>.</p>
-</li>
-</ol>
+<table>
+<tbody><tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>This is the only interesting part here.
+Anytime you annotate your test with <code>@FixedClock</code>, it substitutes application context’s Clock-type bean with a mock.
+We are disabling mock reset deliberately - it will be handled by the <code>TestExecutionListener</code>.</td>
+</tr>
+</tbody></table>
 </div>
 <div class="paragraph">
 <p><code><a href="https://github.com/spring-projects/spring-framework/blob/master/spring-test/src/main/java/org/springframework/test/context/TestExecutionListener.java">TestExecutionListener</a></code>
-is a feature in spring-test component, that allows to plug 'Spring context'-aware custom code in JUnit test lifecycle phases.
+is a feature in spring-test component, that allows to plug &#39;Spring context&#39;-aware custom code in JUnit test lifecycle phases.
 As explained in <a href="http://docs.spring.io/spring/docs/4.3.0.RELEASE/spring-framework-reference/htmlsingle/#testcontext-tel-config">documentation</a>,
 there are couple of default listeners registered.
 You can use your own by using <code>@TestExecutionListeners</code> annotation on a given test, but a better way is to
@@ -397,13 +407,13 @@ annotating your listener with <code>@Order</code>.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code data-lang="java" class="language-java hljs">public interface TestExecutionListener {
-    void beforeTestClass(TestContext testContext) throws Exception;
-    void prepareTestInstance(TestContext testContext) throws Exception;
-    void beforeTestMethod(TestContext testContext) throws Exception;
-    void afterTestMethod(TestContext testContext) throws Exception;
-    void afterTestClass(TestContext testContext) throws Exception;
-}</code></pre>
+<pre class="rouge highlight"><code data-lang="java"><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">TestExecutionListener</span> <span class="o">{</span>
+    <span class="kt">void</span> <span class="nf">beforeTestClass</span><span class="o">(</span><span class="nc">TestContext</span> <span class="n">testContext</span><span class="o">)</span> <span class="kd">throws</span> <span class="nc">Exception</span><span class="o">;</span>
+    <span class="kt">void</span> <span class="nf">prepareTestInstance</span><span class="o">(</span><span class="nc">TestContext</span> <span class="n">testContext</span><span class="o">)</span> <span class="kd">throws</span> <span class="nc">Exception</span><span class="o">;</span>
+    <span class="kt">void</span> <span class="nf">beforeTestMethod</span><span class="o">(</span><span class="nc">TestContext</span> <span class="n">testContext</span><span class="o">)</span> <span class="kd">throws</span> <span class="nc">Exception</span><span class="o">;</span>
+    <span class="kt">void</span> <span class="nf">afterTestMethod</span><span class="o">(</span><span class="nc">TestContext</span> <span class="n">testContext</span><span class="o">)</span> <span class="kd">throws</span> <span class="nc">Exception</span><span class="o">;</span>
+    <span class="kt">void</span> <span class="nf">afterTestClass</span><span class="o">(</span><span class="nc">TestContext</span> <span class="n">testContext</span><span class="o">)</span> <span class="kd">throws</span> <span class="nc">Exception</span><span class="o">;</span>
+<span class="o">}</span></code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -419,7 +429,7 @@ annotating your listener with <code>@Order</code>.</p>
 "></i>
   </div>
   <div class="admonition-content tip"><div class="paragraph">
-<p>If you don&#8217;t want to implement all of them, you can help yourself with <code><a href="https://github.com/spring-projects/spring-framework/blob/master/spring-test/src/main/java/org/springframework/test/context/support/AbstractTestExecutionListener.java">AbstractTestExecutionListener</a></code> class,
+<p>If you don’t want to implement all of them, you can help yourself with <code><a href="https://github.com/spring-projects/spring-framework/blob/master/spring-test/src/main/java/org/springframework/test/context/support/AbstractTestExecutionListener.java">AbstractTestExecutionListener</a></code> class,
 which provides empty method stubs.</p>
 </div>
 </div>
@@ -427,122 +437,131 @@ which provides empty method stubs.</p>
 
 </div>
 <div class="paragraph">
-<p>Let&#8217;s see how our <code>FixedClockListener</code> can implement these methods:</p>
+<p>Let’s see how our <code>FixedClockListener</code> can implement these methods:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code data-lang="java" class="language-java hljs">public class FixedClockListener extends AbstractTestExecutionListener {
+<pre class="rouge highlight"><code data-lang="java"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">FixedClockListener</span> <span class="kd">extends</span> <span class="nc">AbstractTestExecutionListener</span> <span class="o">{</span>
 
-    @Override
-    public void beforeTestClass(TestContext testContext) throws Exception {
-        FixedClock classFixedClock = AnnotationUtils.findAnnotation(testContext.getTestClass(), FixedClock.class); <b class="conum">(1)</b>
-        if (classFixedClock == null) {
-            return;
-        }
-        mockClock(testContext, classFixedClock); <b class="conum">(2)</b>
-    }
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">beforeTestClass</span><span class="o">(</span><span class="nc">TestContext</span> <span class="n">testContext</span><span class="o">)</span> <span class="kd">throws</span> <span class="nc">Exception</span> <span class="o">{</span>
+        <span class="nc">FixedClock</span> <span class="n">classFixedClock</span> <span class="o">=</span> <span class="nc">AnnotationUtils</span><span class="o">.</span><span class="na">findAnnotation</span><span class="o">(</span><span class="n">testContext</span><span class="o">.</span><span class="na">getTestClass</span><span class="o">(),</span> <span class="nc">FixedClock</span><span class="o">.</span><span class="na">class</span><span class="o">);</span> <i class="conum" data-value="1"></i><b>(1)</b>
+        <span class="k">if</span> <span class="o">(</span><span class="n">classFixedClock</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">return</span><span class="o">;</span>
+        <span class="o">}</span>
+        <span class="n">mockClock</span><span class="o">(</span><span class="n">testContext</span><span class="o">,</span> <span class="n">classFixedClock</span><span class="o">);</span> <i class="conum" data-value="2"></i><b>(2)</b>
+    <span class="o">}</span>
 
-    @Override
-    public void beforeTestMethod(TestContext testContext) throws Exception {
-        FixedClock methodFixedClock = AnnotationUtils.findAnnotation(testContext.getTestMethod(), FixedClock.class); <b class="conum">(6)</b>
-        if (methodFixedClock == null) {
-            return;
-        }
-        verifyClassAnnotation(testContext); <b class="conum">(7)</b>
-        mockClock(testContext, methodFixedClock);
-    }
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">beforeTestMethod</span><span class="o">(</span><span class="nc">TestContext</span> <span class="n">testContext</span><span class="o">)</span> <span class="kd">throws</span> <span class="nc">Exception</span> <span class="o">{</span>
+        <span class="nc">FixedClock</span> <span class="n">methodFixedClock</span> <span class="o">=</span> <span class="nc">AnnotationUtils</span><span class="o">.</span><span class="na">findAnnotation</span><span class="o">(</span><span class="n">testContext</span><span class="o">.</span><span class="na">getTestMethod</span><span class="o">(),</span> <span class="nc">FixedClock</span><span class="o">.</span><span class="na">class</span><span class="o">);</span> <i class="conum" data-value="6"></i><b>(6)</b>
+        <span class="k">if</span> <span class="o">(</span><span class="n">methodFixedClock</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">return</span><span class="o">;</span>
+        <span class="o">}</span>
+        <span class="n">verifyClassAnnotation</span><span class="o">(</span><span class="n">testContext</span><span class="o">);</span> <i class="conum" data-value="7"></i><b>(7)</b>
+        <span class="n">mockClock</span><span class="o">(</span><span class="n">testContext</span><span class="o">,</span> <span class="n">methodFixedClock</span><span class="o">);</span>
+    <span class="o">}</span>
 
-    @Override
-    public void afterTestMethod(TestContext testContext) throws Exception {
-        FixedClock methodFixedClock = AnnotationUtils.findAnnotation(testContext.getTestMethod(), FixedClock.class);
-        if (methodFixedClock == null) {
-            return;
-        }
-        verifyClassAnnotation(testContext);
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">afterTestMethod</span><span class="o">(</span><span class="nc">TestContext</span> <span class="n">testContext</span><span class="o">)</span> <span class="kd">throws</span> <span class="nc">Exception</span> <span class="o">{</span>
+        <span class="nc">FixedClock</span> <span class="n">methodFixedClock</span> <span class="o">=</span> <span class="nc">AnnotationUtils</span><span class="o">.</span><span class="na">findAnnotation</span><span class="o">(</span><span class="n">testContext</span><span class="o">.</span><span class="na">getTestMethod</span><span class="o">(),</span> <span class="nc">FixedClock</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">methodFixedClock</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">return</span><span class="o">;</span>
+        <span class="o">}</span>
+        <span class="n">verifyClassAnnotation</span><span class="o">(</span><span class="n">testContext</span><span class="o">);</span>
 
-        FixedClock classFixedClock = AnnotationUtils.findAnnotation(testContext.getTestClass(), FixedClock.class); <b class="conum">(8)</b>
-        mockClock(testContext, classFixedClock);
-    }
+        <span class="nc">FixedClock</span> <span class="n">classFixedClock</span> <span class="o">=</span> <span class="nc">AnnotationUtils</span><span class="o">.</span><span class="na">findAnnotation</span><span class="o">(</span><span class="n">testContext</span><span class="o">.</span><span class="na">getTestClass</span><span class="o">(),</span> <span class="nc">FixedClock</span><span class="o">.</span><span class="na">class</span><span class="o">);</span> <i class="conum" data-value="8"></i><b>(8)</b>
+        <span class="n">mockClock</span><span class="o">(</span><span class="n">testContext</span><span class="o">,</span> <span class="n">classFixedClock</span><span class="o">);</span>
+    <span class="o">}</span>
 
-    @Override
-    public void afterTestClass(TestContext testContext) throws Exception {
-        FixedClock annotation = AnnotationUtils.findAnnotation(testContext.getTestClass(), FixedClock.class);
-        if (annotation == null) {
-            return;
-        }
-        reset(testContext.getApplicationContext().getBean(Clock.class)); <b class="conum">(9)</b>
-    }
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">afterTestClass</span><span class="o">(</span><span class="nc">TestContext</span> <span class="n">testContext</span><span class="o">)</span> <span class="kd">throws</span> <span class="nc">Exception</span> <span class="o">{</span>
+        <span class="nc">FixedClock</span> <span class="n">annotation</span> <span class="o">=</span> <span class="nc">AnnotationUtils</span><span class="o">.</span><span class="na">findAnnotation</span><span class="o">(</span><span class="n">testContext</span><span class="o">.</span><span class="na">getTestClass</span><span class="o">(),</span> <span class="nc">FixedClock</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">annotation</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">return</span><span class="o">;</span>
+        <span class="o">}</span>
+        <span class="n">reset</span><span class="o">(</span><span class="n">testContext</span><span class="o">.</span><span class="na">getApplicationContext</span><span class="o">().</span><span class="na">getBean</span><span class="o">(</span><span class="nc">Clock</span><span class="o">.</span><span class="na">class</span><span class="o">));</span> <i class="conum" data-value="9"></i><b>(9)</b>
+    <span class="o">}</span>
 
-    private void verifyClassAnnotation(TestContext testContext) {
-        FixedClock classAnnotation = AnnotationUtils.findAnnotation(testContext.getTestClass(), FixedClock.class);
-        if (classAnnotation == null) {
-            throw new IllegalStateException("@FixedClock class level annotation is missing.");
-        }
-    }
+    <span class="kd">private</span> <span class="kt">void</span> <span class="nf">verifyClassAnnotation</span><span class="o">(</span><span class="nc">TestContext</span> <span class="n">testContext</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">FixedClock</span> <span class="n">classAnnotation</span> <span class="o">=</span> <span class="nc">AnnotationUtils</span><span class="o">.</span><span class="na">findAnnotation</span><span class="o">(</span><span class="n">testContext</span><span class="o">.</span><span class="na">getTestClass</span><span class="o">(),</span> <span class="nc">FixedClock</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">classAnnotation</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">throw</span> <span class="k">new</span> <span class="nf">IllegalStateException</span><span class="o">(</span><span class="s">&#34;@FixedClock class level annotation is missing.&#34;</span><span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
 
-    private void mockClock(TestContext testContext, FixedClock fixedClock) {
-        Instant instant = Instant.parse(fixedClock.value()); <b class="conum">(3)</b>
-        Clock mockedClock = testContext.getApplicationContext().getBean(Clock.class); <b class="conum">(4)</b>
-        when(mockedClock.instant()).thenReturn(instant); <b class="conum">(5)</b>
-        when(mockedClock.getZone()).thenReturn(TimeZone.getDefault().toZoneId());
-    }
-}</code></pre>
+    <span class="kd">private</span> <span class="kt">void</span> <span class="nf">mockClock</span><span class="o">(</span><span class="nc">TestContext</span> <span class="n">testContext</span><span class="o">,</span> <span class="nc">FixedClock</span> <span class="n">fixedClock</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">Instant</span> <span class="n">instant</span> <span class="o">=</span> <span class="nc">Instant</span><span class="o">.</span><span class="na">parse</span><span class="o">(</span><span class="n">fixedClock</span><span class="o">.</span><span class="na">value</span><span class="o">());</span> <i class="conum" data-value="3"></i><b>(3)</b>
+        <span class="nc">Clock</span> <span class="n">mockedClock</span> <span class="o">=</span> <span class="n">testContext</span><span class="o">.</span><span class="na">getApplicationContext</span><span class="o">().</span><span class="na">getBean</span><span class="o">(</span><span class="nc">Clock</span><span class="o">.</span><span class="na">class</span><span class="o">);</span> <i class="conum" data-value="4"></i><b>(4)</b>
+        <span class="n">when</span><span class="o">(</span><span class="n">mockedClock</span><span class="o">.</span><span class="na">instant</span><span class="o">()).</span><span class="na">thenReturn</span><span class="o">(</span><span class="n">instant</span><span class="o">);</span> <i class="conum" data-value="5"></i><b>(5)</b>
+        <span class="n">when</span><span class="o">(</span><span class="n">mockedClock</span><span class="o">.</span><span class="na">getZone</span><span class="o">()).</span><span class="na">thenReturn</span><span class="o">(</span><span class="nc">TimeZone</span><span class="o">.</span><span class="na">getDefault</span><span class="o">().</span><span class="na">toZoneId</span><span class="o">());</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre>
 </div>
 </div>
 <div class="colist arabic">
-<ol>
-<li>
-<p>Simple check if a test class is annotated with our annotation. If not - skip further processing.
+<table>
+<tbody><tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Simple check if a test class is annotated with our annotation. If not - skip further processing.
 Prefer <code>AnnotationUtils.findAnnotation()</code> over simple <code>testClass().getAnnotations()</code> if you want to allow your annotation
-to be a part of different, composed annotation.</p>
-</li>
-<li>
-<p>Extracted method for setting up our mock.</p>
-</li>
-<li>
-<p>Retrieved <code>Instant</code> object out of our annotation.
-Will be used as a mock stub value.</p>
-</li>
-<li>
-<p><code>Clock</code> bean is mocked by <code>@FixedClock</code> annotation and here we are fetching the mock from the application context,
-so we can provide mocking stubs on the mock instance.</p>
-</li>
-<li>
-<p>Here we provide the stubs. As they has to be declared on method calls, we cannot simply just declare <code>Clock.fixed()</code> here.
-Fortunately, there are only two methods to stub: <code>instant()</code>, and <code>getZone()</code>.</p>
-</li>
-<li>
-<p>With test execution listener approach, we can handle overriden fixed Clock values per test method.
+to be a part of different, composed annotation.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Extracted method for setting up our mock.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>Retrieved <code>Instant</code> object out of our annotation.
+Will be used as a mock stub value.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="4"></i><b>4</b></td>
+<td><code>Clock</code> bean is mocked by <code>@FixedClock</code> annotation and here we are fetching the mock from the application context,
+so we can provide mocking stubs on the mock instance.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="5"></i><b>5</b></td>
+<td>Here we provide the stubs. As they has to be declared on method calls, we cannot simply just declare <code>Clock.fixed()</code> here.
+Fortunately, there are only two methods to stub: <code>instant()</code>, and <code>getZone()</code>.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="6"></i><b>6</b></td>
+<td>With test execution listener approach, we can handle overriden fixed Clock values per test method.
 Here again, a simple check if the method is in fact annotated.
-If not - skip processing.</p>
-</li>
-<li>
-<p>For test methods, we need to implement additional verification step.
-We need to check if the test class was annotated as well. <code>@MockBean</code> will work only if test class was marked with it.</p>
-</li>
-<li>
-<p>After test method execution, revert mock stub to what was specified globally (per test class).</p>
-</li>
-<li>
-<p>Eventually, when all tests ran, reset the mock.</p>
-</li>
-</ol>
+If not - skip processing.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="7"></i><b>7</b></td>
+<td>For test methods, we need to implement additional verification step.
+We need to check if the test class was annotated as well. <code>@MockBean</code> will work only if test class was marked with it.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="8"></i><b>8</b></td>
+<td>After test method execution, revert mock stub to what was specified globally (per test class).</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="9"></i><b>9</b></td>
+<td>Eventually, when all tests ran, reset the mock.</td>
+</tr>
+</tbody></table>
 </div>
 <div class="paragraph">
 <p>With all we did so far, we can easily test code below:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code data-lang="java" class="language-java hljs">@RestController("/api/time")
-@AllArgsConstructor
-public class TimeEndpoint {
-    private final Clock clock;
+<pre class="rouge highlight"><code data-lang="java"><span class="nd">@RestController</span><span class="o">(</span><span class="s">&#34;/api/time&#34;</span><span class="o">)</span>
+<span class="nd">@AllArgsConstructor</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">TimeEndpoint</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="kd">final</span> <span class="nc">Clock</span> <span class="n">clock</span><span class="o">;</span>
 
-    @GetMapping
-    public ZonedDateTime getTime() {
-        return ZonedDateTime.now(clock);
-    }
-}</code></pre>
+    <span class="nd">@GetMapping</span>
+    <span class="kd">public</span> <span class="nc">ZonedDateTime</span> <span class="nf">getTime</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="nc">ZonedDateTime</span><span class="o">.</span><span class="na">now</span><span class="o">(</span><span class="n">clock</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -550,45 +569,45 @@ public class TimeEndpoint {
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code data-lang="java" class="language-java hljs">@RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@FixedClock
-public class FixedClockTest {
+<pre class="rouge highlight"><code data-lang="java"><span class="nd">@RunWith</span><span class="o">(</span><span class="nc">SpringRunner</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+<span class="nd">@SpringBootTest</span><span class="o">(</span><span class="n">webEnvironment</span> <span class="o">=</span> <span class="nc">SpringBootTest</span><span class="o">.</span><span class="na">WebEnvironment</span><span class="o">.</span><span class="na">RANDOM_PORT</span><span class="o">)</span>
+<span class="nd">@FixedClock</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">FixedClockTest</span> <span class="o">{</span>
 
-    @LocalServerPort
-    int port;
+    <span class="nd">@LocalServerPort</span>
+    <span class="kt">int</span> <span class="n">port</span><span class="o">;</span>
 
-    @Before
-    public void setUp() {
-        RestAssured.port = this.port;
-    }
+    <span class="nd">@Before</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setUp</span><span class="o">()</span> <span class="o">{</span>
+        <span class="nc">RestAssured</span><span class="o">.</span><span class="na">port</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="na">port</span><span class="o">;</span>
+    <span class="o">}</span>
 
-    @Test
-    public void testClock() throws Exception {
-        get("/api/time")
-        .then()
-            .body(containsString("2010-01-10T10:00:00Z")); // default @FixedClock value
+    <span class="nd">@Test</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">testClock</span><span class="o">()</span> <span class="kd">throws</span> <span class="nc">Exception</span> <span class="o">{</span>
+        <span class="n">get</span><span class="o">(</span><span class="s">&#34;/api/time&#34;</span><span class="o">)</span>
+        <span class="o">.</span><span class="na">then</span><span class="o">()</span>
+            <span class="o">.</span><span class="na">body</span><span class="o">(</span><span class="n">containsString</span><span class="o">(</span><span class="s">&#34;2010-01-10T10:00:00Z&#34;</span><span class="o">));</span> <span class="c1">// default @FixedClock value</span>
 
-    }
+    <span class="o">}</span>
 
-    @Test
-    @FixedClock("2011-11-11T11:00:00Z")
-    public void testClockOverridden() throws Exception {
-        get("/api/time")
-        .then()
-            .body(containsString("2011-11-11T11:00:00Z"));
+    <span class="nd">@Test</span>
+    <span class="nd">@FixedClock</span><span class="o">(</span><span class="s">&#34;2011-11-11T11:00:00Z&#34;</span><span class="o">)</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">testClockOverridden</span><span class="o">()</span> <span class="kd">throws</span> <span class="nc">Exception</span> <span class="o">{</span>
+        <span class="n">get</span><span class="o">(</span><span class="s">&#34;/api/time&#34;</span><span class="o">)</span>
+        <span class="o">.</span><span class="na">then</span><span class="o">()</span>
+            <span class="o">.</span><span class="na">body</span><span class="o">(</span><span class="n">containsString</span><span class="o">(</span><span class="s">&#34;2011-11-11T11:00:00Z&#34;</span><span class="o">));</span>
 
-    }
-}</code></pre>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre>
 </div>
 </div>
 </div>
 <div class="sect2">
 <h3 id="_summary">Summary</h3>
 <div class="paragraph">
-<p>At last, it seems, that Spring Boot with 1.4.0.M2 release, received last, missing piece in its testing toolbox.<br>
-Proposed solution will not only suit in a custom starter (but it&#8217;s a great fit).
-You can implement similar solution in the actual application and you don&#8217;t have to limit yourself to mocking current date.
+<p>At last, it seems, that Spring Boot with 1.4.0.M2 release, received last, missing piece in its testing toolbox.<br/>
+Proposed solution will not only suit in a custom starter (but it’s a great fit).
+You can implement similar solution in the actual application and you don’t have to limit yourself to mocking current date.
 This approach let you mock anything you find appropriate, keeping your tests clean.</p>
 </div>
 <div class="paragraph">
@@ -623,6 +642,11 @@ This approach let you mock anything you find appropriate, keeping your tests cle
         
       </span>
       <span>
+        
+          <a href="https://blog.poznachowski.pl/posts/developing-with-gcp-pub-sub/">
+            Local development with GCP Pub/Sub and Spring Cloud Stream
+            <i class="fas fa-long-arrow-alt-right" aria-hidden="true"></i>
+          </a>
         
       </span>
     </div>
@@ -673,7 +697,7 @@ This approach let you mock anything you find appropriate, keeping your tests cle
 	
 </section>
 <div class="copyright">
-  blog.poznachowski.pl &copy; 2013 - 2020
+  blog.poznachowski.pl &copy; 2013 - 2021
 </div>
 
     </div>

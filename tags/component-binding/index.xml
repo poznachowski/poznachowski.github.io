@@ -6,11 +6,7 @@
     <description>Recent content in component binding on It&#39;s SOAP&#39;s Fault...</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 20 Oct 2013 00:00:00 +0000</lastBuildDate>
-    
-	<atom:link href="https://blog.poznachowski.pl/tags/component-binding/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Sun, 20 Oct 2013 00:00:00 +0000</lastBuildDate><atom:link href="https://blog.poznachowski.pl/tags/component-binding/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Exposing RESTful interface with Mule pt.2</title>
       <link>https://blog.poznachowski.pl/posts/exposing-restful-interface-with-mule-pt2/</link>

@@ -6,11 +6,7 @@
     <description>Recent content in assertj on It&#39;s SOAP&#39;s Fault...</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 03 Apr 2014 00:00:00 +0000</lastBuildDate>
-    
-	<atom:link href="https://blog.poznachowski.pl/tags/assertj/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Thu, 03 Apr 2014 00:00:00 +0000</lastBuildDate><atom:link href="https://blog.poznachowski.pl/tags/assertj/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>MUnit testing, Mule best practices and more...</title>
       <link>https://blog.poznachowski.pl/posts/munit-testing-mule-practices-and-some/</link>

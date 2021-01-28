@@ -3,21 +3,30 @@
   <head>
     <title>Get along with your Spring Boot Starter // It&#39;s SOAP&#39;s Fault...</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.69.2" />
+    <meta name="generator" content="Hugo 0.80.0-DEV" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="Grzegorz Poznachowski" />
     <meta name="description" content="Spring Boot and Spring Boot Starters" />
     <script defer src="https://use.fontawesome.com/releases/v5.11.2/js/all.js" integrity="sha384-b3ua1l97aVGAPEIe48b4TC60WUQbQaGi2jqAWM90y0OZXZeyaTCWtBTKtjW2GXG1" crossorigin="anonymous"></script>
 
-    <link rel="stylesheet" href="https://blog.poznachowski.pl/css/main.min.c22a73703a2764c36ff32fbb014d169be7b7204791b10e6a34290b8150c429cf.css" />
+    <link rel="stylesheet" href="https://blog.poznachowski.pl/css/main.min.c62e1128802cf4371e6795d244a95daf966cd81fadc8210e8e81a25d21a6511c.css" />
     <link rel="stylesheet" type="text/css" href="https:////fonts.googleapis.com/css?family=Quicksand" />
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Open+Sans" />
-    <link rel="stylesheet"
-          href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.1/styles/dracula.min.css">
-    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.1/highlight.min.js"></script>
-    <script>hljs.initHighlightingOnLoad();</script>
 
     
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-63324529-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+
     <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Get along with your Spring Boot Starter"/>
 <meta name="twitter:description" content="Spring Boot and Spring Boot Starters"/>
@@ -66,7 +75,7 @@
 	
 </section>
 <div class="copyright">
-  blog.poznachowski.pl &copy; 2013 - 2020
+  blog.poznachowski.pl &copy; 2013 - 2021
 </div>
 
       </div>
@@ -102,7 +111,7 @@
 <p>At <a href="http://neoteric.eu">Neoteric</a> we have finally decided
 to move forward with our technology stack. From custom-tailored mix-up of Jetty, Jersey, Guava and
 Jackson (it all started before <a href="http://dropwizard.github.io">Dropwizard</a> came along), going through different versions of
-these (during our journey we migrated from Jersey 1.x to 2.x, Jackson 1.x to 2.x, Guava 3.0 to 4.0 etc.), we&#8217;ve reached
+these (during our journey we migrated from Jersey 1.x to 2.x, Jackson 1.x to 2.x, Guava 3.0 to 4.0 etc.), we’ve reached
 to the <a href="http://spring.io">Spring</a> island and we are currently learning language of the autochthons.</p>
 </div>
 <div class="paragraph">
@@ -117,75 +126,81 @@ because we fell in love with <a href="http://projects.spring.io/spring-boot/">Sp
 only on essential parts - required to understand how to write your own starter.</p>
 </div>
 <div class="paragraph">
-<p>The whole 'magic', as often expressed when explaining Spring Boot, mostly boils down to scanning application classpath for particular classes
+<p>The whole &#39;magic&#39;, as often expressed when explaining Spring Boot, mostly boils down to scanning application classpath for particular classes
 available and providing preconfigured <code>Beans</code> for them. Treat it as a convention over configuration concept applied to the application level.
-I think that, best way to understand it is to learn by example. Hence, let&#8217;s summon and examine Spring Boot&#8217;s <code>MongoAutoConfiguration</code> class.</p>
+I think that, best way to understand it is to learn by example. Hence, let’s summon and examine Spring Boot’s <code>MongoAutoConfiguration</code> class.</p>
 </div>
 <div class="listingblock">
 <div class="title"><a href="https://github.com/spring-projects/spring-boot/blob/master/spring-boot-autoconfigure/src/main/java/org/springframework/boot/autoconfigure/mongo/MongoAutoConfiguration.java">MongoAutoConfiguration.java</a></div>
 <div class="content">
-<pre class="highlightjs highlight"><code data-lang="java" class="language-java hljs">@Configuration <b class="conum">(1)</b>
-@ConditionalOnClass(MongoClient.class) <b class="conum">(2)</b>
-@EnableConfigurationProperties(MongoProperties.class) <b class="conum">(3)</b>
-@ConditionalOnMissingBean(type = "org.springframework.data.mongodb.MongoDbFactory") <b class="conum">(4)</b>
-public class MongoAutoConfiguration {
+<pre class="rouge highlight"><code data-lang="java"><span class="nd">@Configuration</span> <i class="conum" data-value="1"></i><b>(1)</b>
+<span class="nd">@ConditionalOnClass</span><span class="o">(</span><span class="nc">MongoClient</span><span class="o">.</span><span class="na">class</span><span class="o">)</span> <i class="conum" data-value="2"></i><b>(2)</b>
+<span class="nd">@EnableConfigurationProperties</span><span class="o">(</span><span class="nc">MongoProperties</span><span class="o">.</span><span class="na">class</span><span class="o">)</span> <i class="conum" data-value="3"></i><b>(3)</b>
+<span class="nd">@ConditionalOnMissingBean</span><span class="o">(</span><span class="n">type</span> <span class="o">=</span> <span class="s">&#34;org.springframework.data.mongodb.MongoDbFactory&#34;</span><span class="o">)</span> <i class="conum" data-value="4"></i><b>(4)</b>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">MongoAutoConfiguration</span> <span class="o">{</span>
 
-	@Autowired <b class="conum">(5)</b>
-	private MongoProperties properties;
+	<span class="nd">@Autowired</span> <i class="conum" data-value="5"></i><b>(5)</b>
+	<span class="kd">private</span> <span class="nc">MongoProperties</span> <span class="n">properties</span><span class="o">;</span>
 
-	@Autowired(required = false)
-	private MongoClientOptions options;
+	<span class="nd">@Autowired</span><span class="o">(</span><span class="n">required</span> <span class="o">=</span> <span class="kc">false</span><span class="o">)</span>
+	<span class="kd">private</span> <span class="nc">MongoClientOptions</span> <span class="n">options</span><span class="o">;</span>
 
-	@Autowired
-	private Environment environment;
+	<span class="nd">@Autowired</span>
+	<span class="kd">private</span> <span class="nc">Environment</span> <span class="n">environment</span><span class="o">;</span>
 
-	private MongoClient mongo;
+	<span class="kd">private</span> <span class="nc">MongoClient</span> <span class="n">mongo</span><span class="o">;</span>
 
-	@PreDestroy
-	public void close() {
-		if (this.mongo != null) {
-			this.mongo.close();
-		}
-	}
+	<span class="nd">@PreDestroy</span>
+	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">close</span><span class="o">()</span> <span class="o">{</span>
+		<span class="k">if</span> <span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">mongo</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+			<span class="k">this</span><span class="o">.</span><span class="na">mongo</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+		<span class="o">}</span>
+	<span class="o">}</span>
 
-	@Bean
-	@ConditionalOnMissingBean <b class="conum">(6)</b>
-	public MongoClient mongo() throws UnknownHostException {
-		this.mongo = this.properties.createMongoClient(this.options, this.environment);
-		return this.mongo;
-	}
+	<span class="nd">@Bean</span>
+	<span class="nd">@ConditionalOnMissingBean</span> <i class="conum" data-value="6"></i><b>(6)</b>
+	<span class="kd">public</span> <span class="nc">MongoClient</span> <span class="nf">mongo</span><span class="o">()</span> <span class="kd">throws</span> <span class="nc">UnknownHostException</span> <span class="o">{</span>
+		<span class="k">this</span><span class="o">.</span><span class="na">mongo</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="na">properties</span><span class="o">.</span><span class="na">createMongoClient</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">options</span><span class="o">,</span> <span class="k">this</span><span class="o">.</span><span class="na">environment</span><span class="o">);</span>
+		<span class="k">return</span> <span class="k">this</span><span class="o">.</span><span class="na">mongo</span><span class="o">;</span>
+	<span class="o">}</span>
 
-}</code></pre>
+<span class="o">}</span></code></pre>
 </div>
 </div>
 <div class="colist arabic">
-<ol>
-<li>
-<p>Standard Spring <code>@Configuration</code> annotation. What it makes an auto-configuration class is an entry in
-<code><a href="#spring.factories">META-INF/spring.factories</a></code> file.</p>
-</li>
-<li>
-<p>One of the Conditional type annotations. This one means that the <code>MongoAutoConfiguration</code> class will be processed only
-if <code>MongoClient</code> class is available on classpath in runtime.</p>
-</li>
-<li>
-<p>Registers a properties class, so it can be used in the auto-configuration. More on this here.</p>
-</li>
-<li>
-<p>Another condition, which has to be met, to start processing the class.</p>
-</li>
-<li>
-<p>Auto-configuration class is a standard Spring configuration class, hence ability to inject beans is quite obvious.</p>
-</li>
-<li>
-<p>If you put <code>@ConditionalOnMissingBean</code> directly on a bean declaration, bean type will be inferred.</p>
-</li>
-</ol>
+<table>
+<tbody><tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Standard Spring <code>@Configuration</code> annotation. What it makes an auto-configuration class is an entry in
+<code><a href="#spring.factories">META-INF/spring.factories</a></code> file.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>One of the Conditional type annotations. This one means that the <code>MongoAutoConfiguration</code> class will be processed only
+if <code>MongoClient</code> class is available on classpath in runtime.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>Registers a properties class, so it can be used in the auto-configuration. More on this here.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="4"></i><b>4</b></td>
+<td>Another condition, which has to be met, to start processing the class.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="5"></i><b>5</b></td>
+<td>Auto-configuration class is a standard Spring configuration class, hence ability to inject beans is quite obvious.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="6"></i><b>6</b></td>
+<td>If you put <code>@ConditionalOnMissingBean</code> directly on a bean declaration, bean type will be inferred.</td>
+</tr>
+</tbody></table>
 </div>
 <div id="spring.factories" class="listingblock">
 <div class="title">META-INF/spring.factories</div>
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-none hljs">org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+<pre class="rouge highlight"><code>org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
 org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration</code></pre>
 </div>
 </div>
@@ -202,8 +217,8 @@ property class itself: <code>this.properties.createMongoClient(this.options, thi
 <table class="tableblock frame-all grid-all stretch">
 <caption class="title">Table 1. Conditional annotations</caption>
 <colgroup>
-<col style="width: 33.3333%;">
-<col style="width: 66.6667%;">
+<col style="width: 33.3333%;"/>
+<col style="width: 66.6667%;"/>
 </colgroup>
 <thead>
 <tr>
@@ -249,8 +264,8 @@ property class itself: <code>this.properties.createMongoClient(this.options, thi
 <table class="tableblock frame-all grid-all stretch">
 <caption class="title">Table 2. Configuration order annotations</caption>
 <colgroup>
-<col style="width: 33.3333%;">
-<col style="width: 66.6667%;">
+<col style="width: 33.3333%;"/>
+<col style="width: 66.6667%;"/>
 </colgroup>
 <thead>
 <tr>
@@ -324,7 +339,7 @@ in <code>EnableAutoConfigurationImportSelector</code> in a place where <code>Aut
 <h3 id="_custom_starter_guidelines">Custom Starter guidelines</h3>
 <div class="paragraph">
 <p>As Spring Boot <a href="https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#boot-features-custom-starter-naming">documentation</a> states,
-you should not begin your starter name with <strong>spring-boot-</strong>* Especially when, you are making some technology <em>"Spring Bootable"</em>.
+you should not begin your starter name with <strong>spring-boot-</strong>* Especially when, you are making some technology <em>&#34;Spring Bootable&#34;</em>.
 Keep in mind that it may get official support in the future.</p>
 </div>
 <div class="paragraph">
@@ -333,18 +348,18 @@ Keep in mind that it may get official support in the future.</p>
 <div class="quoteblock">
 <blockquote>
 <div class="paragraph">
-<p>The <strong>autoconfigure</strong> module that contains the auto-configuration code.<br>
+<p>The <strong>autoconfigure</strong> module that contains the auto-configuration code.<br/>
 The <strong>starter</strong> module that provides a dependency to the autoconfigure module as well as the library and any additional
 dependencies that are typically useful.</p>
 </div>
 </blockquote>
 <div class="attribution">
-&#8212; Spring Boot documentation
+— Spring Boot documentation
 </div>
 </div>
 <div class="paragraph">
 <p>For custom Starters there is also a suggestion that both these modules can be combined into a single one named simply
-<strong>starter</strong>. That&#8217;s how we approach creating our Starters, and couldn&#8217;t come up with a good reason to split.</p>
+<strong>starter</strong>. That’s how we approach creating our Starters, and couldn’t come up with a good reason to split.</p>
 </div>
 <div class="paragraph">
 <p>No matter, if you want to create a Starter to support a technology, or to encapsulate common behaviour among your
@@ -356,42 +371,42 @@ annotation, providing prefix for your properties (again, do not make same prefix
 <div class="listingblock">
 <div class="title">SwaggerProperties.java</div>
 <div class="content">
-<pre class="highlightjs highlight"><code data-lang="java" class="language-java hljs">@ConfigurationProperties("neostarter.swagger")
-public class SwaggerProperties {
+<pre class="rouge highlight"><code data-lang="java"><span class="nd">@ConfigurationProperties</span><span class="o">(</span><span class="s">&#34;neostarter.swagger&#34;</span><span class="o">)</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">SwaggerProperties</span> <span class="o">{</span>
 
-    /**
+    <span class="cm">/**
      * Enable swagger switch
-     */
-    private boolean enabled = true;
+     */</span>
+    <span class="kd">private</span> <span class="kt">boolean</span> <span class="n">enabled</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
 
-    /**
+    <span class="cm">/**
      * Should generated swagger.json be formatted
-     */
-    private boolean prettyPrint = true;
+     */</span>
+    <span class="kd">private</span> <span class="kt">boolean</span> <span class="n">prettyPrint</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
 
-    /**
+    <span class="cm">/**
      * Provides the version of the application API
-     */
-    private String version = "1";
+     */</span>
+    <span class="kd">private</span> <span class="nc">String</span> <span class="n">version</span> <span class="o">=</span> <span class="s">&#34;1&#34;</span><span class="o">;</span>
 
-    /**
+    <span class="cm">/**
      * The contact information for the exposed API.
-     */
-    private String contact = "backend@neoteric.eu";
+     */</span>
+    <span class="kd">private</span> <span class="nc">String</span> <span class="n">contact</span> <span class="o">=</span> <span class="s">&#34;backend@neoteric.eu&#34;</span><span class="o">;</span>
 
-    /**
-     * The transfer protocol for the operation. Values MUST be from the list: "http", "https", "ws", "wss".
-     */
-    private String[] schemes = {"http"};
+    <span class="cm">/**
+     * The transfer protocol for the operation. Values MUST be from the list: &#34;http&#34;, &#34;https&#34;, &#34;ws&#34;, &#34;wss&#34;.
+     */</span>
+    <span class="kd">private</span> <span class="nc">String</span><span class="o">[]</span> <span class="n">schemes</span> <span class="o">=</span> <span class="o">{</span><span class="s">&#34;http&#34;</span><span class="o">};</span>
 
-    /**
+    <span class="cm">/**
      * The title of the application.
-     */
-    private String title;
+     */</span>
+    <span class="kd">private</span> <span class="nc">String</span> <span class="n">title</span><span class="o">;</span>
 
-    ... (more fields, getters and setters) ...
+    <span class="o">...</span> <span class="o">(</span><span class="n">more</span> <span class="n">fields</span><span class="o">,</span> <span class="n">getters</span> <span class="n">and</span> <span class="n">setters</span><span class="o">)</span> <span class="o">...</span>
 
-}</code></pre>
+<span class="o">}</span></code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -402,7 +417,7 @@ you can use annotation processing to help IDE assist on your custom properties a
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="/images/starters/ide-hints.png" alt="IDE autocompletion">
+<img src="/images/starters/ide-hints.png" alt="IDE autocompletion"/>
 </div>
 </div>
 <div class="paragraph">
@@ -410,20 +425,20 @@ you can use annotation processing to help IDE assist on your custom properties a
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code data-lang="xml" class="language-xml hljs">&lt;dependency&gt;
-    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
-    &lt;artifactId&gt;spring-boot-configuration-processor&lt;/artifactId&gt;
-    &lt;optional&gt;true&lt;/optional&gt;
-&lt;/dependency&gt;</code></pre>
+<pre class="rouge highlight"><code data-lang="xml"><span class="nt">&lt;dependency&gt;</span>
+    <span class="nt">&lt;groupId&gt;</span>org.springframework.boot<span class="nt">&lt;/groupId&gt;</span>
+    <span class="nt">&lt;artifactId&gt;</span>spring-boot-configuration-processor<span class="nt">&lt;/artifactId&gt;</span>
+    <span class="nt">&lt;optional&gt;</span>true<span class="nt">&lt;/optional&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span></code></pre>
 </div>
 </div>
 <div class="paragraph">
 <p>and it will pick up your fields Javadoc set up and provide as an auto-completion description.</p>
 </div>
 <div class="paragraph">
-<p>Another important thing Spring Boot provides is that you don&#8217;t have to worry about dependencies version management.
+<p>Another important thing Spring Boot provides is that you don’t have to worry about dependencies version management.
 Spring Boot picks dependencies (and its versions) that works well with each other. Additional value your Starter brings
-is that you have already specified libraries versions you use and the end-user don&#8217;t have to think about that anymore (and
+is that you have already specified libraries versions you use and the end-user don’t have to think about that anymore (and
 potential version conflicts).</p>
 </div>
 <div class="paragraph">
@@ -439,11 +454,11 @@ potential version conflicts).</p>
 "></i>
   </div>
   <div class="admonition-content tip"><div class="paragraph">
-<p>If you ever feel trapped into the corner, do not hesitate to dive deep into Spring Boot&#8217;s codebase.
-It is very well written and documented. When you get along with it, nothing will seem magical anymore. Don&#8217;t also forget
+<p>If you ever feel trapped into the corner, do not hesitate to dive deep into Spring Boot’s codebase.
+It is very well written and documented. When you get along with it, nothing will seem magical anymore. Don’t also forget
 about <a href="http://stackoverflow.com/questions/tagged/spring-boot">Stack Overflow</a> or Spring Boot
 <a href="https://gitter.im/spring-projects/spring-boot">Gitter</a> channel. There is a chance that somebody had same problem you are
-having. If not, don&#8217;t be afraid to ask - people there are more than happy to help you.</p>
+having. If not, don’t be afraid to ask - people there are more than happy to help you.</p>
 </div>
 </div>
 </aside>
@@ -470,7 +485,7 @@ us to develop new applications faster and with even less boilerplate code needed
 "></i>
   </div>
   <div class="admonition-content info"><div class="paragraph">
-<p>Neo-Starters are available at Neoteric&#8217;s <a href="http://github.com/neoteric-eu/neo-starters">GitHub</a>. However, they are still
+<p>Neo-Starters are available at Neoteric’s <a href="http://github.com/neoteric-eu/neo-starters">GitHub</a>. However, they are still
 under heavy development and subject to breaking changes.</p>
 </div>
 </div>
@@ -478,7 +493,7 @@ under heavy development and subject to breaking changes.</p>
 
 </div>
 <div class="paragraph">
-<p>Each starter covers individual aspects of application. I will cover their details (whys and hows) in upcoming blog posts&#8230;&#8203;</p>
+<p>Each starter covers individual aspects of application. I will cover their details (whys and hows) in upcoming blog posts…​</p>
 </div>
 </div>
 
@@ -548,7 +563,7 @@ under heavy development and subject to breaking changes.</p>
 	
 </section>
 <div class="copyright">
-  blog.poznachowski.pl &copy; 2013 - 2020
+  blog.poznachowski.pl &copy; 2013 - 2021
 </div>
 
     </div>

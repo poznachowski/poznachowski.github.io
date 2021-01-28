@@ -3,21 +3,30 @@
   <head>
     <title>How to make Jenkins speak Git Flow? // It&#39;s SOAP&#39;s Fault...</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.69.2" />
+    <meta name="generator" content="Hugo 0.80.0-DEV" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="Grzegorz Poznachowski" />
     <meta name="description" content="how to work with jenkins in a git-flow model approach" />
     <script defer src="https://use.fontawesome.com/releases/v5.11.2/js/all.js" integrity="sha384-b3ua1l97aVGAPEIe48b4TC60WUQbQaGi2jqAWM90y0OZXZeyaTCWtBTKtjW2GXG1" crossorigin="anonymous"></script>
 
-    <link rel="stylesheet" href="https://blog.poznachowski.pl/css/main.min.c22a73703a2764c36ff32fbb014d169be7b7204791b10e6a34290b8150c429cf.css" />
+    <link rel="stylesheet" href="https://blog.poznachowski.pl/css/main.min.c62e1128802cf4371e6795d244a95daf966cd81fadc8210e8e81a25d21a6511c.css" />
     <link rel="stylesheet" type="text/css" href="https:////fonts.googleapis.com/css?family=Quicksand" />
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Open+Sans" />
-    <link rel="stylesheet"
-          href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.1/styles/dracula.min.css">
-    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.1/highlight.min.js"></script>
-    <script>hljs.initHighlightingOnLoad();</script>
 
     
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-63324529-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+
     <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="How to make Jenkins speak Git Flow?"/>
 <meta name="twitter:description" content="how to work with jenkins in a git-flow model approach"/>
@@ -66,7 +75,7 @@
 	
 </section>
 <div class="copyright">
-  blog.poznachowski.pl &copy; 2013 - 2020
+  blog.poznachowski.pl &copy; 2013 - 2021
 </div>
 
       </div>
@@ -114,7 +123,7 @@ Jenkins.</p>
 <p>I started to play around with Jenkins and Git and what I didn’t like about their cooperation in the first place (one job per
 Git repository) was lack of clear feedback. I couldn’t tell which exact branch has just been built. What’s more, It looked
 as it would stop me from fully utilizing Git Flow potential in terms of releasing and versioning. Hence, first step emerged:</p>
-<h2 id="1-keeping-separate-jobs-per-branch-">1. Keeping separate jobs per branch</h2>
+<h2 id="1-keeping-separate-jobs-per-branch">1. Keeping separate jobs per branch</h2>
 <p>How can we achieve that? Of course, we can manually create and drop Jenkins jobs per each feature, hotfix and release branches.
 Any volunteers…? I thought so :) Not without a reason it is said that the <a href="http://threevirtues.com/">programmer biggest virtue</a> is laziness.
 I had to find a way to automate that. When I googled, I was surprised. I couldn’t find an easy solution for that
@@ -125,7 +134,7 @@ in a different type of branching convention (GitHub Flow).</p>
 <p>As I really liked the idea behind I decided to work on Git Flow variation of the script: <a href="http://github.com/neoteric-eu/jenkins-build-per-gitflow-branch">Jenkins Build Per Git Flow Branch</a>.
 Pretty much everything (genesis, installation, usage) is described at the GitHub project page, so it’s better to check it out, before further reading.</p>
 <p>Ok, so Jenkins provides really nice Git Flow job management now. We need to figure out how to utilize that for Maven artifacts releasing.</p>
-<h2 id="2-maven-releasing-">2. Maven releasing</h2>
+<h2 id="2-maven-releasing">2. Maven releasing</h2>
 <p>Back in the days, when working with SVN, there was a Maven Release Plugin (and M2 Release Jenkins plugin) to accomplish
 the releasing part. It wasn’t great, but when configured properly, it did the job pretty well. I started to dig in how to
 make releasing work with Git Flow. It appears that it is still possible using Maven Release Plugin, but it can be tedious
@@ -133,9 +142,9 @@ and troublesome work. It seems that much better solution exists. It is a plugin 
 Jonatan Doklovic – <a href="https://bitbucket.org/atlassian/jgit-flow/wiki/Home">Maven JGit Flow Plugin</a>.
 He has already done a good job explaining it in his <a href="http://blogs.atlassian.com/2013/05/maven-git-flow-plugin-for-better-releases/">blog post</a> and describing the
 advantages over old approach.</p>
-<h2 id="3-combining-the-ingredients-">3. Combining the ingredients</h2>
+<h2 id="3-combining-the-ingredients">3. Combining the ingredients</h2>
 <p>It looks like we have all the necessary ingredients, so let’s start cooking.</p>
-<h3 id="pomxml-">pom.xml</h3>
+<h3 id="pomxml">pom.xml</h3>
 <p>Two things are required in our pom.xml build file. Firstly, we need to set up the artifact repository as usual:</p>
 <div class="highlight"><div style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
 <table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
@@ -222,7 +231,7 @@ Windows OS, hence they are not able to build .deb packages out of the box (and w
 Again, Jenkins to the rescue!</p>
 <p>I think that most sensible way of explaining the concept is going throught the whole flow step by step. And I will
 try to accomplish that:</p>
-<h3 id="feature-branches-">feature branches</h3>
+<h3 id="feature-branches">feature branches</h3>
 <p>So, let’s assume that master and development jobs are already set up (we will cover them in a while) and I want to start
 working on a new feature. After I make sure that my project has clear Git status (nothing left to be commited etc.), I
 can execute JGitFlow Maven goal:<br>
@@ -249,7 +258,7 @@ with Git URL and branch to build)</p>
 feature you want to finish in the Maven interactive console. That’s it. The plugin will merge it into development,
 delete the branch and the Sync Job will remove the Jenkins feature job when executed. As you see, working with features
 is pretty simple.</p>
-<h3 id="development-">development</h3>
+<h3 id="development">development</h3>
 <p>Now it’s time for the key player – the development job. One of the two ‚fixed’ jobs (along with master). As Git Flow
 branching model suggest it should always contain production-ready like codebase. Hence, it should be responsible for
 initiating the release process. To do that we can incorporate <a href="https://wiki.jenkins-ci.org/display/JENKINS/Release+Plugin">Release Jenkins plugin</a>. It will enable us to start a
@@ -282,7 +291,7 @@ moment, it is just for building Debian package out of the generated jar.</li>
 <li>We like to have Sonar feedback on the development branch. In Sonar advanced options we provide development as
 a branch to build.</li>
 </ul>
-<h3 id="releases-">releases</h3>
+<h3 id="releases">releases</h3>
 <p>Few words of explanation before we dive into release job configuration:</p>
 <p>Git-Flow recommends using release branching for so called ‚release hardening’, where you can fix all bugs found in
 UAT and prepare release metadata. We found it to be an excessive effort (at least for now) and decided to skip the
@@ -395,7 +404,7 @@ itself and how to avoid unnecessary waiting for sync job to create project jobs.
 	
 </section>
 <div class="copyright">
-  blog.poznachowski.pl &copy; 2013 - 2020
+  blog.poznachowski.pl &copy; 2013 - 2021
 </div>
 
     </div>

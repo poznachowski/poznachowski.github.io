@@ -1,0 +1,644 @@
+<!doctype html>
+<html lang="en-us">
+  <head>
+    <title>Local development with GCP Pub/Sub and Spring Cloud Stream // It&#39;s SOAP&#39;s Fault...</title>
+    <meta charset="utf-8" />
+    <meta name="generator" content="Hugo 0.80.0-DEV" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="Grzegorz Poznachowski" />
+    <meta name="description" content="Developing locally with GCP Pub/Sub and Spring Cloud Stream" />
+    <script defer src="https://use.fontawesome.com/releases/v5.11.2/js/all.js" integrity="sha384-b3ua1l97aVGAPEIe48b4TC60WUQbQaGi2jqAWM90y0OZXZeyaTCWtBTKtjW2GXG1" crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="https://blog.poznachowski.pl/css/main.min.c62e1128802cf4371e6795d244a95daf966cd81fadc8210e8e81a25d21a6511c.css" />
+    <link rel="stylesheet" type="text/css" href="https:////fonts.googleapis.com/css?family=Quicksand" />
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Open+Sans" />
+
+    
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-63324529-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Local development with GCP Pub/Sub and Spring Cloud Stream"/>
+<meta name="twitter:description" content="Developing locally with GCP Pub/Sub and Spring Cloud Stream"/>
+
+    <meta property="og:title" content="Local development with GCP Pub/Sub and Spring Cloud Stream" />
+<meta property="og:description" content="Developing locally with GCP Pub/Sub and Spring Cloud Stream" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://blog.poznachowski.pl/posts/developing-with-gcp-pub-sub/" />
+<meta property="article:published_time" content="2020-12-28T10:17:12+01:00" />
+<meta property="article:modified_time" content="2020-12-28T10:17:12+01:00" />
+
+
+  </head>
+  <body>
+    <header class="app-header">
+      <div class="flex-wrapper">
+        <a href="https://blog.poznachowski.pl/">
+          <img class="app-header-avatar" src="/avatarGP.jpg" alt="Grzegorz Poznachowski" />
+        </a>
+        <div class="flex-text">
+          <a href="https://blog.poznachowski.pl/">
+            <h1>It&#39;s SOAP&#39;s Fault...</h1>
+          </a>
+          <p>My notes on coding and software development</p>
+        </div>
+      </div>
+      <div class ="footer-desktop">
+        <section class="social">
+  
+  <a href="https://linkedin.com/in/gpoznachowski" rel="me"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a>
+  
+	
+	
+	<a href="https://github.com/poznachowski" rel="me"><i class="fab fa-github fa-lg" aria-hidden="true"></i></a>
+	
+
+	
+	<a href="https://stackoverflow.com/users/2514330" rel="me"><i class="fab fa-stack-overflow fa-lg" aria-hidden="true"></i></a>
+	
+	
+  
+  <a href="https://twitter.com/poznachowski" rel="me"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a>
+  
+	
+	<a href="mailto:grzegorz@poznachowski.pl" rel="me"><i class="fas fa-at fa-lg" aria-hidden="true"></i></a>
+	
+</section>
+<div class="copyright">
+  blog.poznachowski.pl &copy; 2013 - 2021
+</div>
+
+      </div>
+    </header>
+    <main class="app-container">
+      
+  <article class="post">
+    <header class="post-header">
+      <h1 class ="post-title">Local development with GCP Pub/Sub and Spring Cloud Stream</h1>
+      <div class="post-meta">
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
+  <title>calendar</title>
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>
+</svg>
+          Dec 28, 2020
+        </div>
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
+  <title>clock</title>
+  <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
+</svg>
+          6 min read
+        </div><div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
+  <title>tag</title>
+  <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
+</svg>
+          <a class="tag" href="https://blog.poznachowski.pl/tags/spring-cloud/">spring-cloud</a><a class="tag" href="https://blog.poznachowski.pl/tags/spring-cloud-stream/">spring-cloud-stream</a><a class="tag" href="https://blog.poznachowski.pl/tags/gcp/">gcp</a><a class="tag" href="https://blog.poznachowski.pl/tags/pubsub/">pubsub</a><a class="tag" href="https://blog.poznachowski.pl/tags/emulator/">emulator</a></div></div>
+    </header>
+    <div class="post-content">
+      <div class="paragraph">
+<p>If you ever worked on an application, which uses Cloud services, you probably know it’s a struggle to develop, debug or test locally without the access to the service itself.
+Fortunately for the last years, it became more approachable as many cloud services matured enough to gain proprietary emulators published by the cloud providers.</p>
+</div>
+<div class="paragraph">
+<p>Recently, I’ve joined a project, where <a href="https://cloud.google.com/pubsub">GCP Pub/Sub</a> is used as the main messaging system for asynchronous communication.
+Software, responsible for Pub/Sub connectivity is <a href="https://cloud.spring.io/spring-cloud-gcp/multi/multi__spring_cloud_stream.html">Spring Cloud Stream GCP</a> with already stated as legacy <a href="https://docs.spring.io/spring-cloud-stream/docs/current/reference/html/spring-cloud-stream.html#_annotation_based_support_legacy">annotation-based approach</a>.
+One of the convention established was to disable Pub/Sub support for local development and to mock <code>Sink</code> and <code>Source</code> in the tests.
+That’s fine unless:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>you need to use Pub/Sub to trigger your application flow</p>
+</li>
+<li>
+<p>you’re good using mocks in all kind of tests</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>I’m not a big fan of mocks, especially when it comes to integration testing, where I usually treat them as a last resort.
+Therefore, after some research I was able to come up with fairly simple solution, which allowed me to work locally with GCP Pub Sub with ease:</p>
+</div>
+<div class="sect1">
+<h2 id="_gcp_pubsub_emulator">GCP Pub/Sub Emulator</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><a href="https://cloud.google.com/pubsub/docs/emulator">GCP Pub/Sub Emulator</a> plays the key part in the solution.
+It emulates production (cloud) version of Pub / Sub services with certain limitations:</p>
+</div>
+<div class="quoteblock">
+<blockquote>
+<div class="ulist">
+<ul>
+<li>
+<p>UpdateTopic and UpdateSnapshot RPCs are not supported.</p>
+</li>
+<li>
+<p>IAM operations are not supported.</p>
+</li>
+<li>
+<p>Configurable message retention is not supported; all messages are retained indefinitely.</p>
+</li>
+<li>
+<p>Retry policies are not supported.</p>
+</li>
+<li>
+<p>Subscription expiration is not supported. Subscriptions do not expire.</p>
+</li>
+<li>
+<p>Filtering is not supported.</p>
+</li>
+</ul>
+</div>
+</blockquote>
+<div class="attribution">
+— <a href="https://cloud.google.com/pubsub/docs/emulator#known_limitations">Emulator reference</a>
+</div>
+</div>
+<div class="paragraph">
+<p>Retry policies not being supported are the most problematic, because in case of an exception
+we would get stuck in an infinite redelivery loop (for the Pub/Sub subscriber).
+We’ll tackle that later on.</p>
+</div>
+<div class="paragraph">
+<p>All the basics (installation, running, etc.) are pretty well explained in the official documentation.
+I’d like to focus on the ease of use aspect.</p>
+</div>
+<div class="sect2">
+<h3 id="_docker_is_your_friend">Docker is your friend</h3>
+<div class="paragraph">
+<p>I think it’s no surprise, that Docker is mentioned here.
+With <a href="https://www.docker.com">Docker</a>, you can abstract away all, less important details (dependencies, installation process) of the service you want to run.
+Hence, it comes in very handy in regard to testing (with great <a href="https://www.testcontainers.org">Testcontainers</a> library) or local development.</p>
+</div>
+<div class="paragraph">
+<p>I have created Pub/Sub Emulator docker image which is available at the <a href="https://hub.docker.com/r/poznachowski/gcp-pubsub-emulator">Docker Hub</a>.
+If you’d like to build the image yourself, source code is available at <a href="https://github.com/poznachowski/gcp-pubsub-emulator">Github</a>.
+To run the Pub/Sub Emulator with sensible defaults (where <code>local</code> Project ID is the most important) run Docker command as follows:<br/>
+<code>docker run -d -p 8085:8085 poznachowski/gcp-pubsub-emulator:latest</code><br/>
+If more dependencies are required to set up the local environment, it makes sense to wrap them into a single docker-compose file:</p>
+</div>
+<div class="listingblock">
+<div class="title">docker-compose.yml</div>
+<div class="content">
+<pre class="rouge highlight"><code data-lang="yaml"><table class="linenotable"><tbody><tr><td class="linenos gl"><pre class="lineno">1
+2
+3
+4
+5
+</pre></td><td class="code"><pre><span class="na">services</span><span class="pi">:</span>
+  <span class="na">pubsub_emulator</span><span class="pi">:</span>
+    <span class="na">image</span><span class="pi">:</span> <span class="s">poznachowski/gcp-pubsub-emulator:latest</span>
+    <span class="na">ports</span><span class="pi">:</span>
+    <span class="pi">-</span> <span class="s">8085:8085</span>
+</pre></td></tr></tbody></table></code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_spring_boot_cloud_configuration">Spring Boot / Cloud configuration</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Now, we need to tell Spring to use the emulated version of the Pub/Sub.
+To do this, we will make use of an additional <code>local</code> profile with following configuration:</p>
+</div>
+<div class="listingblock">
+<div class="title">application-local.yml</div>
+<div class="content">
+<pre class="rouge highlight"><code data-lang="yaml"><table class="linenotable"><tbody><tr><td class="linenos gl"><pre class="lineno"> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+</pre></td><td class="code"><pre><span class="na">spring</span><span class="pi">:</span>
+  <span class="na">cloud</span><span class="pi">:</span>
+    <span class="na">gcp</span><span class="pi">:</span>
+      <span class="na">pubsub</span><span class="pi">:</span>
+        <span class="na">enabled</span><span class="pi">:</span> <span class="no">true</span>
+        <span class="na">emulator-host</span><span class="pi">:</span> <span class="s">localhost:8085</span> <i class="conum" data-value="1"></i><b>(1)</b>
+        <span class="na">project-id</span><span class="pi">:</span> <span class="s">local</span> <i class="conum" data-value="2"></i><b>(2)</b>
+    <span class="na">stream</span><span class="pi">:</span>
+      <span class="na">gcp</span><span class="pi">:</span>
+        <span class="na">pubsub</span><span class="pi">:</span>
+          <span class="na">default</span><span class="pi">:</span>
+            <span class="na">consumer</span><span class="pi">:</span>
+              <span class="na">ack-mode</span><span class="pi">:</span> <span class="s">AUTO_ACK</span> <i class="conum" data-value="3"></i><b>(3)</b>
+              <span class="na">auto-create-resources</span><span class="pi">:</span> <span class="no">true</span> <i class="conum" data-value="4"></i><b>(4)</b>
+            <span class="na">producer</span><span class="pi">:</span>
+              <span class="na">auto-create-resources</span><span class="pi">:</span> <span class="no">true</span> <i class="conum" data-value="4"></i><b>(4)</b>
+</pre></td></tr></tbody></table></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tbody><tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Address of the deployed Pub/Sub Emulator</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>GCP Project ID used in the application, we need to provide the same value as in the Emulator</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>We need to change mode to <a href="https://docs.spring.io/spring-cloud-gcp/docs/current/reference/html/#acknowledging-messages-and-handling-failures">AUTO_ACK</a> to disable automatic <code>nack</code>.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="4"></i><b>4</b></td>
+<td>We need to make sure that Spring Cloud creates required Pub/Sub topology in the Emulator</td>
+</tr>
+</tbody></table>
+</div>
+<div class="paragraph">
+
+
+<aside class="admonition">
+  <div class="admonition-bar tip">
+    <i class="fas
+    
+    fa-lightbulb
+    
+
+"></i>
+  </div>
+  <div class="admonition-content tip"><div class="paragraph">
+<p>It’s possible that this configuration is split into <code>application-local.yml</code> and <code>bootstrap-local.yml</code> depending on the
+project structure / conventions.
+Please be aware that, with Spring Cloud 2020.0 <a href="https://github.com/spring-cloud/spring-cloud-release/wiki/Spring-Cloud-2020.0-Release-Notes#breaking-changes">Bootstrap is disabled by default</a>.</p>
+</div>
+</div>
+</aside>
+
+</div>
+<div class="paragraph">
+
+
+<aside class="admonition">
+  <div class="admonition-bar info">
+    <i class="fas
+    
+    fa-info
+    
+
+"></i>
+  </div>
+  <div class="admonition-content info"><div class="paragraph">
+<p>You can check <a href="https://docs.spring.io/spring-cloud-gcp/docs/current/reference/html/#spring-cloud-gcp-pubsub-api-configuration">Spring Cloud GCP Configuration reference</a>
+for all the properties&#39; description.</p>
+</div>
+</div>
+</aside>
+
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_setting_up_error_handler">Setting up error handler</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>In the configuration above we set ack mode to <code>AUTO_ACK</code>.
+Otherwise, in case of any exception being thrown, Pub/Sub Emulator would redeliver infinitely.
+Now, there is no action taken on exception, which means we still fall under <a href="https://cloud.google.com/pubsub/docs/subscriber#at-least-once-delivery">ack deadline</a> -
+and when it’s met Pub/Sub will still try to redeliver.
+To make sure that a message is delivered only once - regardless of the processing result, we need to set up an error handler.
+It will handle the error message by simply logging it out.
+This means it completes successfully, and it will be ack’ed automatically by the framework.</p>
+</div>
+<div class="paragraph">
+<p>For a single subscription it is as easy as adding a <code>@ServiceActivator</code> to an error channel:</p>
+</div>
+<div class="listingblock">
+<div class="title"><a href="https://github.com/GoogleCloudPlatform/spring-cloud-gcp/blob/2c78357734bd1bf9914e9e88ab486a7d0c0bcf84/spring-cloud-gcp-samples/spring-cloud-gcp-pubsub-binder-sample/src/main/java/com/example/SinkExample.java#L53">SinkExample.java</a></div>
+<div class="content">
+<pre class="rouge highlight"><code data-lang="java"><table class="linenotable"><tbody><tr><td class="linenos gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+</pre></td><td class="code"><pre><span class="c1">// Note that the error `inputChannel` is formatted as [Pub/Sub subscription name].errors</span>
+<span class="c1">// or the equivalent of [Pub/Sub topic name].[group name].errors. If you change the topic name in</span>
+<span class="c1">// `application.properties`, you will also have to change the `inputChannel` below.</span>
+<span class="nd">@ServiceActivator</span><span class="o">(</span><span class="n">inputChannel</span> <span class="o">=</span> <span class="s">&#34;my-topic.my-group.errors&#34;</span><span class="o">)</span>
+<span class="kd">public</span> <span class="kt">void</span> <span class="nf">error</span><span class="o">(</span><span class="nc">Message</span><span class="o">&lt;</span><span class="nc">MessagingException</span><span class="o">&gt;</span> <span class="n">message</span><span class="o">)</span> <span class="o">{</span>
+    <span class="no">LOGGER</span><span class="o">.</span><span class="na">error</span><span class="o">(</span><span class="s">&#34;The message that was sent is now processed by the error handler.&#34;</span><span class="o">);</span>
+    <span class="no">LOGGER</span><span class="o">.</span><span class="na">error</span><span class="o">(</span><span class="s">&#34;Failed message: &#34;</span> <span class="o">+</span> <span class="n">message</span><span class="o">.</span><span class="na">getPayload</span><span class="o">().</span><span class="na">getFailedMessage</span><span class="o">());</span>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>For multiple subscriptions it would become maintenance hell pretty quickly.
+Fortunately, a better alternative exists.
+With Spring Cloud Stream GCP implementation 1.x however - it comes with a catch.
+We need to pull out the default <code>PubSubBinderConfiguration</code> and provide a slightly modified version:</p>
+</div>
+<div class="listingblock">
+<div class="title">Spring Cloud GCP 1.x PubSubLocalConfiguration.java</div>
+<div class="content">
+<pre class="rouge highlight"><code data-lang="java"><table class="linenotable"><tbody><tr><td class="linenos gl"><pre class="lineno"> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+</pre></td><td class="code"><pre><span class="nd">@Slf4j</span>
+<span class="nd">@Configuration</span>
+<span class="nd">@Profile</span><span class="o">(</span><span class="s">&#34;local&#34;</span><span class="o">)</span>
+<span class="nd">@EnableConfigurationProperties</span><span class="o">(</span><span class="nc">PubSubExtendedBindingProperties</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">PubSubLocalConfiguration</span> <span class="o">{</span>
+
+    <span class="nd">@Bean</span>
+    <span class="kd">public</span> <span class="nc">PubSubChannelProvisioner</span> <span class="nf">pubSubChannelProvisioner</span><span class="o">(</span><span class="nc">PubSubAdmin</span> <span class="n">pubSubAdmin</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="nf">PubSubChannelProvisioner</span><span class="o">(</span><span class="n">pubSubAdmin</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Bean</span>
+    <span class="kd">public</span> <span class="nc">PubSubMessageChannelBinder</span> <span class="nf">pubSubBinder</span><span class="o">(</span>
+            <span class="nc">PubSubChannelProvisioner</span> <span class="n">pubSubChannelProvisioner</span><span class="o">,</span>
+            <span class="nc">PubSubTemplate</span> <span class="n">pubSubTemplate</span><span class="o">,</span>
+            <span class="nc">PubSubExtendedBindingProperties</span> <span class="n">pubSubExtendedBindingProperties</span><span class="o">)</span> <span class="o">{</span>
+
+        <span class="kt">var</span> <span class="n">binder</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">PubSubMessageChannelBinder</span><span class="o">(</span><span class="kc">null</span><span class="o">,</span>
+                <span class="n">pubSubChannelProvisioner</span><span class="o">,</span>
+                <span class="n">pubSubTemplate</span><span class="o">,</span>
+                <span class="n">pubSubExtendedBindingProperties</span>
+        <span class="o">);</span>
+        <span class="n">binder</span><span class="o">.</span><span class="na">setConsumerEndpointCustomizer</span><span class="o">((</span><span class="n">endpoint</span><span class="o">,</span> <span class="n">destinationName</span><span class="o">,</span> <span class="n">group</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="o">{</span> <i class="conum" data-value="1"></i><b>(1)</b>
+            <span class="kt">var</span> <span class="n">channelAdapter</span> <span class="o">=</span> <span class="o">(</span><span class="nc">PubSubInboundChannelAdapter</span><span class="o">)</span> <span class="n">endpoint</span><span class="o">;</span>
+            <span class="kt">var</span> <span class="n">channel</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">PublishSubscribeChannel</span><span class="o">();</span>
+            <span class="n">channel</span><span class="o">.</span><span class="na">subscribe</span><span class="o">(</span><span class="n">m</span> <span class="o">-&gt;</span> <span class="n">log</span><span class="o">.</span><span class="na">error</span><span class="o">(</span><span class="s">&#34;Error handled: &#34;</span><span class="o">,</span> <span class="o">((</span><span class="nc">ErrorMessage</span><span class="o">)</span><span class="n">m</span><span class="o">).</span><span class="na">getPayload</span><span class="o">()));</span>
+            <span class="n">channelAdapter</span><span class="o">.</span><span class="na">setErrorChannel</span><span class="o">(</span><span class="n">channel</span><span class="o">);</span>
+        <span class="o">});</span>
+        <span class="k">return</span> <span class="n">binder</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Bean</span>
+    <span class="kd">public</span> <span class="nc">BindingHandlerAdvise</span><span class="o">.</span><span class="na">MappingsProvider</span> <span class="nf">pubSubExtendedPropertiesDefaultMappingsProvider</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="o">()</span> <span class="o">-&gt;</span> <span class="nc">Collections</span><span class="o">.</span><span class="na">singletonMap</span><span class="o">(</span>
+                <span class="nc">ConfigurationPropertyName</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="s">&#34;spring.cloud.stream.gcp.pubsub.bindings&#34;</span><span class="o">),</span>
+                <span class="nc">ConfigurationPropertyName</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="s">&#34;spring.cloud.stream.gcp.pubsub.default&#34;</span><span class="o">));</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tbody><tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Main difference between the original configuration.
+Here we provide <code><a href="https://github.com/spring-cloud/spring-cloud-stream/blob/master/spring-cloud-stream/src/main/java/org/springframework/cloud/stream/config/ConsumerEndpointCustomizer.java">ConsumerEndpointCustomizer</a></code> that declares a dedicated error channel implementation to simply log it out and let it finish without any exception being thrown.</td>
+</tr>
+</tbody></table>
+</div>
+<div class="paragraph">
+<p>Since <a href="https://github.com/GoogleCloudPlatform/spring-cloud-gcp/commit/b9af4f77f23d4f4c51108161b18e315c8b4219df">Spring Cloud Stream GCP 2.0.0</a> you are able to provide sole <code>ConsumerEndpointCustomizer</code> bean to customize the Pub/Sub binder.
+Hence, the solution would trim to:</p>
+</div>
+<div class="listingblock">
+<div class="title">Spring Cloud GCP 2.x PubSubLocalConfiguration.java</div>
+<div class="content">
+<pre class="rouge highlight"><code data-lang="java"><table class="linenotable"><tbody><tr><td class="linenos gl"><pre class="lineno"> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+</pre></td><td class="code"><pre><span class="nd">@Slf4j</span>
+<span class="nd">@Configuration</span>
+<span class="nd">@Profile</span><span class="o">(</span><span class="s">&#34;local&#34;</span><span class="o">)</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">PubSubLocalConfiguration</span> <span class="o">{</span>
+
+    <span class="nd">@Bean</span>
+    <span class="kd">public</span> <span class="nc">ConsumerEndpointCustomizer</span><span class="o">&lt;</span><span class="nc">PubSubInboundChannelAdapter</span><span class="o">&gt;</span> <span class="nf">consumerCustomizer</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="o">(</span><span class="n">endpoint</span><span class="o">,</span> <span class="n">destinationName</span><span class="o">,</span> <span class="n">group</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="o">{</span>
+            <span class="kt">var</span> <span class="n">channel</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">PublishSubscribeChannel</span><span class="o">();</span>
+            <span class="n">channel</span><span class="o">.</span><span class="na">subscribe</span><span class="o">(</span><span class="n">m</span> <span class="o">-&gt;</span> <span class="n">log</span><span class="o">.</span><span class="na">error</span><span class="o">(</span><span class="s">&#34;Error handled: &#34;</span><span class="o">,</span> <span class="o">((</span><span class="nc">ErrorMessage</span><span class="o">)</span><span class="n">m</span><span class="o">).</span><span class="na">getPayload</span><span class="o">()));</span>
+            <span class="n">endpoint</span><span class="o">.</span><span class="na">setErrorChannel</span><span class="o">(</span><span class="n">channel</span><span class="o">);</span>
+        <span class="o">};</span>
+    <span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_running_everything_together">Running everything together</h2>
+<div class="sectionbody">
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Run the Pub/Sub docker image</p>
+</li>
+<li>
+<p>Run the application with <code>local</code> profile</p>
+</li>
+<li>
+<p>Trigger Pub/Sub entry points with <a href="https://cloud.google.com/pubsub/docs/reference/rest">Cloud Pub/Sub API</a>:</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>After the application starts, you can check if topics have been created by calling <code>[GET]http://localhost:8085/v1/projects/local/topics</code></p>
+</li>
+<li>
+<p>To publish a message to a particular topic call <code>[POST]http://localhost:8085/v1/projects/local/topics/topic_name:publish</code></p>
+</li>
+</ol>
+</div>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+
+
+<aside class="admonition">
+  <div class="admonition-bar info">
+    <i class="fas
+    
+    fa-info
+    
+
+"></i>
+  </div>
+  <div class="admonition-content info"><div class="paragraph">
+<p>Pub/Sub message contract description is available <a href="https://cloud.google.com/pubsub/docs/reference/rest/v1/projects.topics/publish">here</a>.</p>
+</div>
+</div>
+</aside>
+
+</div>
+<div class="paragraph">
+<p>Let’s assume that we want to send:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="json"><span class="p">{</span><span class="w">
+  </span><span class="nl">&#34;projectId&#34;</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;3454DF&#34;</span><span class="w">
+</span><span class="p">}</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>payload to <code>projects.delete</code> topic.
+The Pub/Sub message contract states we need to Base64 encode our payload: <code>ewogICJwcm9qZWN0SWQiOiAiMzQ1NERGIgp9</code>, hence we should send:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="json"><span class="p">{</span><span class="w">
+  </span><span class="nl">&#34;messages&#34;</span><span class="p">:[</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nl">&#34;attributes&#34;</span><span class="p">:{</span><span class="w">
+      </span><span class="p">},</span><span class="w">
+      </span><span class="nl">&#34;data&#34;</span><span class="p">:</span><span class="s2">&#34;ewogICJwcm9qZWN0SWQiOiAiMzQ1NERGIgp9&#34;</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>to <code>[POST] http://localhost:8085/v1/projects/local/topics/projects.delete:publish</code>.</p>
+</div>
+<div class="paragraph">
+<p>At this point, we should see that the HTTP call triggered your application flow.
+What is more, in case of any exception thrown - the Pub/Sub Emulator won’t redeliver it.</p>
+</div>
+<div class="paragraph">
+<p>Unfortunately, Pub/Sub Rest API does not support message retrieval (from a topic).
+To verify if the message was sent to a given topic I would suggest creating a dedicated subscriber, whether in the local configuration or in the integration test, and log or assert the incoming message(s).</p>
+</div>
+</div>
+</div>
+
+    </div>
+    <div class="prev-next">
+      <span>
+        
+          <a href="https://blog.poznachowski.pl/posts/mockbean-spring-boot-missing-ingredient/">
+          <i class="fas fa-long-arrow-alt-left" aria-hidden="true"></i>
+            @MockBean - Spring Boot&#39;s missing ingredient
+          </a>
+        
+      </span>
+      <span>
+        
+      </span>
+    </div>
+    <div class="post-footer">
+      <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "itssoapsfault" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+    </div>
+  </article>
+
+    </main>
+    <div class ="footer-mobile">
+      <section class="social">
+  
+  <a href="https://linkedin.com/in/gpoznachowski" rel="me"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a>
+  
+	
+	
+	<a href="https://github.com/poznachowski" rel="me"><i class="fab fa-github fa-lg" aria-hidden="true"></i></a>
+	
+
+	
+	<a href="https://stackoverflow.com/users/2514330" rel="me"><i class="fab fa-stack-overflow fa-lg" aria-hidden="true"></i></a>
+	
+	
+  
+  <a href="https://twitter.com/poznachowski" rel="me"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a>
+  
+	
+	<a href="mailto:grzegorz@poznachowski.pl" rel="me"><i class="fas fa-at fa-lg" aria-hidden="true"></i></a>
+	
+</section>
+<div class="copyright">
+  blog.poznachowski.pl &copy; 2013 - 2021
+</div>
+
+    </div>
+  </body>
+</html>

@@ -6,19 +6,15 @@
     <description>Recent content in testing on It&#39;s SOAP&#39;s Fault...</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 15 Jun 2016 00:00:00 +0000</lastBuildDate>
-    
-	<atom:link href="https://blog.poznachowski.pl/tags/testing/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Wed, 15 Jun 2016 00:00:00 +0000</lastBuildDate><atom:link href="https://blog.poznachowski.pl/tags/testing/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>@MockBean - Spring Boot&#39;s missing ingredient</title>
       <link>https://blog.poznachowski.pl/posts/mockbean-spring-boot-missing-ingredient/</link>
       <pubDate>Wed, 15 Jun 2016 00:00:00 +0000</pubDate>
       
       <guid>https://blog.poznachowski.pl/posts/mockbean-spring-boot-missing-ingredient/</guid>
-      <description>I really liked the Spring Boot&amp;#8217;s concept, since I first saw it. The only thing, I felt, it was missing was a better support for testing in general.
- The problem It all started, when I wanted to have a way to test &#39;current date&#39; logic in my application. It was supposed to be a reusable, easy-to-use feature (via an annotation) in a custom Spring Boot Starter. The starter is based on Java 8, hence JSR-310 Date / Time API is a natural pick.</description>
+      <description>I really liked the Spring Boot’s concept, since I first saw it. The only thing, I felt, it was missing was a better support for testing in general.
+ The problem It all started, when I wanted to have a way to test &amp;#39;current date&amp;#39; logic in my application. It was supposed to be a reusable, easy-to-use feature (via an annotation) in a custom Spring Boot Starter. The starter is based on Java 8, hence JSR-310 Date / Time API is a natural pick.</description>
     </item>
     
     <item>
