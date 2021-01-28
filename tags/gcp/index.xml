@@ -6,11 +6,11 @@
     <description>Recent content in gcp on It&#39;s SOAP&#39;s Fault...</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 28 Dec 2020 10:17:12 +0100</lastBuildDate><atom:link href="https://blog.poznachowski.pl/tags/gcp/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 28 Jan 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://blog.poznachowski.pl/tags/gcp/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Local development with GCP Pub/Sub and Spring Cloud Stream</title>
       <link>https://blog.poznachowski.pl/posts/developing-with-gcp-pub-sub/</link>
-      <pubDate>Mon, 28 Dec 2020 10:17:12 +0100</pubDate>
+      <pubDate>Thu, 28 Jan 2021 00:00:00 +0000</pubDate>
       
       <guid>https://blog.poznachowski.pl/posts/developing-with-gcp-pub-sub/</guid>
       <description>If you ever worked on an application, which uses Cloud services, you probably know it’s a struggle to develop, debug or test locally without the access to the service itself. Fortunately for the last years, it became more approachable as many cloud services matured enough to gain proprietary emulators published by the cloud providers.
