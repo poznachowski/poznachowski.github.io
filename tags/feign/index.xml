@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>feign on It&#39;s SOAP&#39;s Fault...</title>
+    <link>https://blog.poznachowski.pl/tags/feign/</link>
+    <description>Recent content in feign on It&#39;s SOAP&#39;s Fault...</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 17 Aug 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://blog.poznachowski.pl/tags/feign/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Feign Slf4j Logger you wish you had</title>
+      <link>https://blog.poznachowski.pl/posts/feign-slf4j-logger/</link>
+      <pubDate>Tue, 17 Aug 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://blog.poznachowski.pl/posts/feign-slf4j-logger/</guid>
+      <description>The Problem When it comes to Feign and logging its requests and responses, it provides Logger - an abstraction layer with dedicated set of log Levels:
+ Table 1. Feign Log Levels     Log Level Description     NONE
+ No logging at all.
+   BASIC
+ Log only the request method and URL and the response status code and execution time.
+   HEADERS</description>
+    </item>
+    
+  </channel>
+</rss>
