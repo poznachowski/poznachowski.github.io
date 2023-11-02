@@ -6,17 +6,16 @@
     <description>Recent content in flow on It&#39;s SOAP&#39;s Fault...</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 03 Apr 2014 00:00:00 +0000</lastBuildDate><atom:link href="https://blog.poznachowski.pl/tags/flow/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 03 Apr 2014 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://blog.poznachowski.pl/tags/flow/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>MUnit testing, Mule best practices and more...</title>
       <link>https://blog.poznachowski.pl/posts/munit-testing-mule-practices-and-some/</link>
       <pubDate>Thu, 03 Apr 2014 00:00:00 +0000</pubDate>
-      
       <guid>https://blog.poznachowski.pl/posts/munit-testing-mule-practices-and-some/</guid>
       <description>Quite long time passed, since my last update. I hope that this post will successfully fill the resulting gap and you will find reading it worthwhile.
 Table of Content:
- Foreword MUnit introduction Think about your flow design Test constants Assertions MUnit test structure Property enricher Execution environments Mocking Implementing mocked services Verifying &amp;amp; spying Summary   munit-utils@github munit-utils-0.0.1.zip  A little bit too long of a foreword&amp;hellip; When I first met Mule there was that thing, that made me feel a little bit discouraged.</description>
+Foreword MUnit introduction Think about your flow design Test constants Assertions MUnit test structure Property enricher Execution environments Mocking Implementing mocked services Verifying &amp;amp; spying Summary munit-utils@github munit-utils-0.0.1.zip A little bit too long of a foreword&amp;hellip; When I first met Mule there was that thing, that made me feel a little bit discouraged.</description>
     </item>
-    
   </channel>
 </rss>

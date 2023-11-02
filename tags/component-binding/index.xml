@@ -6,18 +6,17 @@
     <description>Recent content in component binding on It&#39;s SOAP&#39;s Fault...</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 20 Oct 2013 00:00:00 +0000</lastBuildDate><atom:link href="https://blog.poznachowski.pl/tags/component-binding/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 20 Oct 2013 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://blog.poznachowski.pl/tags/component-binding/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Exposing RESTful interface with Mule pt.2</title>
       <link>https://blog.poznachowski.pl/posts/exposing-restful-interface-with-mule-pt2/</link>
       <pubDate>Sun, 20 Oct 2013 00:00:00 +0000</pubDate>
-      
       <guid>https://blog.poznachowski.pl/posts/exposing-restful-interface-with-mule-pt2/</guid>
       <description>In previous part of this article I&amp;rsquo;ve presented two ways of building REST API on Mule ESB: using Mule REST Module and handling HTTP properties manually.
 This time I want to present achieving the same result using Mule Jersey Module with addition of
 Component Bindings - feature of Mule, which enables us to leave Java and go back to Mule flow processing.
 Presented example was tested against Mule ESB 3.4.0 EE.</description>
     </item>
-    
   </channel>
 </rss>

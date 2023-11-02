@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>kotlin on It&#39;s SOAP&#39;s Fault...</title>
+    <link>https://blog.poznachowski.pl/tags/kotlin/</link>
+    <description>Recent content in kotlin on It&#39;s SOAP&#39;s Fault...</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 01 Nov 2023 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://blog.poznachowski.pl/tags/kotlin/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Asciidoc based CV</title>
+      <link>https://blog.poznachowski.pl/posts/2023-11-01-asciidoc-based-cv/</link>
+      <pubDate>Wed, 01 Nov 2023 00:00:00 +0000</pubDate>
+      <guid>https://blog.poznachowski.pl/posts/2023-11-01-asciidoc-based-cv/</guid>
+      <description>The time has come to update my Curriculum Vitae. Going back to the office suite software and struggle with table, margins, etc. is not something I’m keen on doing. I’m a fan of anything-as-a-code approach and enthusiast of AsciiDoc markup language for quite some time already. I’ve been using it for my blog posts and invoice generation, so why not give it a try for CV as well?
+Asciidoctor Asciidoctor is the most popular processor of the AsciiDoc markup language.</description>
+    </item>
+  </channel>
+</rss>

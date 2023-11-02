@@ -6,40 +6,37 @@
     <description>Recent content in spring-cloud on It&#39;s SOAP&#39;s Fault...</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 17 Aug 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://blog.poznachowski.pl/tags/spring-cloud/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 17 Aug 2021 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://blog.poznachowski.pl/tags/spring-cloud/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Feign Slf4j Logger you wish you had</title>
       <link>https://blog.poznachowski.pl/posts/feign-slf4j-logger/</link>
       <pubDate>Tue, 17 Aug 2021 00:00:00 +0000</pubDate>
-      
       <guid>https://blog.poznachowski.pl/posts/feign-slf4j-logger/</guid>
       <description>The Problem When it comes to Feign and logging its requests and responses, it provides Logger - an abstraction layer with dedicated set of log Levels:
- Table 1. Feign Log Levels     Log Level Description     NONE
- No logging at all.
-   BASIC
- Log only the request method and URL and the response status code and execution time.
-   HEADERS</description>
+Table 1. Feign Log Levels Log Level Description NONE
+No logging at all.
+BASIC
+Log only the request method and URL and the response status code and execution time.
+HEADERS
+Log the basic information along with request and response headers.
+FULL
+Log the headers, body, and metadata for both requests and responses.</description>
     </item>
-    
     <item>
       <title>Local development with GCP Pub/Sub and Spring Cloud Stream</title>
       <link>https://blog.poznachowski.pl/posts/developing-with-gcp-pub-sub/</link>
       <pubDate>Thu, 28 Jan 2021 00:00:00 +0000</pubDate>
-      
       <guid>https://blog.poznachowski.pl/posts/developing-with-gcp-pub-sub/</guid>
       <description>If you ever worked on an application, which uses Cloud services, you probably know it’s a struggle to develop, debug or test locally without the access to the service itself. Fortunately for the last years, it became more approachable as many cloud services matured enough to gain proprietary emulators published by the cloud providers.
- Recently, I’ve joined a project, where GCP Pub/Sub is used as the main messaging system for asynchronous communication.</description>
+Recently, I’ve joined a project, where GCP Pub/Sub is used as the main messaging system for asynchronous communication.</description>
     </item>
-    
     <item>
       <title>Get along with your Spring Boot Starter</title>
       <link>https://blog.poznachowski.pl/posts/get-along-with-your-spring-boot-starter/</link>
       <pubDate>Fri, 01 Apr 2016 00:00:00 +0000</pubDate>
-      
       <guid>https://blog.poznachowski.pl/posts/get-along-with-your-spring-boot-starter/</guid>
-      <description>At Neoteric we have finally decided to move forward with our technology stack. From custom-tailored mix-up of Jetty, Jersey, Guava and Jackson (it all started before Dropwizard came along), going through different versions of these (during our journey we migrated from Jersey 1.x to 2.x, Jackson 1.x to 2.x, Guava 3.0 to 4.0 etc.), we’ve reached to the Spring island and we are currently learning language of the autochthons.
- We have picked Spring ecosystem as its most widely known Java solution, with great community support.</description>
+      <description>At Neoteric we have finally decided to move forward with our technology stack. From custom-tailored mix-up of Jetty, Jersey, Guava and Jackson (it all started before Dropwizard came along), going through different versions of these (during our journey we migrated from Jersey 1.x to 2.x, Jackson 1.x to 2.x, Guava 3.0 to 4.0 etc.), we’ve reached to the Spring island and we are currently learning language of the autochthons.</description>
     </item>
-    
   </channel>
 </rss>

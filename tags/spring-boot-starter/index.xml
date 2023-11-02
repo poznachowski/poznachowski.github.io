@@ -6,16 +6,14 @@
     <description>Recent content in spring-boot-starter on It&#39;s SOAP&#39;s Fault...</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 01 Apr 2016 00:00:00 +0000</lastBuildDate><atom:link href="https://blog.poznachowski.pl/tags/spring-boot-starter/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 01 Apr 2016 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://blog.poznachowski.pl/tags/spring-boot-starter/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Get along with your Spring Boot Starter</title>
       <link>https://blog.poznachowski.pl/posts/get-along-with-your-spring-boot-starter/</link>
       <pubDate>Fri, 01 Apr 2016 00:00:00 +0000</pubDate>
-      
       <guid>https://blog.poznachowski.pl/posts/get-along-with-your-spring-boot-starter/</guid>
-      <description>At Neoteric we have finally decided to move forward with our technology stack. From custom-tailored mix-up of Jetty, Jersey, Guava and Jackson (it all started before Dropwizard came along), going through different versions of these (during our journey we migrated from Jersey 1.x to 2.x, Jackson 1.x to 2.x, Guava 3.0 to 4.0 etc.), we’ve reached to the Spring island and we are currently learning language of the autochthons.
- We have picked Spring ecosystem as its most widely known Java solution, with great community support.</description>
+      <description>At Neoteric we have finally decided to move forward with our technology stack. From custom-tailored mix-up of Jetty, Jersey, Guava and Jackson (it all started before Dropwizard came along), going through different versions of these (during our journey we migrated from Jersey 1.x to 2.x, Jackson 1.x to 2.x, Guava 3.0 to 4.0 etc.), we’ve reached to the Spring island and we are currently learning language of the autochthons.</description>
     </item>
-    
   </channel>
 </rss>

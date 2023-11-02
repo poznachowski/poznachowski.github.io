@@ -6,303 +6,259 @@
     <description>Recent content in Tags on It&#39;s SOAP&#39;s Fault...</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 17 Aug 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://blog.poznachowski.pl/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 01 Nov 2023 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://blog.poznachowski.pl/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>asciidoc</title>
+      <link>https://blog.poznachowski.pl/tags/asciidoc/</link>
+      <pubDate>Wed, 01 Nov 2023 00:00:00 +0000</pubDate>
+      <guid>https://blog.poznachowski.pl/tags/asciidoc/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>cv</title>
+      <link>https://blog.poznachowski.pl/tags/cv/</link>
+      <pubDate>Wed, 01 Nov 2023 00:00:00 +0000</pubDate>
+      <guid>https://blog.poznachowski.pl/tags/cv/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>kotlin</title>
+      <link>https://blog.poznachowski.pl/tags/kotlin/</link>
+      <pubDate>Wed, 01 Nov 2023 00:00:00 +0000</pubDate>
+      <guid>https://blog.poznachowski.pl/tags/kotlin/</guid>
+      <description></description>
+    </item>
     <item>
       <title>feign</title>
       <link>https://blog.poznachowski.pl/tags/feign/</link>
       <pubDate>Tue, 17 Aug 2021 00:00:00 +0000</pubDate>
-      
       <guid>https://blog.poznachowski.pl/tags/feign/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>logger</title>
       <link>https://blog.poznachowski.pl/tags/logger/</link>
       <pubDate>Tue, 17 Aug 2021 00:00:00 +0000</pubDate>
-      
       <guid>https://blog.poznachowski.pl/tags/logger/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>slf4j</title>
       <link>https://blog.poznachowski.pl/tags/slf4j/</link>
       <pubDate>Tue, 17 Aug 2021 00:00:00 +0000</pubDate>
-      
       <guid>https://blog.poznachowski.pl/tags/slf4j/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>spring-cloud</title>
       <link>https://blog.poznachowski.pl/tags/spring-cloud/</link>
       <pubDate>Tue, 17 Aug 2021 00:00:00 +0000</pubDate>
-      
       <guid>https://blog.poznachowski.pl/tags/spring-cloud/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>spring-cloud-openfeign</title>
       <link>https://blog.poznachowski.pl/tags/spring-cloud-openfeign/</link>
       <pubDate>Tue, 17 Aug 2021 00:00:00 +0000</pubDate>
-      
       <guid>https://blog.poznachowski.pl/tags/spring-cloud-openfeign/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>emulator</title>
       <link>https://blog.poznachowski.pl/tags/emulator/</link>
       <pubDate>Thu, 28 Jan 2021 00:00:00 +0000</pubDate>
-      
       <guid>https://blog.poznachowski.pl/tags/emulator/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>gcp</title>
       <link>https://blog.poznachowski.pl/tags/gcp/</link>
       <pubDate>Thu, 28 Jan 2021 00:00:00 +0000</pubDate>
-      
       <guid>https://blog.poznachowski.pl/tags/gcp/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>pubsub</title>
       <link>https://blog.poznachowski.pl/tags/pubsub/</link>
       <pubDate>Thu, 28 Jan 2021 00:00:00 +0000</pubDate>
-      
       <guid>https://blog.poznachowski.pl/tags/pubsub/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>spring-cloud-stream</title>
       <link>https://blog.poznachowski.pl/tags/spring-cloud-stream/</link>
       <pubDate>Thu, 28 Jan 2021 00:00:00 +0000</pubDate>
-      
       <guid>https://blog.poznachowski.pl/tags/spring-cloud-stream/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>jsr-310</title>
       <link>https://blog.poznachowski.pl/tags/jsr-310/</link>
       <pubDate>Wed, 15 Jun 2016 00:00:00 +0000</pubDate>
-      
       <guid>https://blog.poznachowski.pl/tags/jsr-310/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>mock</title>
       <link>https://blog.poznachowski.pl/tags/mock/</link>
       <pubDate>Wed, 15 Jun 2016 00:00:00 +0000</pubDate>
-      
       <guid>https://blog.poznachowski.pl/tags/mock/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>spring-boot</title>
       <link>https://blog.poznachowski.pl/tags/spring-boot/</link>
       <pubDate>Wed, 15 Jun 2016 00:00:00 +0000</pubDate>
-      
       <guid>https://blog.poznachowski.pl/tags/spring-boot/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>testing</title>
       <link>https://blog.poznachowski.pl/tags/testing/</link>
       <pubDate>Wed, 15 Jun 2016 00:00:00 +0000</pubDate>
-      
       <guid>https://blog.poznachowski.pl/tags/testing/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>maven</title>
       <link>https://blog.poznachowski.pl/tags/maven/</link>
       <pubDate>Fri, 01 Apr 2016 00:00:00 +0000</pubDate>
-      
       <guid>https://blog.poznachowski.pl/tags/maven/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>spring</title>
       <link>https://blog.poznachowski.pl/tags/spring/</link>
       <pubDate>Fri, 01 Apr 2016 00:00:00 +0000</pubDate>
-      
       <guid>https://blog.poznachowski.pl/tags/spring/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>spring-boot-starter</title>
       <link>https://blog.poznachowski.pl/tags/spring-boot-starter/</link>
       <pubDate>Fri, 01 Apr 2016 00:00:00 +0000</pubDate>
-      
       <guid>https://blog.poznachowski.pl/tags/spring-boot-starter/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>changelog</title>
       <link>https://blog.poznachowski.pl/tags/changelog/</link>
       <pubDate>Tue, 04 Aug 2015 00:00:00 +0000</pubDate>
-      
       <guid>https://blog.poznachowski.pl/tags/changelog/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>git</title>
       <link>https://blog.poznachowski.pl/tags/git/</link>
       <pubDate>Tue, 04 Aug 2015 00:00:00 +0000</pubDate>
-      
       <guid>https://blog.poznachowski.pl/tags/git/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>blogger</title>
       <link>https://blog.poznachowski.pl/tags/blogger/</link>
       <pubDate>Wed, 27 May 2015 00:00:00 +0000</pubDate>
-      
       <guid>https://blog.poznachowski.pl/tags/blogger/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>disqus</title>
       <link>https://blog.poznachowski.pl/tags/disqus/</link>
       <pubDate>Wed, 27 May 2015 00:00:00 +0000</pubDate>
-      
       <guid>https://blog.poznachowski.pl/tags/disqus/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>octopress</title>
       <link>https://blog.poznachowski.pl/tags/octopress/</link>
       <pubDate>Wed, 27 May 2015 00:00:00 +0000</pubDate>
-      
       <guid>https://blog.poznachowski.pl/tags/octopress/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>gitflow</title>
       <link>https://blog.poznachowski.pl/tags/gitflow/</link>
       <pubDate>Sat, 14 Feb 2015 00:00:00 +0000</pubDate>
-      
       <guid>https://blog.poznachowski.pl/tags/gitflow/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>jenkins</title>
       <link>https://blog.poznachowski.pl/tags/jenkins/</link>
       <pubDate>Sat, 14 Feb 2015 00:00:00 +0000</pubDate>
-      
       <guid>https://blog.poznachowski.pl/tags/jenkins/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>assertj</title>
       <link>https://blog.poznachowski.pl/tags/assertj/</link>
       <pubDate>Thu, 03 Apr 2014 00:00:00 +0000</pubDate>
-      
       <guid>https://blog.poznachowski.pl/tags/assertj/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>design</title>
       <link>https://blog.poznachowski.pl/tags/design/</link>
       <pubDate>Thu, 03 Apr 2014 00:00:00 +0000</pubDate>
-      
       <guid>https://blog.poznachowski.pl/tags/design/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>esb</title>
       <link>https://blog.poznachowski.pl/tags/esb/</link>
       <pubDate>Thu, 03 Apr 2014 00:00:00 +0000</pubDate>
-      
       <guid>https://blog.poznachowski.pl/tags/esb/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>flow</title>
       <link>https://blog.poznachowski.pl/tags/flow/</link>
       <pubDate>Thu, 03 Apr 2014 00:00:00 +0000</pubDate>
-      
       <guid>https://blog.poznachowski.pl/tags/flow/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>mule</title>
       <link>https://blog.poznachowski.pl/tags/mule/</link>
       <pubDate>Thu, 03 Apr 2014 00:00:00 +0000</pubDate>
-      
       <guid>https://blog.poznachowski.pl/tags/mule/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>munit</title>
       <link>https://blog.poznachowski.pl/tags/munit/</link>
       <pubDate>Thu, 03 Apr 2014 00:00:00 +0000</pubDate>
-      
       <guid>https://blog.poznachowski.pl/tags/munit/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>script</title>
       <link>https://blog.poznachowski.pl/tags/script/</link>
       <pubDate>Sun, 03 Nov 2013 00:00:00 +0000</pubDate>
-      
       <guid>https://blog.poznachowski.pl/tags/script/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>api</title>
       <link>https://blog.poznachowski.pl/tags/api/</link>
       <pubDate>Sun, 20 Oct 2013 00:00:00 +0000</pubDate>
-      
       <guid>https://blog.poznachowski.pl/tags/api/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>component binding</title>
       <link>https://blog.poznachowski.pl/tags/component-binding/</link>
       <pubDate>Sun, 20 Oct 2013 00:00:00 +0000</pubDate>
-      
       <guid>https://blog.poznachowski.pl/tags/component-binding/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>rest</title>
       <link>https://blog.poznachowski.pl/tags/rest/</link>
       <pubDate>Sun, 20 Oct 2013 00:00:00 +0000</pubDate>
-      
       <guid>https://blog.poznachowski.pl/tags/rest/</guid>
       <description></description>
     </item>
-    
   </channel>
 </rss>

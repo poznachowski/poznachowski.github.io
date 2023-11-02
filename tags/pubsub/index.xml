@@ -6,16 +6,15 @@
     <description>Recent content in pubsub on It&#39;s SOAP&#39;s Fault...</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 28 Jan 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://blog.poznachowski.pl/tags/pubsub/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 28 Jan 2021 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://blog.poznachowski.pl/tags/pubsub/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Local development with GCP Pub/Sub and Spring Cloud Stream</title>
       <link>https://blog.poznachowski.pl/posts/developing-with-gcp-pub-sub/</link>
       <pubDate>Thu, 28 Jan 2021 00:00:00 +0000</pubDate>
-      
       <guid>https://blog.poznachowski.pl/posts/developing-with-gcp-pub-sub/</guid>
       <description>If you ever worked on an application, which uses Cloud services, you probably know it’s a struggle to develop, debug or test locally without the access to the service itself. Fortunately for the last years, it became more approachable as many cloud services matured enough to gain proprietary emulators published by the cloud providers.
- Recently, I’ve joined a project, where GCP Pub/Sub is used as the main messaging system for asynchronous communication.</description>
+Recently, I’ve joined a project, where GCP Pub/Sub is used as the main messaging system for asynchronous communication.</description>
     </item>
-    
   </channel>
 </rss>

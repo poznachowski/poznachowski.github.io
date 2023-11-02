@@ -6,16 +6,15 @@
     <description>Recent content in jenkins on It&#39;s SOAP&#39;s Fault...</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 14 Feb 2015 00:00:00 +0000</lastBuildDate><atom:link href="https://blog.poznachowski.pl/tags/jenkins/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 14 Feb 2015 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://blog.poznachowski.pl/tags/jenkins/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>How to make Jenkins speak Git Flow?</title>
       <link>https://blog.poznachowski.pl/posts/how-to-make-jenkins-speak-git-flow/</link>
       <pubDate>Sat, 14 Feb 2015 00:00:00 +0000</pubDate>
-      
       <guid>https://blog.poznachowski.pl/posts/how-to-make-jenkins-speak-git-flow/</guid>
       <description>It&amp;rsquo;s been a while and quite a lot has changed since then. I moved to a different company, which means I won&amp;rsquo;t be playing around with Mule for now. On the other hand, I have several new things to play with.
 My current company lacked of proper versioning capability of their products. Hence, my first task was to help with that matter. The plan was to be able to utilize Jenkins for modules releases (via Maven) with keeping all powers of a Git Flow branching convention.</description>
     </item>
-    
   </channel>
 </rss>

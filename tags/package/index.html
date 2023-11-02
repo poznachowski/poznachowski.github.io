@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en-us">
+  <head>
+    <title>package // It&#39;s SOAP&#39;s Fault...</title>
+    <meta charset="utf-8" />
+    <meta name="generator" content="Hugo 0.110.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="Grzegorz Poznachowski" />
+    <meta name="description" content="" />
+    <script defer src="https://use.fontawesome.com/releases/v5.11.2/js/all.js" integrity="sha384-b3ua1l97aVGAPEIe48b4TC60WUQbQaGi2jqAWM90y0OZXZeyaTCWtBTKtjW2GXG1" crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="https://blog.poznachowski.pl/css/main.min.d2628e6ba0d9f16b8d64c2324354aac3b4b6815035d0bd0606508586eca3ccf3.css" />
+    <link rel="stylesheet" type="text/css" href="https:////fonts.googleapis.com/css?family=Quicksand" />
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Open+Sans" />
+
+    
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-63324529-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="package"/>
+<meta name="twitter:description" content="My notes on coding and software development"/>
+
+    <meta property="og:title" content="package" />
+<meta property="og:description" content="My notes on coding and software development" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://blog.poznachowski.pl/tags/package/" />
+
+
+  </head>
+  <body>
+    <header class="app-header">
+      <div class="flex-wrapper">
+        <a href="https://blog.poznachowski.pl/">
+          <img class="app-header-avatar" src="/avatarGP.jpg" alt="Grzegorz Poznachowski" />
+        </a>
+        <div class="flex-text">
+          <a href="https://blog.poznachowski.pl/">
+            <h1>It&#39;s SOAP&#39;s Fault...</h1>
+          </a>
+          <p>My notes on coding and software development</p>
+        </div>
+      </div>
+      <div class ="footer-desktop">
+        <section class="social">
+  
+  <a href="https://linkedin.com/in/gpoznachowski" rel="me"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a>
+  
+	
+	
+	<a href="https://github.com/poznachowski" rel="me"><i class="fab fa-github fa-lg" aria-hidden="true"></i></a>
+	
+
+	
+	<a href="https://stackoverflow.com/users/2514330" rel="me"><i class="fab fa-stack-overflow fa-lg" aria-hidden="true"></i></a>
+	
+	
+  
+  <a href="https://twitter.com/poznachowski" rel="me"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a>
+  
+	
+	<a href="mailto:grzegorz@poznachowski.pl" rel="me"><i class="fas fa-at fa-lg" aria-hidden="true"></i></a>
+	
+</section>
+<div class="copyright">
+  blog.poznachowski.pl &copy; 2013 - 2023
+</div>
+
+      </div>
+    </header>
+    <main class="app-container">
+      
+<article>
+  <h1 class="title-list">package</h1>
+  <ul class="posts-list">
+    
+    <li class="posts-list-item">
+      <a class="posts-list-item-title" href="https://blog.poznachowski.pl/posts/stop-using-package-by-layer/">Package-by-layer is evil</a>
+      <span class="posts-list-item-description">
+        <div class="item-details">
+          <span class="post-list-details-time">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
+  <title>calendar</title>
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>
+</svg> 30.09.2021
+          </span>
+          <span class="post-list-details-read">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
+  <title>clock</title>
+  <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
+</svg> 1 min read
+          </span>
+        </div><span>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
+  <title>tag</title>
+  <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
+</svg>
+          <a class="tag" href="https://blog.poznachowski.pl/tags/java/">java</a><a class="tag" href="https://blog.poznachowski.pl/tags/package/">package</a><a class="tag" href="https://blog.poznachowski.pl/tags/structure/">structure</a><a class="tag" href="https://blog.poznachowski.pl/tags/visibility/">visibility</a></span></span>
+    </li>
+    
+  </ul>
+  
+
+
+
+</article>
+
+    </main>
+    <div class ="footer-mobile">
+      <section class="social">
+  
+  <a href="https://linkedin.com/in/gpoznachowski" rel="me"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a>
+  
+	
+	
+	<a href="https://github.com/poznachowski" rel="me"><i class="fab fa-github fa-lg" aria-hidden="true"></i></a>
+	
+
+	
+	<a href="https://stackoverflow.com/users/2514330" rel="me"><i class="fab fa-stack-overflow fa-lg" aria-hidden="true"></i></a>
+	
+	
+  
+  <a href="https://twitter.com/poznachowski" rel="me"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a>
+  
+	
+	<a href="mailto:grzegorz@poznachowski.pl" rel="me"><i class="fas fa-at fa-lg" aria-hidden="true"></i></a>
+	
+</section>
+<div class="copyright">
+  blog.poznachowski.pl &copy; 2013 - 2023
+</div>
+
+    </div>
+  </body>
+</html>
